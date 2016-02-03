@@ -24,7 +24,7 @@ int envYMaxSize = 450; // cm
 //int envYMaxSize = 600; // cm
 
 //int envZMaxSize = 250; //cm
-int envZMaxSize = 200; //cm
+int envZMaxSize = 250; //cm
 
 int minimumPathHeight = 210; // cm, minimum height for any walking pathway through the structure
 

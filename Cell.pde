@@ -1,3 +1,5 @@
+public static enum PIXEL {TOP, BOTTOM, LEFT, RIGHT};
+
 public class Cell {
   private PVector[] directions = {new PVector(-1, 0, 0),         //0
                                         new PVector(0, -1, 0),   //1
@@ -11,6 +13,8 @@ public class Cell {
   public float weight;
   public PVector orientation = new PVector(0, 0, 0);
   public int orientationIndex;
+  public PIXEL entryPixel;
+  public PIXEL exitPixel;
   
   public Cell(int x, int y, int z) {
     this.x = x;
@@ -18,6 +22,94 @@ public class Cell {
     this.z = z;
     
     initialiseOrientation();
+  }
+  
+  public PIXEL getLeftPixel(PIXEL p) {
+    PIXEL pix = PIXEL.RIGHT;
+    if (p == PIXEL.TOP) {
+      pix = PIXEL.RIGHT;
+    } else if (p == PIXEL.RIGHT) {
+      pix = PIXEL.BOTTOM;
+    } else if (p == PIXEL.BOTTOM) {
+      pix = PIXEL.LEFT;
+    } else if (p == PIXEL.LEFT) {
+      pix = PIXEL.TOP;
+    }
+    
+    return pix;
+  }
+  
+  public PIXEL getRightPixel(PIXEL p) {
+    PIXEL pix = PIXEL.RIGHT;
+    if (p == PIXEL.TOP) {
+      pix = PIXEL.LEFT;
+    } else if (p == PIXEL.RIGHT) {
+      pix = PIXEL.TOP;
+    } else if (p == PIXEL.BOTTOM) {
+      pix = PIXEL.RIGHT;
+    } else if (p == PIXEL.LEFT) {
+      pix = PIXEL.BOTTOM;
+    }
+    
+    return pix;
+  }
+  
+  public boolean isPointingOut() {
+    boolean pointingOut = false;
+    
+    // Pointing below z
+    if (((abs(orientation.x) == 1) || (abs(orientation.y) == 1)) && (exitPixel == PIXEL.BOTTOM)) {
+      if ((z == 0) || (environment.matrix[x][y][z-1].weight >= 1) || environment.matrix[x][y][z-1].solid) {
+        pointingOut = true;
+      }
+    }
+    
+    //Pointing above z
+    if (((abs(orientation.x) == 1) || (abs(orientation.y) == 1)) && (exitPixel == PIXEL.TOP)) {
+      if ((z+1 >= envZMaxUnits) || (environment.matrix[x][y][z+1].weight >= 1) || environment.matrix[x][y][z+1].solid) {
+        pointingOut = true;
+      }
+    }
+    
+    // Pointing under x
+    if (((orientation.y == 1) && (exitPixel == PIXEL.LEFT))
+          || ((orientation.y == -1) && (exitPixel == PIXEL.RIGHT))
+          || ((orientation.z == 1) && (exitPixel == PIXEL.TOP))
+          || ((orientation.z == -1) && (exitPixel == PIXEL.BOTTOM))) {
+        if ((x == 0) || (environment.matrix[x-1][y][z].weight >= 1) || environment.matrix[x-1][y][z].solid) {
+          pointingOut = true;
+        }
+    }
+    
+    // Pointing beyond x
+    if (((orientation.y == 1) && (exitPixel == PIXEL.RIGHT))
+          || ((orientation.y == -1) && (exitPixel == PIXEL.LEFT))
+          || ((orientation.z == 1) && (exitPixel == PIXEL.BOTTOM))
+          || ((orientation.z == -1) && (exitPixel == PIXEL.TOP))) {
+        if ((x+1 >= envXMaxUnits) || (environment.matrix[x+1][y][z].weight >= 1) || environment.matrix[x+1][y][z].solid) {
+          pointingOut = true;
+        }
+    }
+    
+    // Pointing under y
+    if (((orientation.x == 1) && (exitPixel == PIXEL.RIGHT))
+          || ((orientation.x == -1) && (exitPixel == PIXEL.LEFT))
+          || ((abs(orientation.z) == 1) && (exitPixel == PIXEL.RIGHT))) {
+        if ((y == 0) || (environment.matrix[x][y-1][z].weight >= 1) || environment.matrix[x][y-1][z].solid) {
+          pointingOut = true;
+        }
+    }
+    
+    // Pointing beyond y
+    if (((orientation.x == 1) && (exitPixel == PIXEL.LEFT))
+          || ((orientation.x == -1) && (exitPixel == PIXEL.RIGHT))
+          || ((abs(orientation.z) == 1) && (exitPixel == PIXEL.LEFT))) {
+        if ((y+1 >= envYMaxUnits) || (environment.matrix[x][y+1][z].weight >= 1) || environment.matrix[x][y+1][z].solid) {
+          pointingOut = true;
+        }
+    }
+    
+    return pointingOut;
   }
   
   boolean isCellFacingDisplayedFacet() {
@@ -89,9 +181,88 @@ public class Cell {
     pushMatrix();
     
     int OFF = (configMode)?0:DRAW_OFFSET;
-    translate(OFF+unitSize/2+x*unitSize, DRAW_OFFSET+unitSize/2+y*unitSize, unitSize/2+z*unitSize);
+    translate(OFF+unitSize/2+x*unitSize, OFF+unitSize/2+y*unitSize, unitSize/2+z*unitSize);
     
     if (solid && displayFaces) {
+      if (orientation.x == 1) {
+        // Do nothing
+      }
+      
+      if (orientation.x == -1) {
+        rotateZ(radians(180));
+      }
+      
+      if (orientation.y == 1) {
+        rotateZ(radians(90));
+      }
+      
+      if (orientation.y == -1) {
+        rotateZ(radians(-90));
+      }
+      
+      if (orientation.z == 1) {
+        rotateY(radians(-90));
+      }
+      
+      if (orientation.z == -1) {
+        rotateY(radians(90));
+      }
+      
+      box(unitSize/6, unitSize, unitSize/4);
+      box(unitSize/6, unitSize/4, unitSize);
+      
+      if (facesDifferentColours) {
+        if (abs(orientation.x) == 1) {
+          fill(faceXColour);
+        } else if (abs(orientation.y) == 1) {
+          fill(faceYColour);
+        } else if (abs(orientation.z) == 1) {
+          fill(faceZColour);
+        }
+      } else {  
+        fill(faceColour);
+      }
+      
+      translate(unitSize/6, 0, 0);
+       
+      if (pixelColours) {
+        fill(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
+      }
+      box(unitSize/12, unitSize, unitSize/4);
+     
+      if (pixelColours) {
+        fill(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
+      }
+      box(unitSize/12, unitSize/4, unitSize);
+      
+      // Draw wire
+      fill(0, 255, 0);
+      pushMatrix();
+      if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {
+        translate(2, 0, -unitSize/4);
+        box(unitSize/12, unitSize/16, unitSize/2);
+      }
+      popMatrix();
+      pushMatrix();
+      if ((entryPixel == PIXEL.TOP) || (exitPixel == PIXEL.TOP)) {
+        translate(2, 0, unitSize/4);
+        box(unitSize/12, unitSize/16, unitSize/2);
+      } 
+      popMatrix();
+      pushMatrix();
+      if ((entryPixel == PIXEL.LEFT) || (exitPixel == PIXEL.LEFT)) {
+        translate(2, unitSize/4, 0);
+        box(unitSize/12, unitSize/2, unitSize/16);
+      }
+      popMatrix();
+      pushMatrix();
+      if ((entryPixel == PIXEL.RIGHT) || (exitPixel == PIXEL.RIGHT)) {
+        translate(2, -unitSize/4, 0);
+        box(unitSize/12, unitSize/2, unitSize/16);
+      }
+      popMatrix();
+      
+/*
       // x-axis
       if (orientation.x == 1) {
         box(unitSize/6, unitSize, unitSize/4);
@@ -220,6 +391,7 @@ public class Cell {
        }
        box(unitSize, unitSize/4, unitSize/12);
       }
+*/
     } else {
       box(unitSize);
     }
@@ -264,6 +436,21 @@ public class Cell {
     return directions[foundIndex];
   }
 
+  private boolean hasPixelWayOut(PIXEL pix) {
+     exitPixel = PIXEL.LEFT;
+     return isPointingOut();
+  }
+
+  private boolean hasOrientationWayOut() {
+    boolean hasWayOut = false;
+    if ((entryPixel == PIXEL.TOP) || (entryPixel == PIXEL.BOTTOM)) {
+      hasWayOut = hasPixelWayOut(PIXEL.LEFT) || hasPixelWayOut(PIXEL.RIGHT);
+    } else if ((entryPixel == PIXEL.LEFT) || (entryPixel == PIXEL.RIGHT)) {
+      hasWayOut = hasPixelWayOut(PIXEL.TOP) || hasPixelWayOut(PIXEL.BOTTOM);
+    }
+    
+    return hasWayOut;
+  }
 
   /* 
    * Adjusts the orientation of cells facing up or down,
