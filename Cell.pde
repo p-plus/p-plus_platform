@@ -1,4 +1,6 @@
 public static enum PIXEL {TOP, BOTTOM, LEFT, RIGHT};
+public static enum DIRECTION {N, S, E, W, U, D};
+public static enum TYPE {A, B}; // A: exit pixel at left; B: exit pixel at right
 
 public class Cell {
   private PVector[] directions = {new PVector(-1, 0, 0),         //0
@@ -10,6 +12,9 @@ public class Cell {
   
   public int x, y, z;
   public boolean solid;
+  public boolean baseCell;
+  public boolean connectingChainInPath;
+  public int indexOnPath;
   public float weight;
   public PVector orientation = new PVector(0, 0, 0);
   public int orientationIndex;
@@ -54,13 +59,53 @@ public class Cell {
     return pix;
   }
   
-  public boolean isPointingOut() {
+  public TYPE getType() {
+    TYPE type = null;
+    
+    if (entryPixel == PIXEL.BOTTOM) { 
+      if (exitPixel == PIXEL.LEFT) {
+        type = TYPE.A;
+      } else if (exitPixel == PIXEL.RIGHT) {
+        type = TYPE.B;
+      } 
+    }
+    
+    if (entryPixel == PIXEL.TOP) { 
+      if (exitPixel == PIXEL.RIGHT) {
+        type = TYPE.A;
+      } else if (exitPixel == PIXEL.LEFT) {
+        type = TYPE.B;
+      } 
+    }
+    
+    if (entryPixel == PIXEL.LEFT) { 
+      if (exitPixel == PIXEL.TOP) {
+        type = TYPE.A;
+      } else if (exitPixel == PIXEL.BOTTOM) {
+        type = TYPE.B;
+      } 
+    }
+    
+    if (entryPixel == PIXEL.RIGHT) { 
+      if (exitPixel == PIXEL.BOTTOM) {
+        type = TYPE.A;
+      } else if (exitPixel == PIXEL.TOP) {
+        type = TYPE.B;
+      } 
+    }
+    
+    return type;
+  }
+  
+  public boolean isPointingOut(boolean cellChainNearCompleted) {
     boolean pointingOut = false;
     
-    // Pointing below z
-    if (((abs(orientation.x) == 1) || (abs(orientation.y) == 1)) && (exitPixel == PIXEL.BOTTOM)) {
-      if ((z == 0) || (environment.matrix[x][y][z-1].weight >= 1) || environment.matrix[x][y][z-1].solid) {
-        pointingOut = true;
+    if (!cellChainNearCompleted) {
+      // Pointing below z
+      if (((abs(orientation.x) == 1) || (abs(orientation.y) == 1)) && (exitPixel == PIXEL.BOTTOM)) {
+        if ((z == 0) || (environment.matrix[x][y][z-1].weight >= 1) || environment.matrix[x][y][z-1].solid) {
+          pointingOut = true;
+        }
       }
     }
     
@@ -236,162 +281,33 @@ public class Cell {
       box(unitSize/12, unitSize/4, unitSize);
       
       // Draw wire
-      fill(0, 255, 0);
-      pushMatrix();
-      if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {
-        translate(2, 0, -unitSize/4);
-        box(unitSize/12, unitSize/16, unitSize/2);
-      }
-      popMatrix();
-      pushMatrix();
-      if ((entryPixel == PIXEL.TOP) || (exitPixel == PIXEL.TOP)) {
-        translate(2, 0, unitSize/4);
-        box(unitSize/12, unitSize/16, unitSize/2);
-      } 
-      popMatrix();
-      pushMatrix();
-      if ((entryPixel == PIXEL.LEFT) || (exitPixel == PIXEL.LEFT)) {
-        translate(2, unitSize/4, 0);
-        box(unitSize/12, unitSize/2, unitSize/16);
-      }
-      popMatrix();
-      pushMatrix();
-      if ((entryPixel == PIXEL.RIGHT) || (exitPixel == PIXEL.RIGHT)) {
-        translate(2, -unitSize/4, 0);
-        box(unitSize/12, unitSize/2, unitSize/16);
-      }
-      popMatrix();
-      
-/*
-      // x-axis
-      if (orientation.x == 1) {
-        box(unitSize/6, unitSize, unitSize/4);
-        box(unitSize/6, unitSize/4, unitSize);
-        if (facesDifferentColours) {
-          fill(faceXColour);
-        } else {  
-          fill(faceColour);
+      if (!pixelColours) {
+        fill(0, 255, 0);
+        pushMatrix();
+        if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {
+          translate(2, 0, -unitSize/4);
+          box(unitSize/12, unitSize/16, unitSize/2);
         }
-        translate(unitSize/6, 0, 0);
-       
-        if (pixelColours) {
-          fill(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
+        popMatrix();
+        pushMatrix();
+        if ((entryPixel == PIXEL.TOP) || (exitPixel == PIXEL.TOP)) {
+          translate(2, 0, unitSize/4);
+          box(unitSize/12, unitSize/16, unitSize/2);
+        } 
+        popMatrix();
+        pushMatrix();
+        if ((entryPixel == PIXEL.LEFT) || (exitPixel == PIXEL.LEFT)) {
+          translate(2, unitSize/4, 0);
+          box(unitSize/12, unitSize/2, unitSize/16);
         }
-        box(unitSize/12, unitSize, unitSize/4);
-       
-        if (pixelColours) {
-          fill(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
+        popMatrix();
+        pushMatrix();
+        if ((entryPixel == PIXEL.RIGHT) || (exitPixel == PIXEL.RIGHT)) {
+          translate(2, -unitSize/4, 0);
+          box(unitSize/12, unitSize/2, unitSize/16);
         }
-        box(unitSize/12, unitSize/4, unitSize);
+        popMatrix();
       }
-      
-      if (orientation.x == -1) {
-       box(unitSize/6, unitSize, unitSize/4);
-       box(unitSize/6, unitSize/4, unitSize);
-       if (facesDifferentColours) {
-         fill(faceXColour);
-       } else {  
-         fill(faceColour);
-       }
-       translate(-unitSize/6, 0, 0);
-       
-       if (pixelColours) {
-         fill(color(sin(second())*(y+1)*220, sin(second())*random(0, 255), sin(second())*(y+1)*100));
-       }
-       box(unitSize/12, unitSize, unitSize/4);
-       
-       if (pixelColours) {
-         fill(color(sin(second())*(y+1)*255, cos(second())*(y+1)*100, random(0, 255)));
-       }
-       box(unitSize/12, unitSize/4, unitSize);
-      }
-      
-      //y-axis
-      if (orientation.y == 1) {
-       box(unitSize, unitSize/6, unitSize/4);
-       box(unitSize/4, unitSize/6, unitSize);
-       if (facesDifferentColours) {
-         fill(faceYColour);
-       } else {  
-         fill(faceColour);
-       }
-       translate(0, unitSize/6, 0);
-       
-       if (pixelColours) {
-         fill(color(sin(second()*(x+1))*255, cos(second())*255, sin(second())*random(0, 200)));
-       }
-       box(unitSize, unitSize/12, unitSize/4);
-       
-       if (pixelColours) {
-         fill(color(cos(second())*random(0, 255), cos(second()*(y+1))*random(100, 255), sin((y+1)*second())*200));
-       }
-       box(unitSize/4, unitSize/12, unitSize);
-      }
-      
-      if (orientation.y == -1) {
-       box(unitSize, unitSize/6, unitSize/4);
-       box(unitSize/4, unitSize/6, unitSize);
-       if (facesDifferentColours) {
-         fill(faceYColour);
-       } else {  
-         fill(faceColour);
-       }
-       translate(0, -unitSize/6, 0);
-       
-       if (pixelColours) {
-         fill(color(cos(second())*(z+1)*200, cos(second())*random(100, 255), cos(second())*(z+1)*random(0, 200)));
-       }
-       box(unitSize, unitSize/12, unitSize/4);
-       
-       if (pixelColours) {
-         fill(color(cos(second())*random(0, 220), sin(second())*(x+1)*random(0, 200), cos(second())*(x+1)*255));
-       }
-       box(unitSize/4, unitSize/12, unitSize);
-      }
-
-      //z-axis
-      if (orientation.z == 1) {
-       box(unitSize/4, unitSize, unitSize/6);
-       box(unitSize, unitSize/4, unitSize/6);
-       if (facesDifferentColours) {
-         fill(faceZColour);
-       } else {  
-         fill(faceColour);
-       }
-       translate(0, 0, unitSize/6);
-       
-       if (pixelColours) {
-         fill(color(cos(second())*255, random(0, 200), cos(second())*random(100, 255)));
-       }
-       box(unitSize/4, unitSize, unitSize/12);
-       
-       if (pixelColours) {
-         fill(color(sin(second())*255, sin(second())*255, sin(second())*random(100, 255)));
-       }
-       box(unitSize, unitSize/4, unitSize/12);
-      }
-      
-      if (orientation.z == -1) {
-       box(unitSize/4, unitSize, unitSize/6);
-       box(unitSize, unitSize/4, unitSize/6);
-       if (facesDifferentColours) {
-         fill(faceZColour);
-       } else {  
-         fill(faceColour);
-       }
-       translate(0, 0, -unitSize/6);
-       
-       if (pixelColours) {
-         fill(color(sin(second())*255, sin(second())*random(0, 200), 150));
-       }
-       box(unitSize/4, unitSize, unitSize/12);
-       
-       if (pixelColours) {
-         fill(color(sin(second())*255, sin(second())*100, sin(second())*random(0, 255)));
-       }
-       box(unitSize, unitSize/4, unitSize/12);
-      }
-*/
     } else {
       box(unitSize);
     }
@@ -401,6 +317,9 @@ public class Cell {
   
   void reset() {
     solid = false;
+    indexOnPath = 0;
+    baseCell = false;
+    connectingChainInPath = false;
   }
   
   public void initialiseOrientation() {
@@ -420,36 +339,20 @@ public class Cell {
    * Computes an adequate orientation for a neighbouring cell,
    * so that it does not conflict with the current cell's orientation.
    */
-  public PVector pickNeighbourOrientation(boolean xok, boolean yok, boolean zok) {
+  public PVector pickNeighbourOrientation(boolean xok, boolean yok, boolean zok, boolean nearCompleted) {
     boolean found = false;
     int foundIndex = 0;
     while (!found) {
       int index = int(random(0, directions.length));
       if ((xok && abs(directions[index].x) == 1)
           || (yok && abs(directions[index].y) == 1)
-          || (zok && abs(directions[index].z) == 1) && (z >= envZMaxUnitsPath-1)) { // Ensures minimum height for walking 
+          || (zok && abs(directions[index].z) == 1) && (z >= envZMaxUnitsPath-1) && !nearCompleted) { // Ensures minimum height for walking 
             foundIndex = index;
             found = true;
        }
     }
     
     return directions[foundIndex];
-  }
-
-  private boolean hasPixelWayOut(PIXEL pix) {
-     exitPixel = PIXEL.LEFT;
-     return isPointingOut();
-  }
-
-  private boolean hasOrientationWayOut() {
-    boolean hasWayOut = false;
-    if ((entryPixel == PIXEL.TOP) || (entryPixel == PIXEL.BOTTOM)) {
-      hasWayOut = hasPixelWayOut(PIXEL.LEFT) || hasPixelWayOut(PIXEL.RIGHT);
-    } else if ((entryPixel == PIXEL.LEFT) || (entryPixel == PIXEL.RIGHT)) {
-      hasWayOut = hasPixelWayOut(PIXEL.TOP) || hasPixelWayOut(PIXEL.BOTTOM);
-    }
-    
-    return hasWayOut;
   }
 
   /* 
@@ -477,6 +380,236 @@ public class Cell {
        orientation.z = -1;
      }
     }
+  }
+  
+  private DIRECTION getOrientation() {
+    if (orientation.x == 1) {
+      return DIRECTION.E;
+    }
+    
+    if (orientation.x == -1) {
+      return DIRECTION.W;
+    }
+    
+    if (orientation.y == 1) {
+      return DIRECTION.S;
+    }
+    
+    if (orientation.y == -1) {
+      return DIRECTION.N;
+    }
+    
+    if (orientation.z == 1) {
+      return DIRECTION.U;
+    }
+    
+    if (orientation.z == -1) {
+      return DIRECTION.D;
+    }
+    
+    return null;
+  }
+  
+  public DIRECTION getExitPixelDirection() {
+    DIRECTION exitPixelDirection = null;
+    
+    // Orientation: NORTH
+    if (getOrientation() == DIRECTION.N) {
+      if (entryPixel == PIXEL.BOTTOM) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.W;
+        } else {
+          exitPixelDirection = DIRECTION.E;
+        }
+      }
+      if (entryPixel == PIXEL.TOP) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.E;
+        } else {
+          exitPixelDirection = DIRECTION.W;
+        }
+      }
+      if (entryPixel == PIXEL.LEFT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.D;
+        } else {
+          exitPixelDirection = DIRECTION.U;
+        }
+      }
+      if (entryPixel == PIXEL.RIGHT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.U;
+        } else {
+          exitPixelDirection = DIRECTION.D;
+        }
+      }
+    }
+    
+    // Orientation:SOUTH
+    if (getOrientation() == DIRECTION.S) {
+      if (entryPixel == PIXEL.BOTTOM) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.E;
+        } else {
+          exitPixelDirection = DIRECTION.W;
+        }
+      }
+      if (entryPixel == PIXEL.TOP) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.W;
+        } else {
+          exitPixelDirection = DIRECTION.E;
+        }
+      }
+      if (entryPixel == PIXEL.LEFT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.D;
+        } else {
+          exitPixelDirection = DIRECTION.U;
+        }
+      }
+      if (entryPixel == PIXEL.RIGHT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.U;
+        } else {
+          exitPixelDirection = DIRECTION.D;
+        }
+      }
+    }
+    
+    // Orientation: EAST
+    if (getOrientation() == DIRECTION.E) {
+      if (entryPixel == PIXEL.BOTTOM) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.N;
+        } else {
+          exitPixelDirection = DIRECTION.S;
+        }
+      }
+      if (entryPixel == PIXEL.TOP) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.S;
+        } else {
+          exitPixelDirection = DIRECTION.N;
+        }
+      }
+      if (entryPixel == PIXEL.LEFT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.D;
+        } else {
+          exitPixelDirection = DIRECTION.U;
+        }
+      }
+      if (entryPixel == PIXEL.RIGHT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.U;
+        } else {
+          exitPixelDirection = DIRECTION.D;
+        }
+      }
+    }
+    
+    // Orientation: WEST
+    if (getOrientation() == DIRECTION.W) {
+      if (entryPixel == PIXEL.BOTTOM) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.S;
+        } else {
+          exitPixelDirection = DIRECTION.N;
+        }
+      }
+      if (entryPixel == PIXEL.TOP) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.N;
+        } else {
+          exitPixelDirection = DIRECTION.S;
+        }
+      }
+      if (entryPixel == PIXEL.LEFT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.D;
+        } else {
+          exitPixelDirection = DIRECTION.U;
+        }
+      }
+      if (entryPixel == PIXEL.RIGHT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.U;
+        } else {
+          exitPixelDirection = DIRECTION.D;
+        }
+      }
+    }
+    
+    // Orientation: UP
+    if (getOrientation() == DIRECTION.U) {
+      if (entryPixel == PIXEL.BOTTOM) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.N;
+        } else {
+          exitPixelDirection = DIRECTION.S;
+        }
+      }
+      if (entryPixel == PIXEL.TOP) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.S;
+        } else {
+          exitPixelDirection = DIRECTION.N;
+        }
+      }
+      if (entryPixel == PIXEL.LEFT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.E;
+        } else {
+          exitPixelDirection = DIRECTION.W;
+        }
+      }
+      if (entryPixel == PIXEL.RIGHT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.W;
+        } else {
+          exitPixelDirection = DIRECTION.E;
+        }
+      }
+    }
+    
+    // Orientation: DOWN
+    if (getOrientation() == DIRECTION.D) {
+      if (entryPixel == PIXEL.BOTTOM) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.N;
+        } else {
+          exitPixelDirection = DIRECTION.S;
+        }
+      }
+      if (entryPixel == PIXEL.TOP) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.S;
+        } else {
+          exitPixelDirection = DIRECTION.N;
+        }
+      }
+      if (entryPixel == PIXEL.LEFT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.W;
+        } else {
+          exitPixelDirection = DIRECTION.E;
+        }
+      }
+      if (entryPixel == PIXEL.RIGHT) {
+        if (exitPixel == PIXEL.RIGHT) {
+          exitPixelDirection = DIRECTION.E;
+        } else {
+          exitPixelDirection = DIRECTION.W;
+        }
+      }
+    } 
+    
+    return exitPixelDirection;
+  }
+  
+  public boolean isAvailable() {
+    return !solid && (weight < 1);
   }
   
 }

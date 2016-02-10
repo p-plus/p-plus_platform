@@ -46,7 +46,8 @@ public class FileExporter {
   }
   
   private void writeCell(Cell cell) {
-    writer.println(cell.x + "," + cell.y + "," + cell.z + "," + cell.orientationIndex);
+//    writer.println(cell.x + "," + cell.y + "," + cell.z + "," + cell.orientationIndex);
+    writer.println(cell.x + "," + cell.y + "," + cell.z + "," + cell.getType() + "," + cell.getOrientation());
   }
   
   private String getTimestampString() {

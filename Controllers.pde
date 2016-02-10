@@ -173,7 +173,7 @@ void evaluateControllers() {
   
   // Runs simulation step
   if (runningSimulation) {
-    if (environment.cellsGrown < maxCells) {
+    if (!environment.hasSimulationEnded()) {
       environment.runSimulationStep();
 //      println("\ncellsGrown: " + environment.cellsGrown);
     } else {
