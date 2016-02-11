@@ -1,6 +1,6 @@
 public static enum PIXEL {TOP, BOTTOM, LEFT, RIGHT};
 public static enum DIRECTION {N, S, E, W, U, D};
-public static enum TYPE {A, B}; // A: exit pixel at left; B: exit pixel at right
+public static enum TYPE {A, B};// A: exit pixel at left; B: exit pixel at right
 
 public class Cell {
   private PVector[] directions = {new PVector(-1, 0, 0),         //0
@@ -382,7 +382,23 @@ public class Cell {
     }
   }
   
-  private DIRECTION getOrientation() {
+  public int getRotation() {
+    if (entryPixel == PIXEL.RIGHT) {
+       return 90;
+    }
+    
+    if (entryPixel == PIXEL.TOP) {
+       return 180;
+    }
+    
+    if (entryPixel == PIXEL.LEFT) {
+       return 270;
+    }
+    
+    return 0;
+  }
+  
+  public DIRECTION getOrientation() {
     if (orientation.x == 1) {
       return DIRECTION.E;
     }
