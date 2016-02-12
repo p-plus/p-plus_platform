@@ -34,7 +34,7 @@ public class Environment {
     
     // Create text roller
     textRoller = new TextRoller();
-    textRoller.setText("ABC");
+    textRoller.setText(DISPLAY_TEXT);
   }
    
   public Cell[][][] getMatrix() {

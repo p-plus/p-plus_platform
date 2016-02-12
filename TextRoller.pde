@@ -14,7 +14,7 @@ public class TextRoller {
   
   public void setText(String text) {
     textString.setText(text);
-    textStartPosition = SCREEN_WIDTH+ROLL_END_OFFSET;
+    textStartPosition = SCREEN_WIDTH;
   }
   
   public void rollText() {
@@ -22,8 +22,12 @@ public class TextRoller {
       lastMoveTime = millis();
       textStartPosition--;
       if (textStartPosition < (-1)*(textString.getColumns().size())-ROLL_END_OFFSET) {
-        textStartPosition = SCREEN_WIDTH;
+       textStartPosition = SCREEN_WIDTH;
       }
+      //textStartPosition++;
+      //if (textStartPosition > SCREEN_WIDTH + ROLL_END_OFFSET) {
+      //  textStartPosition = -textString.getColumns().size();
+      //}
     }
   }
   

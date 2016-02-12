@@ -24,12 +24,14 @@
 int maxCells = 300;
 //int envXMaxSize = 600; // cm
 //int envYMaxSize = 600; // cm
-int envXMaxSize = 500; // cm
-int envYMaxSize = 500; // cm
+int envXMaxSize = 450; // cm
+int envYMaxSize = 450; // cm
 
 
-int envZMaxSize = 250; //cm
+int envZMaxSize = 260; //cm
 int minimumPathHeight = 210; // cm, minimum height for any walking pathway through the structure
+
+String DISPLAY_TEXT = "HELLO SYDNEY";
 
 //////////////////////////////////////
 //  Light cell settings

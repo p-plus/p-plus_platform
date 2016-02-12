@@ -195,8 +195,8 @@ public class Cell {
     }
     
     //color boxColour = color(255, 0, 0, 50);
-    color boxColour = color(60, 60, 60, 250);
-    color boxOffColour = color(100, 100, 100, 250);
+    color boxColour = color(40, 40, 40, 200);
+    color boxOffColour = color(230, 50, 190, 250);
     color faceColour = color(150, 200, 100, 250);
     color textColour = color(50, 255, 255);
     
@@ -235,38 +235,38 @@ public class Cell {
     if (solid && displayFaces) {
       if (orientation.x == 1) {
         // Do not need to rotate
-        projCoord_i = y;
+        projCoord_i = envYMaxUnits-1-y;
         projCoord_j = z;
       }
       
       if (orientation.x == -1) {
         rotateZ(radians(180));
-        projCoord_i = envYMaxUnits-1-y;
+        projCoord_i = y;
         projCoord_j = z;
       }
       
       if (orientation.y == 1) {
         rotateZ(radians(90));
-        projCoord_i = envXMaxUnits-1-x;
+        projCoord_i = x;
         projCoord_j = z;
       }
       
       if (orientation.y == -1) {
         rotateZ(radians(-90));
-        projCoord_i = x;
+        projCoord_i = envXMaxUnits-1-x;
         projCoord_j = z;
       }
       
       if (orientation.z == 1) {
         rotateY(radians(-90));
         projCoord_i = envYMaxUnits-1-y;
-        projCoord_j = x;
+        projCoord_j = envXMaxUnits-1-x;
       }
       
       if (orientation.z == -1) {
         rotateY(radians(90));
         projCoord_i = envYMaxUnits-1-y;
-        projCoord_j = envXMaxUnits-1-x;
+        projCoord_j = x;
       }
       
       box(unitSize/6, unitSize, unitSize/4);
@@ -274,6 +274,8 @@ public class Cell {
       
       if (rollingText) {
         fill(boxOffColour);
+        shininess(5.0);
+        specular(255, 255, 255);
       } else if (facesDifferentColours) {
         if (abs(orientation.x) == 1) {
           fill(faceXColour);
@@ -306,6 +308,7 @@ public class Cell {
           pushMatrix();
           translate(2, 0, -unitSize/4);
           box(unitSize/12, unitSize/4, unitSize/2);
+          scale(0.5);
           popMatrix();
         }
         //Draw pixel at RIGHT
@@ -338,6 +341,9 @@ public class Cell {
           popMatrix();
         }
       }
+      
+      emissive(0, 0, 0);
+      shininess(0.0);
 
       // Draw wire
       if (!pixelColours && !rollingText) {

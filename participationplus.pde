@@ -12,6 +12,16 @@ void setup() {
 }
 
 void draw() {  
+  lights();
+  ambientLight(150, 150, 128);
+  int concentration = 600;
+  spotLight(255, 255, 255, envXMaxUnits/2, envYMaxUnits, envZMaxUnits/2, 0, 1, 0, PI/16, concentration);
+  spotLight(255, 255, 255, envXMaxUnits, envYMaxUnits/2, envZMaxUnits/2, 1, 0, 0, PI/16, concentration);
+  spotLight(255, 255, 255, envXMaxUnits/2, envYMaxUnits/2, envZMaxUnits, 0, 0, -1, PI/16, concentration);
+  
+  spotLight(255, 255, 255, envXMaxUnits/2, 0, envZMaxUnits/2, 0, -1, 0, PI/16, concentration);
+  spotLight(255, 255, 255, 0, envYMaxUnits/2, envZMaxUnits/2, -1, 0, 0, PI/16, concentration);
+  
   evaluateCamera();
   evaluateControllers();
   environment.drawEnvironment();

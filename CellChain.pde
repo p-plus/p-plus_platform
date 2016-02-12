@@ -1,7 +1,7 @@
 public class CellChain {
   private final int MAX_LENGTH = MAX_CELL_CHAIN_LENGTH;
   private final int MAX_BACKTRACKING_LENGTH = 15;
-  private final int MAX_BACKTRACKING_ATTEMPTS = 30;
+  private final int MAX_BACKTRACKING_ATTEMPTS = 50;
   
   private int index;
   private int backtrackingAttempts;
