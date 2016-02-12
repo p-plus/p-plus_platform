@@ -196,7 +196,9 @@ public class Cell {
     
     //color boxColour = color(255, 0, 0, 50);
     color boxColour = color(60, 60, 60, 250);
+    color boxOffColour = color(100, 100, 100, 250);
     color faceColour = color(150, 200, 100, 250);
+    color textColour = color(50, 255, 255);
     
     color faceXColour = color(150, 0, 100, 250);
     color faceYColour = color(200, 200, 30, 250);
@@ -228,35 +230,51 @@ public class Cell {
     int OFF = (configMode)?0:DRAW_OFFSET;
     translate(OFF+unitSize/2+x*unitSize, OFF+unitSize/2+y*unitSize, unitSize/2+z*unitSize);
     
+    int projCoord_i = 0;
+    int projCoord_j = 0;
     if (solid && displayFaces) {
       if (orientation.x == 1) {
-        // Do nothing
+        // Do not need to rotate
+        projCoord_i = y;
+        projCoord_j = z;
       }
       
       if (orientation.x == -1) {
         rotateZ(radians(180));
+        projCoord_i = envYMaxUnits-1-y;
+        projCoord_j = z;
       }
       
       if (orientation.y == 1) {
         rotateZ(radians(90));
+        projCoord_i = envXMaxUnits-1-x;
+        projCoord_j = z;
       }
       
       if (orientation.y == -1) {
         rotateZ(radians(-90));
+        projCoord_i = x;
+        projCoord_j = z;
       }
       
       if (orientation.z == 1) {
         rotateY(radians(-90));
+        projCoord_i = envYMaxUnits-1-y;
+        projCoord_j = x;
       }
       
       if (orientation.z == -1) {
         rotateY(radians(90));
+        projCoord_i = envYMaxUnits-1-y;
+        projCoord_j = envXMaxUnits-1-x;
       }
       
       box(unitSize/6, unitSize, unitSize/4);
       box(unitSize/6, unitSize/4, unitSize);
       
-      if (facesDifferentColours) {
+      if (rollingText) {
+        fill(boxOffColour);
+      } else if (facesDifferentColours) {
         if (abs(orientation.x) == 1) {
           fill(faceXColour);
         } else if (abs(orientation.y) == 1) {
@@ -280,8 +298,49 @@ public class Cell {
       }
       box(unitSize/12, unitSize/4, unitSize);
       
+      if (rollingText) {
+        //Draw pixel at BOTTOM
+        fill(boxOffColour);
+        if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
+          fill(textColour);
+          pushMatrix();
+          translate(2, 0, -unitSize/4);
+          box(unitSize/12, unitSize/4, unitSize/2);
+          popMatrix();
+        }
+        //Draw pixel at RIGHT
+        fill(boxOffColour);
+        if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
+          fill(textColour);
+          pushMatrix();
+          translate(2, -unitSize/4, 0);
+          box(unitSize/12, unitSize/2, unitSize/4);
+          popMatrix();
+        }
+        
+        //Draw pixel at TOP
+        fill(boxOffColour);
+        if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
+          fill(textColour);
+          pushMatrix();
+          translate(2, 0, unitSize/4);
+          box(unitSize/12, unitSize/4, unitSize/2);
+          popMatrix();
+        }
+        
+        //Draw pixel at LEFT
+        fill(boxOffColour);
+        if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
+          fill(textColour);
+          pushMatrix();
+          translate(2, unitSize/4, 0);
+          box(unitSize/12, unitSize/2, unitSize/4);
+          popMatrix();
+        }
+      }
+
       // Draw wire
-      if (!pixelColours) {
+      if (!pixelColours && !rollingText) {
         fill(0, 255, 0);
         pushMatrix();
         if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {

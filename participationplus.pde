@@ -16,6 +16,7 @@ void draw() {
   evaluateControllers();
   environment.drawEnvironment();
   drawAxis(); 
+  environment.getTextRoller().rollText();
   
   try {
     wait(1000);

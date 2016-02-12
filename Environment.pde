@@ -12,6 +12,8 @@ public class Environment {
   
   private CellChain[] cellChains;
   
+  private TextRoller textRoller;
+  
   public Environment() {
     matrix = new Cell[envXMaxUnits][envYMaxUnits][envZMaxUnits];
     weightConfig = new int[envXMaxUnits][envYMaxUnits];
@@ -29,10 +31,18 @@ public class Environment {
       CellChain cellChain = new CellChain(i);
       cellChains[i] = cellChain;
     }
+    
+    // Create text roller
+    textRoller = new TextRoller();
+    textRoller.setText("ABC");
   }
    
   public Cell[][][] getMatrix() {
     return matrix;
+  }
+  
+  public TextRoller getTextRoller() {
+    return textRoller;
   }
   
   public void resetWeightConfig() {

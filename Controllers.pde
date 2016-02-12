@@ -18,6 +18,7 @@
  j              Displays each orientation with a different colour.
  k              Displays all orientations with the same colours (light green).
  l              Display light effects ON (click it again to turn it OFF).
+ ;              Display rolling text ON (click it again to turn it OFF).
  4              Display only cells facing UP.
  5              Display only cells facing DOWN.
  6              Display only cells facing WEST.
@@ -46,6 +47,7 @@ boolean configRecorded = true;
 boolean displayFaces = true;
 boolean facesDifferentColours = true;
 boolean pixelColours = false;
+boolean rollingText = false;
 
 public enum FACET {ALL, NORTH, SOUTH, EAST, WEST, BOTTOM_UP, CEILING_DOWN};
 FACET facetDisplayed = FACET.ALL;
@@ -103,6 +105,9 @@ void evaluateControllers() {
   }
   if (command('l')) {
     pixelColours = !pixelColours;
+  }
+  if (command(';')) {
+    rollingText = !rollingText;
   }
   
   // Facet views
