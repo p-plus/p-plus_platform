@@ -26,6 +26,7 @@
  8              Display only cells facing EAST.
  9              Display only cells facing NORTH.
  0              Display ALL cells.
+ =              Render landscape.
  
   == NAVIGATION COMMANDS
  Key            Command 
@@ -48,6 +49,8 @@ boolean displayFaces = true;
 boolean facesDifferentColours = true;
 boolean pixelColours = false;
 boolean rollingText = false;
+boolean renderLandscape = false;
+boolean defaultShapes = false;
 
 public enum FACET {ALL, NORTH, SOUTH, EAST, WEST, BOTTOM_UP, CEILING_DOWN};
 FACET facetDisplayed = FACET.ALL;
@@ -108,6 +111,9 @@ void evaluateControllers() {
   }
   if (command(';')) {
     rollingText = !rollingText;
+  }
+  if (command('=')) {
+    renderLandscape = !renderLandscape;
   }
   
   // Facet views

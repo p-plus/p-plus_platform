@@ -3,6 +3,11 @@ public static enum DIRECTION {N, S, E, W, U, D};
 public static enum TYPE {A, B};// A: exit pixel at left; B: exit pixel at right
 
 public class Cell {
+  private final int r0 = unitSize/20;
+  private final int r1 = unitSize/5;
+  private final int r2 = unitSize/7;
+  private final int h = unitSize/2;
+  
   private PVector[] directions = {new PVector(-1, 0, 0),         //0
                                         new PVector(0, -1, 0),   //1
                                         new PVector(0, 0, -1),   //2
@@ -189,6 +194,203 @@ public class Cell {
     return true;
   }
   
+  //void drawCell() {
+  //  if (!isCellFacingDisplayedFacet()) {
+  //    return;
+  //  }
+    
+  //  //color boxColour = color(255, 0, 0, 50);
+  //  color boxColour = color(40, 40, 40, 200);
+  //  color boxOffColour = color(230, 50, 190, 250);
+  //  color faceColour = color(150, 200, 100, 250);
+  //  color textColour = color(50, 255, 255);
+    
+  //  color faceXColour = color(150, 0, 100, 255);
+  //  color faceYColour = color(200, 200, 30, 255);
+  //  color faceZColour = color(00, 200, 200, 255);
+    
+  //  if (runningSimulation) {
+  //    noStroke();
+      
+  //    if (solid) {
+  //      fill(boxColour);        
+  //    } else if ((weight > 0) && (displayWeights)) {
+  //        fill(0, 0, weight*255, 100);
+  //    } else {
+  //      noFill();
+  //    }
+  //  } else {
+  //    noStroke();
+  //    if (solid) {
+  //      fill(boxColour);
+  //    } else if ((weight > 0) && (displayWeights)) {
+  //        fill(0, 0, weight*255, 100);
+  //    } else {
+  //      noFill();
+  //    }
+  //  }
+    
+  //  pushMatrix();
+    
+  //  int OFF = (configMode)?0:DRAW_OFFSET;
+  //  translate(OFF+unitSize/2+x*unitSize, OFF+unitSize/2+y*unitSize, unitSize/2+z*unitSize);
+    
+  //  int projCoord_i = 0;
+  //  int projCoord_j = 0;
+  //  if (solid && displayFaces) {
+  //    if (orientation.x == 1) {
+  //      // Do not need to rotate
+  //      projCoord_i = envYMaxUnits-1-y;
+  //      projCoord_j = z;
+  //    }
+      
+  //    if (orientation.x == -1) {
+  //      rotateZ(radians(180));
+  //      projCoord_i = y;
+  //      projCoord_j = z;
+  //    }
+      
+  //    if (orientation.y == 1) {
+  //      rotateZ(radians(90));
+  //      projCoord_i = x;
+  //      projCoord_j = z;
+  //    }
+      
+  //    if (orientation.y == -1) {
+  //      rotateZ(radians(-90));
+  //      projCoord_i = envXMaxUnits-1-x;
+  //      projCoord_j = z;
+  //    }
+      
+  //    if (orientation.z == 1) {
+  //      rotateY(radians(-90));
+  //      projCoord_i = envYMaxUnits-1-y;
+  //      projCoord_j = envXMaxUnits-1-x;
+  //    }
+      
+  //    if (orientation.z == -1) {
+  //      rotateY(radians(90));
+  //      projCoord_i = envYMaxUnits-1-y;
+  //      projCoord_j = x;
+  //    }
+      
+  //    box(unitSize/6, unitSize, unitSize/4);
+  //    box(unitSize/6, unitSize/4, unitSize);
+      
+  //    if (rollingText) {
+  //      fill(boxOffColour);
+  //      shininess(5.0);
+  //      specular(255, 255, 255);
+  //    } else if (facesDifferentColours) {
+  //      if (abs(orientation.x) == 1) {
+  //        fill(faceXColour);
+  //      } else if (abs(orientation.y) == 1) {
+  //        fill(faceYColour);
+  //      } else if (abs(orientation.z) == 1) {
+  //        fill(faceZColour);
+  //      }
+  //    } else {  
+  //      fill(faceColour);
+  //    }
+      
+  //    translate(unitSize/6, 0, 0);
+       
+  //    if (pixelColours) {
+  //      fill(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
+  //      emissive(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
+  //    }
+  //    box(unitSize/12, unitSize, unitSize/4);
+     
+  //    if (pixelColours) {
+  //      fill(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
+  //      emissive(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
+  //    }
+  //    box(unitSize/12, unitSize/4, unitSize);
+      
+  //    if (rollingText) {
+  //      //Draw pixel at BOTTOM
+  //      fill(boxOffColour);
+  //      if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
+  //        fill(textColour);
+  //        emissive(textColour);
+  //        pushMatrix();
+  //        translate(2, 0, -unitSize/4);
+  //        box(unitSize/12, unitSize/4, unitSize/2);
+  //        scale(0.5);
+  //        popMatrix();
+  //      }
+  //      //Draw pixel at RIGHT
+  //      fill(boxOffColour);
+  //      if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
+  //        fill(textColour);
+  //        emissive(textColour);
+  //        pushMatrix();
+  //        translate(2, -unitSize/4, 0);
+  //        box(unitSize/12, unitSize/2, unitSize/4);
+  //        popMatrix();
+  //      }
+        
+  //      //Draw pixel at TOP
+  //      fill(boxOffColour);
+  //      if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
+  //        fill(textColour);
+  //        emissive(textColour);
+  //        pushMatrix();
+  //        translate(2, 0, unitSize/4);
+  //        box(unitSize/12, unitSize/4, unitSize/2);
+  //        popMatrix();
+  //      }
+        
+  //      //Draw pixel at LEFT
+  //      fill(boxOffColour);
+  //      if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
+  //        fill(textColour);
+  //        emissive(textColour);
+  //        pushMatrix();
+  //        translate(2, unitSize/4, 0);
+  //        box(unitSize/12, unitSize/2, unitSize/4);
+  //        popMatrix();
+  //      }
+  //    }
+      
+  //    emissive(0, 0, 0);
+  //    shininess(0.0);
+
+  //    // Draw wire
+  //    if (!pixelColours && !rollingText) {
+  //      fill(0, 255, 0);
+  //      pushMatrix();
+  //      if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {
+  //        translate(2, 0, -unitSize/4);
+  //        box(unitSize/12, unitSize/16, unitSize/2);
+  //      }
+  //      popMatrix();
+  //      pushMatrix();
+  //      if ((entryPixel == PIXEL.TOP) || (exitPixel == PIXEL.TOP)) {
+  //        translate(2, 0, unitSize/4);
+  //        box(unitSize/12, unitSize/16, unitSize/2);
+  //      } 
+  //      popMatrix();
+  //      pushMatrix();
+  //      if ((entryPixel == PIXEL.LEFT) || (exitPixel == PIXEL.LEFT)) {
+  //        translate(2, unitSize/4, 0);
+  //        box(unitSize/12, unitSize/2, unitSize/16);
+  //      }
+  //      popMatrix();
+  //      pushMatrix();
+  //      if ((entryPixel == PIXEL.RIGHT) || (exitPixel == PIXEL.RIGHT)) {
+  //        translate(2, -unitSize/4, 0);
+  //        box(unitSize/12, unitSize/2, unitSize/16);
+  //      }
+  //      popMatrix();
+  //    }
+  //  } else {
+  //    box(unitSize);
+  //  }
+    
+  //  popMatrix();
+  //}
+  
   void drawCell() {
     if (!isCellFacingDisplayedFacet()) {
       return;
@@ -200,9 +402,9 @@ public class Cell {
     color faceColour = color(150, 200, 100, 250);
     color textColour = color(50, 255, 255);
     
-    color faceXColour = color(150, 0, 100, 250);
-    color faceYColour = color(200, 200, 30, 250);
-    color faceZColour = color(00, 200, 200, 250);
+    color faceXColour = color(150, 0, 100, 255);
+    color faceYColour = color(200, 200, 30, 255);
+    color faceZColour = color(00, 200, 200, 255);
     
     if (runningSimulation) {
       noStroke();
@@ -269,8 +471,19 @@ public class Cell {
         projCoord_j = x;
       }
       
-      box(unitSize/6, unitSize, unitSize/4);
-      box(unitSize/6, unitSize/4, unitSize);
+      if (defaultShapes) {
+        box(unitSize/6, unitSize, unitSize/4);
+        box(unitSize/6, unitSize/4, unitSize);
+      } else {
+        pushMatrix();
+        translate(-unitSize/6, 0, 0);
+        rotateZ(radians(180));
+        drawShape(0);
+        drawShape(90);
+        drawShape(270);
+        drawShape(180);
+        popMatrix();
+      }
       
       if (rollingText) {
         fill(boxOffColour);
@@ -288,36 +501,60 @@ public class Cell {
         fill(faceColour);
       }
       
-      translate(unitSize/6, 0, 0);
+      if (defaultShapes) {
+        translate(unitSize/6, 0, 0);
+      }
        
       if (pixelColours) {
         fill(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
+        emissive(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
       }
-      box(unitSize/12, unitSize, unitSize/4);
+      if (defaultShapes) {
+        box(unitSize/12, unitSize, unitSize/4);
+      } else {
+        drawShape(90);
+        drawShape(270);
+      }
      
       if (pixelColours) {
         fill(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
+        emissive(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
       }
-      box(unitSize/12, unitSize/4, unitSize);
+      if (defaultShapes) {
+        box(unitSize/12, unitSize/4, unitSize);
+      } else {
+        drawShape(0);
+        drawShape(180);
+      }
       
       if (rollingText) {
         //Draw pixel at BOTTOM
         fill(boxOffColour);
         if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
           fill(textColour);
+          emissive(textColour);
           pushMatrix();
-          translate(2, 0, -unitSize/4);
-          box(unitSize/12, unitSize/4, unitSize/2);
-          scale(0.5);
+          if (defaultShapes) {
+            translate(2, 0, -unitSize/4);
+            box(unitSize/12, unitSize/4, unitSize/2);
+          } else {
+            drawShape(0);
+          }
+//          scale(0.5);
           popMatrix();
         }
         //Draw pixel at RIGHT
         fill(boxOffColour);
         if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
           fill(textColour);
+          emissive(textColour);
           pushMatrix();
-          translate(2, -unitSize/4, 0);
-          box(unitSize/12, unitSize/2, unitSize/4);
+          if (defaultShapes) {
+            translate(2, -unitSize/4, 0);
+            box(unitSize/12, unitSize/2, unitSize/4);
+          } else {
+            drawShape(270);
+          }
           popMatrix();
         }
         
@@ -325,9 +562,14 @@ public class Cell {
         fill(boxOffColour);
         if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
           fill(textColour);
+          emissive(textColour);
           pushMatrix();
-          translate(2, 0, unitSize/4);
-          box(unitSize/12, unitSize/4, unitSize/2);
+          if (defaultShapes) {
+            translate(2, 0, unitSize/4);
+            box(unitSize/12, unitSize/4, unitSize/2);
+          } else {
+            drawShape(180);
+          }
           popMatrix();
         }
         
@@ -335,9 +577,14 @@ public class Cell {
         fill(boxOffColour);
         if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
           fill(textColour);
+          emissive(textColour);
           pushMatrix();
-          translate(2, unitSize/4, 0);
-          box(unitSize/12, unitSize/2, unitSize/4);
+          if (defaultShapes) {
+            translate(2, unitSize/4, 0);
+            box(unitSize/12, unitSize/2, unitSize/4);
+          } else {
+            drawShape(90);
+          }
           popMatrix();
         }
       }
@@ -350,26 +597,42 @@ public class Cell {
         fill(0, 255, 0);
         pushMatrix();
         if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {
-          translate(2, 0, -unitSize/4);
-          box(unitSize/12, unitSize/16, unitSize/2);
+          if (defaultShapes) {
+            translate(2, 0, -unitSize/4);
+            box(unitSize/12, unitSize/16, unitSize/2);
+          } else {
+            drawShape(0);
+          }
         }
         popMatrix();
         pushMatrix();
         if ((entryPixel == PIXEL.TOP) || (exitPixel == PIXEL.TOP)) {
-          translate(2, 0, unitSize/4);
-          box(unitSize/12, unitSize/16, unitSize/2);
+          if (defaultShapes) {
+            translate(2, 0, unitSize/4);
+            box(unitSize/12, unitSize/16, unitSize/2);
+          } else {
+            drawShape(180);
+          }
         } 
         popMatrix();
         pushMatrix();
         if ((entryPixel == PIXEL.LEFT) || (exitPixel == PIXEL.LEFT)) {
-          translate(2, unitSize/4, 0);
-          box(unitSize/12, unitSize/2, unitSize/16);
+          if (defaultShapes) {
+            translate(2, unitSize/4, 0);
+            box(unitSize/12, unitSize/2, unitSize/16);
+          } else {
+            drawShape(90);
+          }
         }
         popMatrix();
         pushMatrix();
         if ((entryPixel == PIXEL.RIGHT) || (exitPixel == PIXEL.RIGHT)) {
-          translate(2, -unitSize/4, 0);
-          box(unitSize/12, unitSize/2, unitSize/16);
+          if (defaultShapes) {
+            translate(2, -unitSize/4, 0);
+            box(unitSize/12, unitSize/2, unitSize/16);
+          } else {
+            drawShape(270);
+          }
         }
         popMatrix();
       }
@@ -378,6 +641,57 @@ public class Cell {
     }
     
     popMatrix();
+  }
+  
+  void drawShape(int rotation) {
+    int sides = 4;
+    //int r0 = unitSize/20;
+    //int r1 = unitSize/5;
+    //int r2 = unitSize/7;
+    //int h = unitSize/2;
+    boolean half = true;
+    pushMatrix();
+    rotateX(radians(rotation));
+//    translate(0, 0, -h/8);
+    drawCylinder(sides, r0, r1, h/4, half);
+    translate(0, 0, -h/4);
+    drawCylinder(sides, r1, r2, 3*h/4, half);
+    popMatrix();
+  }
+  
+  void drawCylinder(int sides, float r1, float r2, float h, boolean half) {
+      float angle = (360 / sides) + 90;
+      if (half) {
+        angle = angle/2;
+      }
+
+      // top
+      beginShape();
+      for (int i = 0; i < sides; i++) {
+          float x = cos( radians( i * angle ) ) * r1;
+          float y = sin( radians( i * angle ) ) * r1;
+          vertex( x, y, 0);
+      }
+      endShape(CLOSE);
+      // bottom
+      beginShape();
+      for (int i = 0; i < sides; i++) {
+          float x = cos( radians( i * angle ) ) * r2;
+          float y = sin( radians( i * angle ) ) * r2;
+          vertex( x, y, -h);
+      }
+      endShape(CLOSE);
+      // draw body
+      beginShape(TRIANGLE_STRIP);
+      for (int i = 0; i < sides + 1; i++) {
+          float x1 = cos( radians( i * angle ) ) * r1;
+          float y1 = sin( radians( i * angle ) ) * r1;
+          float x2 = cos( radians( i * angle ) ) * r2;
+          float y2 = sin( radians( i * angle ) ) * r2;
+          vertex( x1, y1, 0);
+          vertex( x2, y2, -h);
+      }
+      endShape(CLOSE);
   }
   
   void reset() {
