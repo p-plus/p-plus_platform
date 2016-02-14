@@ -211,7 +211,6 @@ public class CellChain {
       }
     }      
     
-    Cell currentCell = cell;
     if (environment.validCoordinates(growthCellX, growthCellY, growthCellZ)) {
       Cell growthCell = environment.getMatrix()[growthCellX][growthCellY][growthCellZ];
       
@@ -220,18 +219,49 @@ public class CellChain {
       if (!growthCell.solid && environment.enoughPorous(growthCell)) { // Else, try to grow into that space
         growthCell.solid = true; 
         
-        int MAX_SIMULATION_ATTEMPTS = 6;
+        int MAX_SIMULATION_ATTEMPTS = 10;
         int attempts = 0;
         boolean adequateOrientationFound = false; 
         while (!adequateOrientationFound && (attempts < MAX_SIMULATION_ATTEMPTS)) {
           growthCell.orientation = growthCell.pickNeighbourOrientation(xok, yok, zok, isNearCompleted());
           growthCell.adjustOrientation();
           
+          Cell cellInFront = null;
+          if (growthCell.getOrientation() == DIRECTION.N) {
+            if (growthCellY > 0) {
+              cellInFront = environment.getMatrix()[growthCellX][growthCellY-1][growthCellZ];
+            }
+          }
+          if (growthCell.getOrientation() == DIRECTION.S) {
+            if (growthCellY < envYMaxUnits-1) {
+              cellInFront = environment.getMatrix()[growthCellX][growthCellY+1][growthCellZ];
+            }
+          }
+          if (growthCell.getOrientation() == DIRECTION.W) {
+            if (growthCellX > 0) {
+              cellInFront = environment.getMatrix()[growthCellX-1][growthCellY][growthCellZ];
+            }
+          }
+          if (growthCell.getOrientation() == DIRECTION.E) {
+            if (growthCellX < envXMaxUnits-1) {
+              cellInFront = environment.getMatrix()[growthCellX][growthCellX+1][growthCellZ];
+            }
+          }
+          if ((cellInFront != null) && (cellInFront.getOrientation() == growthCell.getOrientation())) {
+            if ((int)random(0, 2) == 0) {
+              attempts++;
+              continue;
+            }
+          }
+          
+            
+          // PREVENT CELLS STANDING BEHIND OTHERS WITH SAME DIRECTION
           if ((growthCellZ > 0) && (environment.getMatrix()[growthCellX][growthCellY][growthCellZ-1].solid))  {
             growthCell.weight = environment.getMatrix()[growthCellX][growthCellY][growthCellZ-1].weight+cellLoadOffset;
           } else {
             growthCell.weight = cellLoadOffset;
           }
+          
           
           // Calculate entry pixels for growthCell 
           switch (directionIndex) {
@@ -378,13 +408,11 @@ public class CellChain {
             growthCell.exitPixel = growthCell.getLeftPixel(growthCell.entryPixel);
             if (growthCell.isPointingOut(isNearCompleted()) || (isNearCompleted() && growthCell.getExitPixelDirection() == DIRECTION.U)) {
               growthCell.exitPixel = growthCell.getRightPixel(growthCell.entryPixel);
-//                System.out.println("CURRENT CELL ADJUSTED 1!");
             }
           } else {
             growthCell.exitPixel = growthCell.getRightPixel(growthCell.entryPixel);
             if (growthCell.isPointingOut(isNearCompleted()) || (isNearCompleted() && growthCell.getExitPixelDirection() == DIRECTION.U)) {
               growthCell.exitPixel = growthCell.getLeftPixel(growthCell.entryPixel);
-//                System.out.println("CURRENT CELL ADJUSTED 2!");
             }
           }
           
@@ -400,8 +428,7 @@ public class CellChain {
         //}
         
         // Make the new cell the current one
-//        growthCell.indexOnPath = currentCell.indexOnPath+1;
-        currentCell = growthCell;    
+//        growthCell.indexOnPath = currentCell.indexOnPath+1;    
         
         // Isolate neighbours
 //        environment.isolateNeighbours(growthCellX, growthCellY, growthCellZ);

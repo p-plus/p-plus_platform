@@ -79,12 +79,13 @@ void drawAxis() {
     line(OFF+0, OFF+0, 0, OFF+0, OFF+envYMaxSize, 0);
   }
   
-  // Draw ground
-  if (renderLandscape) {
-    pushMatrix();
-    translate(0, 0, -3);
-    fill(0, 100, 0, 50);
-    box(5500, 5500, 3);
-    popMatrix();
-  }
+  //// Draw ground
+  //if (renderLandscape) {
+  //  pushMatrix();
+  //  translate(0, 0, -3);
+////    fill(0, 100, 0, 50);
+  //  fill(50, 60, 50, 50);
+  //  box(5500, 5500, 3);
+  //  popMatrix();
+  //}
 }

@@ -410,7 +410,8 @@ public class Cell {
     
     //color boxColour = color(255, 0, 0, 50);
     color boxColour = color(40, 40, 40, 200);
-    color boxOffColour = color(230, 50, 190, 250);
+    //color boxOffColour = color(230, 50, 190, 250);
+    color boxOffColour = color(1.2*(x+3)/envXMaxUnits*230, 1.2*(y+3)/envYMaxUnits*50, 1.2*(envZMaxUnits-z+2)/envZMaxUnits*190, 255);
     color faceColour = color(150, 200, 100, 250);
     color textColour = color(50, 255, 255);
     
@@ -499,8 +500,8 @@ public class Cell {
       
       if (rollingText) {
         fill(boxOffColour);
-        shininess(5.0);
-        specular(255, 255, 255);
+        //shininess(5.0);
+        //specular(255, 255, 255);
       } else if (facesDifferentColours) {
         if (abs(orientation.x) == 1) {
           fill(faceXColour);
@@ -541,7 +542,7 @@ public class Cell {
       
       if (rollingText) {
         //Draw pixel at BOTTOM
-        fill(boxOffColour);
+        emissive(boxOffColour);
         if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
           fill(textColour);
           emissive(textColour);
@@ -556,7 +557,7 @@ public class Cell {
           popMatrix();
         }
         //Draw pixel at RIGHT
-        fill(boxOffColour);
+        emissive(boxOffColour);
         if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
           fill(textColour);
           emissive(textColour);
@@ -571,7 +572,7 @@ public class Cell {
         }
         
         //Draw pixel at TOP
-        fill(boxOffColour);
+        emissive(boxOffColour);
         if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
           fill(textColour);
           emissive(textColour);
@@ -586,7 +587,7 @@ public class Cell {
         }
         
         //Draw pixel at LEFT
-        fill(boxOffColour);
+        emissive(boxOffColour);
         if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
           fill(textColour);
           emissive(textColour);

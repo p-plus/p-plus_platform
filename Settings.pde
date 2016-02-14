@@ -31,7 +31,7 @@ int envYMaxSize = 450; // cm
 int envZMaxSize = 260; //cm
 int minimumPathHeight = 210; // cm, minimum height for any walking pathway through the structure
 
-String DISPLAY_TEXT = "HELLO SYDNEY";
+String DISPLAY_TEXT = "HELLO";
 
 //////////////////////////////////////
 //  Light cell settings
