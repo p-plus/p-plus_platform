@@ -1,4 +1,4 @@
-float panUpFactor = 1.0f;
+float panUpFactor = 1.5f;//1.0f;
 float rotationFactor = 1.0f;
 float zoomFactor = 0.5f;
 
@@ -7,13 +7,13 @@ Environment environment;
 
 void setup() {
   size(1280, 720, P3D);
+//  frameRate(20);
   initialiseEnvironment();
   fileExporter = new FileExporter();
 }
 
 void draw() {  
   lights();
-//  ambientLight(150, 150, 128);
   ambientLight(70, 70, 128);
   int concentration = 1000;
   spotLight(255, 255, 255, envXMaxUnits/2, envYMaxUnits, envZMaxUnits/2, 0, 1, 0, PI/16, concentration);

@@ -2,12 +2,7 @@ public static enum PIXEL {TOP, BOTTOM, LEFT, RIGHT};
 public static enum DIRECTION {N, S, E, W, U, D};
 public static enum TYPE {A, B};// A: exit pixel at left; B: exit pixel at right
 
-public class Cell {
-  private final int r0 = unitSize/20;
-  private final int r1 = unitSize/5;
-  private final int r2 = unitSize/7;
-  private final int h = unitSize/2;
-  
+public class Cell {  
   private PVector[] directions = {new PVector(-1, 0, 0),         //0
                                         new PVector(0, -1, 0),   //1
                                         new PVector(0, 0, -1),   //2
@@ -25,6 +20,23 @@ public class Cell {
   public int orientationIndex;
   public PIXEL entryPixel;
   public PIXEL exitPixel;
+  
+  // Helper variables for drawing shapes with better performance - some values are hardcoded for convenience
+  private final int rr0 = unitSize/20;
+  private final int rr1 = unitSize/5;
+  private final int rr2 = unitSize/7;
+  private final int h = unitSize/2;
+  private final float sin0 = sin( radians(0) );
+  private final float cos0 = cos( radians(0) );
+  private final float sin90 = sin( radians(90) );
+  private final float cos90 = cos( radians(90) );
+  private final float sin180 = sin( radians(180) );
+  private final float cos180 = cos( radians(180) );
+  private final float sin270 = sin( radians(270) );
+  private final float cos270 = cos( radians(270) );
+  private final float sin360 = sin( radians(360) );
+  private final float cos360 = cos( radians(360) );
+  
   
   public Cell(int x, int y, int z) {
     this.x = x;
@@ -476,7 +488,7 @@ public class Cell {
         box(unitSize/6, unitSize/4, unitSize);
       } else {
         pushMatrix();
-        translate(-unitSize/6, 0, 0);
+        translate(-unitSize/10, 0, 0);
         rotateZ(radians(180));
         drawShape(0);
         drawShape(90);
@@ -652,10 +664,9 @@ public class Cell {
     boolean half = true;
     pushMatrix();
     rotateX(radians(rotation));
-//    translate(0, 0, -h/8);
-    drawCylinder(sides, r0, r1, h/4, half);
+    drawCylinder(sides, rr0, rr1, h/4, half);
     translate(0, 0, -h/4);
-    drawCylinder(sides, r1, r2, 3*h/4, half);
+    drawCylinder(sides, rr1, rr2, 3*h/4, half);
     popMatrix();
   }
   
@@ -667,30 +678,76 @@ public class Cell {
 
       // top
       beginShape();
-      for (int i = 0; i < sides; i++) {
-          float x = cos( radians( i * angle ) ) * r1;
-          float y = sin( radians( i * angle ) ) * r1;
-          vertex( x, y, 0);
-      }
+      //for (int i = 0; i < sides; i++) {
+      //    float x = cos( radians( i * angle ) ) * r1;
+      //    float y = sin( radians( i * angle ) ) * r1;
+      //    vertex( x, y, 0);
+      //}
+      // OPTIMISED CODE
+      vertex(cos0 * r1, sin0 * r1, 0);
+      vertex(cos90 * r1, sin90 * r1, 0);
+      vertex(cos180 * r1, sin180 * r1, 0);
+      vertex(cos270 * r1, sin270 * r1, 0);
       endShape(CLOSE);
       // bottom
       beginShape();
-      for (int i = 0; i < sides; i++) {
-          float x = cos( radians( i * angle ) ) * r2;
-          float y = sin( radians( i * angle ) ) * r2;
-          vertex( x, y, -h);
-      }
+      //for (int i = 0; i < sides; i++) {
+      //   float x = cos( radians( i * angle ) ) * r2;
+      //   float y = sin( radians( i * angle ) ) * r2;
+      //   vertex( x, y, -h);
+      //}
+      // OPTIMISED CODE
+      vertex(cos0 * r2, sin0 * r2, -h);
+      vertex(cos90 * r2, sin90 * r2, -h);
+      vertex(cos180 * r2, sin180 * r2, -h);
+      vertex(cos270 * r2, sin270 * r2, -h);
       endShape(CLOSE);
       // draw body
       beginShape(TRIANGLE_STRIP);
-      for (int i = 0; i < sides + 1; i++) {
-          float x1 = cos( radians( i * angle ) ) * r1;
-          float y1 = sin( radians( i * angle ) ) * r1;
-          float x2 = cos( radians( i * angle ) ) * r2;
-          float y2 = sin( radians( i * angle ) ) * r2;
-          vertex( x1, y1, 0);
-          vertex( x2, y2, -h);
-      }
+      //for (int i = 0; i < sides + 1; i++) {
+      //  float x1 = cos( radians( i * angle ) ) * r1;
+      //  float y1 = sin( radians( i * angle ) ) * r1;
+      //  float x2 = cos( radians( i * angle ) ) * r2;
+      //  float y2 = sin( radians( i * angle ) ) * r2;
+      //  vertex( x1, y1, 0);
+      //  vertex( x2, y2, -h);
+      //}
+      // OPTIMISED CODE
+      float x1 = cos0 * r1;
+      float y1 = sin0 * r1;
+      float x2 = cos0 * r2;
+      float y2 = sin0 * r2;
+      vertex( x1, y1, 0);
+      vertex( x2, y2, -h);
+      
+      x1 = cos90 * r1;
+      y1 = sin90 * r1;
+      x2 = cos90 * r2;
+      y2 = sin90 * r2;
+      vertex( x1, y1, 0);
+      vertex( x2, y2, -h);
+      
+      x1 = cos180 * r1;
+      y1 = sin180 * r1;
+      x2 = cos180 * r2;
+      y2 = sin180 * r2;
+      vertex( x1, y1, 0);
+      vertex( x2, y2, -h);
+      
+      x1 = cos270 * r1;
+      y1 = sin270 * r1;
+      x2 = cos270 * r2;
+      y2 = sin270 * r2;
+      vertex( x1, y1, 0);
+      vertex( x2, y2, -h);
+      
+      x1 = cos360 * r1;
+      y1 = sin360 * r1;
+      x2 = cos360 * r2;
+      y2 = sin360 * r2;
+      vertex( x1, y1, 0);
+      vertex( x2, y2, -h);
+      
       endShape(CLOSE);
   }
   

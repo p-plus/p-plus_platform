@@ -59,7 +59,22 @@ boolean displayWeights = false;
 boolean restartWeights = false;
 boolean writePathWeights = false;
 
+long COMMAND_TIME_THRESHOLD = 50;
+long timeLastCommand;
+
 void evaluateControllers() {
+  processCommands();
+
+  //////////////////////////
+  // EVALUATE CONTROLLERS
+  //////////////////////////
+  if (keyPressed) {
+    if ((millis()-timeLastCommand) < COMMAND_TIME_THRESHOLD) {
+      return;
+    }
+    timeLastCommand = millis();
+  }
+  
   if (command('s')) {
     println("\n### RESTARTING SIMULATION");
     environment.resetEnvironment();
@@ -115,6 +130,9 @@ void evaluateControllers() {
   if (command('=')) {
     renderLandscape = !renderLandscape;
   }
+  if (command('-')) {
+    defaultShapes = !defaultShapes;
+  }
   
   // Facet views
   if (command('0')) {
@@ -141,10 +159,12 @@ void evaluateControllers() {
   
   // Navigation
   if (command('>')) {
-    panUpFactor -= 0.005f;
+//    panUpFactor -= 0.005f;
+    panUpFactor -= 0.02f;
   }
   if (command('<')) {
-    panUpFactor += 0.005f;
+//    panUpFactor += 0.005f;
+    panUpFactor += 0.02f;
   }
   
   // Navigation arrows
@@ -165,7 +185,9 @@ void evaluateControllers() {
   if (command('x') && !fileExporter.stillWritingFile()) {
     fileExporter.exportExnvironmentAsFile(environment);
   }
-  
+}
+
+void processCommands() {
   //////////////////////
   // PROCESS COMMANDS
   //////////////////////
