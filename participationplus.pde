@@ -3,13 +3,19 @@ float rotationFactor = 1.0f;
 float zoomFactor = 0.5f;
 
 FileExporter fileExporter;
+FileImporter fileImporter;
 Environment environment;
+
+private boolean importingFile;
+
 
 void setup() {
   size(1280, 720, P3D);
 //  frameRate(20);
   initialiseEnvironment();
   fileExporter = new FileExporter();
+  fileImporter = new FileImporter();
+
 }
 
 void draw() {  
@@ -28,6 +34,9 @@ void draw() {
   environment.drawEnvironment();
   drawAxis(); 
   environment.getTextRoller().rollText();
+  //environment.getAnimation().drawAnimation();
+  
+  //println(frameRate);
   
   try {
     wait(1000);
@@ -55,7 +64,7 @@ void evaluateCamera() {
     camera(cos(rotationFactor)*zoomFactor*2.5*height, sin(rotationFactor)*zoomFactor*2.5*height, zoomFactor*((height/2) / panUpFactor*tan(PI/6)), 0, 0, 0, 0, 0, -1);
   }
 }
-
+  
 void drawAxis() {
   if (!renderLandscape) {
     // Draw x-axis

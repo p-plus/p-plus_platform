@@ -46,6 +46,60 @@ public class Cell {
     initialiseOrientation();
   }
   
+  public Cell(int x, int y, int z, String type, String orientation, int rotation) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    
+    if(orientation.equals("N")){
+      this.orientation.y = -1;
+    }else if(orientation.equals("S")){
+      this.orientation.y = 1;
+    }else if(orientation.equals("E")){
+      this.orientation.x = 1;
+    }else if(orientation.equals("W")){
+      this.orientation.x = -1;
+    }else if(orientation.equals("U")){
+      this.orientation.z = 1;
+    }else if(orientation.equals("D")){
+      this.orientation.z = -1;
+    }
+    
+    if(type.equals("A")){
+      if(rotation==0){
+        entryPixel = PIXEL.BOTTOM;
+        exitPixel = PIXEL.LEFT;
+      }else if(rotation==90){
+        entryPixel = PIXEL.RIGHT;
+        exitPixel = PIXEL.BOTTOM;
+      }else if(rotation==180){
+        entryPixel = PIXEL.TOP;
+        exitPixel = PIXEL.RIGHT;        
+      }else if(rotation==270){
+        entryPixel = PIXEL.LEFT;
+        exitPixel = PIXEL.TOP;        
+      }
+    }else if(type.equals("B")){
+      if(rotation==0){
+        entryPixel = PIXEL.BOTTOM;
+        exitPixel = PIXEL.RIGHT;
+      }else if(rotation==90){
+        entryPixel = PIXEL.RIGHT;
+        exitPixel = PIXEL.TOP;
+      }else if(rotation==180){
+        entryPixel = PIXEL.TOP;
+        exitPixel = PIXEL.LEFT;        
+      }else if(rotation==270){
+        entryPixel = PIXEL.LEFT;
+        exitPixel = PIXEL.BOTTOM;        
+      }
+    }
+    
+    this.solid = true;
+    
+    //initialiseOrientation();
+  }
+  
   public PIXEL getLeftPixel(PIXEL p) {
     PIXEL pix = PIXEL.RIGHT;
     if (p == PIXEL.TOP) {
@@ -404,6 +458,7 @@ public class Cell {
   //}
   
   void drawCell() {
+    
     if (!isCellFacingDisplayedFacet()) {
       return;
     }
@@ -421,7 +476,6 @@ public class Cell {
     
     if (runningSimulation) {
       noStroke();
-      
       if (solid) {
         fill(boxColour);        
       } else if ((weight > 0) && (displayWeights)) {
@@ -433,8 +487,8 @@ public class Cell {
       noStroke();
       if (solid) {
         fill(boxColour);
-      } else if ((weight > 0) && (displayWeights)) {
-          fill(0, 0, weight*255, 100);
+      } else if ((weight > 0) && (displayWeights)) {   
+        fill(0, 0, weight*255, 100);
       } else {
         noFill();
       }
@@ -601,6 +655,66 @@ public class Cell {
           popMatrix();
         }
       }
+      
+      /*if(animation){
+        //Draw pixel at BOTTOM
+        emissive(boxOffColour);
+        color pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, PIXEL.BOTTOM);
+        fill(pixel);
+        emissive(pixel);
+        pushMatrix();
+        if (defaultShapes) {
+          translate(2, 0, -unitSize/4);
+          box(unitSize/12, unitSize/4, unitSize/2);
+        } else {
+          drawShape(0);
+        }
+        popMatrix();
+        
+        //Draw pixel at RIGHT
+        emissive(boxOffColour);
+        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, PIXEL.RIGHT);
+        fill(pixel);
+        emissive(pixel);
+        pushMatrix();
+        if (defaultShapes) {
+          translate(2, -unitSize/4, 0);
+          box(unitSize/12, unitSize/2, unitSize/4);
+        } else {
+          drawShape(270);
+        }
+        popMatrix();
+        
+        //Draw pixel at TOP
+        emissive(boxOffColour);
+        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, PIXEL.TOP);
+        fill(pixel);
+        emissive(pixel);
+        pushMatrix();
+        if (defaultShapes) {
+          translate(2, 0, unitSize/4);
+          box(unitSize/12, unitSize/4, unitSize/2);
+        } else {
+          drawShape(180);
+        }
+        popMatrix();   
+        
+        //Draw pixel at LEFT
+        emissive(boxOffColour);
+        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, PIXEL.LEFT);
+        fill(pixel);
+        emissive(pixel);
+        pushMatrix();
+        if (defaultShapes) {
+          translate(2, unitSize/4, 0);
+          box(unitSize/12, unitSize/2, unitSize/4);
+        } else {
+          drawShape(90);
+        }
+        popMatrix();
+        
+        
+      }*/
       
       emissive(0, 0, 0);
       shininess(0.0);

@@ -35,9 +35,10 @@
  LEFT ARROW     Rotate LEFT.
  RIGHTT ARROW   Rotate RIGHT.
  
-  == OUTPUT COMMANDS
+  == IO COMMANDS
  Key            Command
  x              Export structure file.
+ i              Import structure file.
 
 ***************************************************/
 
@@ -51,6 +52,7 @@ boolean pixelColours = false;
 boolean rollingText = false;
 boolean renderLandscape = false;
 boolean defaultShapes = false;
+//boolean animation = false;
 
 public enum FACET {ALL, NORTH, SOUTH, EAST, WEST, BOTTOM_UP, CEILING_DOWN};
 FACET facetDisplayed = FACET.ALL;
@@ -184,6 +186,17 @@ void evaluateControllers() {
   // File export
   if (command('x') && !fileExporter.stillWritingFile()) {
     fileExporter.exportExnvironmentAsFile(environment);
+    fileExporter.exportEnvironmentAsXML(environment);
+
+  }
+  
+  //File import
+  if (command('i') && !fileImporter.importingFile()){
+    if(!runningSimulation){
+    fileImporter.loadEnvironmentFromXML(); 
+    }else{
+    println("\nCan not import File while running simulation.");  
+    }
   }
 }
 

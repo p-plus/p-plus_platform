@@ -19,10 +19,57 @@ public class FileExporter {
   private boolean exportingFile;
   private long lastWriting;
   
+  private XML xml;
+
+  
   public FileExporter() {
+  }
+  
+  public void exportEnvironmentAsXML(Environment env) {
+    xml = new XML("Environment");
+        
+    XML settingsElement = xml.addChild("Settings");
+    XML physicalSettingsElement = settingsElement.addChild("Physical");
+    physicalSettingsElement.setInt("maxCells", maxCells);
+    physicalSettingsElement.setInt("envXMaxSize", envXMaxSize);
+    physicalSettingsElement.setInt("envYMaxSize", envYMaxSize);
+    physicalSettingsElement.setInt("envZMaxSize", envZMaxSize);
+    physicalSettingsElement.setInt("minimumPathHeight", minimumPathHeight);
+    XML cellSettingsElement = settingsElement.addChild("Cell");
+    cellSettingsElement.setInt("unitSize", unitSize);
+    cellSettingsElement.setFloat("cellWeight", cellWeight);
+    cellSettingsElement.setFloat("cellMaxLoad", cellMaxLoad);
+    cellSettingsElement.setInt("PIXELS_PER_CELL", PIXELS_PER_CELL);
+    XML dmxSettingsElement = settingsElement.addChild("DMX");
+    dmxSettingsElement.setInt("MAX_LED_STRIP_LENGTH", MAX_LED_STRIP_LENGTH);
+    XML modelingSettingsElement = settingsElement.addChild("Modeling");
+    modelingSettingsElement.setInt("DRAW_OFFSET", DRAW_OFFSET);
+    
+    int i_chain = 0;
+    for(CellChain k: env.getCellChain()){
+      XML cellChainElement = xml.addChild("CellChain");
+      for(Cell cell: k.getCells()){
+        XML cellElement = cellChainElement.addChild("Cell");
+        cellElement.setInt("x", cell.x);
+        cellElement.setInt("y", cell.y);
+        cellElement.setInt("z", cell.z);
+        cellElement.setString("type", cell.getType().toString());
+        cellElement.setString("orientation", cell.getOrientation().toString());
+        cellElement.setInt("rotation", cell.getRotation());
+      }
+      i_chain ++;
+    }
+    
+    String filename = FILE_FOLDER + FILE_NAME_PREFIX + getTimestampString() + ".xml";
+    saveXML(xml, filename);
+    
+    println("\n### File " + filename + " exported successfully!\n");
+
+    
   }
 
   public void exportExnvironmentAsFile(Environment env) {
+    
     exportingFile = true;
     lastWriting = millis();
     
@@ -31,9 +78,11 @@ public class FileExporter {
     writeEnvironment(env);
     writer.close();
     println("\n### File " + filename + " exported successfully!\n");
+    
   }
   
   private void writeEnvironment(Environment env) {
+    writeCellChains(env);
     for (int x = 0; x < envXMaxUnits; x++) {
       for (int y = 0; y < envYMaxUnits; y++) {
         for (int z = 0; z < envZMaxUnits; z++) {
@@ -42,6 +91,17 @@ public class FileExporter {
           }
         }
       }
+    }
+  }
+  
+  
+  private void writeCellChains(Environment env) {
+    int i_chain = 0;
+    for(CellChain k: env.getCellChain()){
+      for(Cell cell: k.getCells()){
+        println(i_chain+","+cell.x + "," + cell.y + "," + cell.z + "," + cell.getType() + "," + cell.getOrientation() + "," + cell.getRotation());          
+      }
+      i_chain ++;
     }
   }
   

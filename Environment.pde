@@ -13,6 +13,7 @@ public class Environment {
   private CellChain[] cellChains;
   
   private TextRoller textRoller;
+  //private Animation animation;
   
   public Environment() {
     matrix = new Cell[envXMaxUnits][envYMaxUnits][envZMaxUnits];
@@ -35,15 +36,26 @@ public class Environment {
     // Create text roller
     textRoller = new TextRoller();
     textRoller.setText(DISPLAY_TEXT);
+    
+    // Create Animation
+    //animation = new Animation(envXMaxUnits*3, envZMaxUnits*3);
   }
    
   public Cell[][][] getMatrix() {
     return matrix;
   }
   
+  public CellChain[] getCellChain() {
+    return cellChains;  
+  }
+  
   public TextRoller getTextRoller() {
     return textRoller;
   }
+  
+  /*public Animation getAnimation() {
+    return animation;
+  }*/
   
   public void resetWeightConfig() {
     for (int x = 0; x < envXMaxUnits; x++) {
@@ -65,6 +77,10 @@ public class Environment {
     }
     
     configRecorded = true;
+  }
+  
+  public void setCell(int x, int y, int z, String type, String orientation, int rotation){
+    matrix[x][y][z] = new Cell(x, y, z, type, orientation, rotation);  
   }
   
   
@@ -106,6 +122,7 @@ public class Environment {
       for (int y = 0; y < envYMaxUnits; y++) {
         for (int z = 0; z < envZMaxUnits; z++) {
           matrix[x][y][z].reset();
+          //matrix[x][y][z].resetWeight();
         }
       }
     }
@@ -116,6 +133,31 @@ public class Environment {
     for (CellChain cellChain : cellChains) {
       cellChain.resetChain();
     }
+  }
+  
+  /* 
+   * Clear the whole environment, deleting all cells in the matrix.
+   */
+  public void clearEnvironment() {
+    cellsGrown = 0;
+    baseCells = 0;
+    simulationFailed = false;
+    
+    for (int x = 0; x < envXMaxUnits; x++) {
+      for (int y = 0; y < envYMaxUnits; y++) {
+        for (int z = 0; z < envZMaxUnits; z++) {
+          matrix[x][y][z].reset();
+        }
+      }
+    }  
+    
+    restartWeights();
+    recordWeightConfig();
+    
+    for (CellChain cellChain : cellChains) {
+      cellChain.emptyChain();
+    }
+    
   }
   
   private Cell createRootCell(int index) {

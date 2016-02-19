@@ -24,8 +24,8 @@
 int maxCells = 300;
 //int envXMaxSize = 600; // cm
 //int envYMaxSize = 600; // cm
-int envXMaxSize = 450; // cm
-int envYMaxSize = 450; // cm
+int envXMaxSize = 300; // cm
+int envYMaxSize = 300; // cm
 
 
 int envZMaxSize = 260; //cm
@@ -55,6 +55,7 @@ int DRAW_OFFSET = 0; // Only increase it if you wish to draw the structure away 
 //////////////////////////////////////
 //  Derived settings
 //////////////////////////////////////
+
 float cellLoadOffset = cellWeight/cellMaxLoad;
 int envXMaxUnits = envXMaxSize/unitSize;
 int envYMaxUnits = envYMaxSize/unitSize;
