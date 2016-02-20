@@ -4,6 +4,8 @@
  == ACTION COMMANDS
  Key            Command 
  s              Starts a new simulation (i.e. creates a new structure model).
+ q              When in simulation mode, stop simulation and clear environment.
+ c              Load default settings from "config.properties".
  1              Enters pathway CONFIG mode.
  2              Exits pathway CONFIG mode.
  q              When in pathways COFIG mode, clears previously recorded pathways.
@@ -82,12 +84,23 @@ void evaluateControllers() {
     environment.resetEnvironment();
     runningSimulation = true;
   }
+  
+  if (!configMode && command('q')) {
+    println("\n### RESTARTING SIMULATION");
+    environment.clearEnvironment();
+    runningSimulation = false;
+  }
 
   //////////////////////
   // ACTION COMMANDS
   //////////////////////
   
   // Config mode
+  if (command('c')) {
+    environment.clearEnvironment();
+    loadConfigFile();  
+    environment = new Environment();
+  }
   if (command('1')) {
     configMode = true;
   }

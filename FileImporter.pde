@@ -4,6 +4,7 @@ public class FileImporter{
   
   private long lastReading;
   private XML xml;
+  private boolean importingFile;
   
   public FileImporter() {
   }
@@ -11,6 +12,7 @@ public class FileImporter{
   public void loadEnvironmentFromXML(){
     
     //initialise Environment
+    //derivedSettings();
     //environment = new Environment();
     environment.clearEnvironment();
     
@@ -25,7 +27,7 @@ public class FileImporter{
   void initEnvironmentFromXML(XML xml) {
 
     //XML environmentElement = xml.getChild("Environment");
-    /*XML settingsElement = xml.getChild("Settings");
+    XML settingsElement = xml.getChild("Settings");
     XML physicalSettingsElement = settingsElement.getChild("Physical");
     maxCells = physicalSettingsElement.getInt("maxCells", maxCells);
     envXMaxSize = physicalSettingsElement.getInt("envXMaxSize", envXMaxSize);
@@ -40,7 +42,10 @@ public class FileImporter{
     XML dmxSettingsElement = settingsElement.getChild("DMX");
     MAX_LED_STRIP_LENGTH = dmxSettingsElement.getInt("MAX_LED_STRIP_LENGTH", MAX_LED_STRIP_LENGTH);
     XML modelingSettingsElement = settingsElement.getChild("Modeling");
-    DRAW_OFFSET = modelingSettingsElement.getInt("DRAW_OFFSET", DRAW_OFFSET);*/
+    DRAW_OFFSET = modelingSettingsElement.getInt("DRAW_OFFSET", DRAW_OFFSET);
+    
+    derivedSettings();    
+    environment = new Environment();
         
     XML[] cellChainElements = xml.getChildren("CellChain");
     

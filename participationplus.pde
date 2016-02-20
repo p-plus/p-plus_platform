@@ -6,19 +6,17 @@ FileExporter fileExporter;
 FileImporter fileImporter;
 Environment environment;
 
-private boolean importingFile;
-
-
 void setup() {
   size(1280, 720, P3D);
-//  frameRate(20);
+  loadConfigFile();
   initialiseEnvironment();
   fileExporter = new FileExporter();
   fileImporter = new FileImporter();
-
 }
 
-void draw() {  
+void draw() { 
+  
+  if(!fileImporter.importingFile){
   lights();
   ambientLight(70, 70, 128);
   int concentration = 1000;
@@ -35,12 +33,11 @@ void draw() {
   drawAxis(); 
   environment.getTextRoller().rollText();
   //environment.getAnimation().drawAnimation();
-  
-  //println(frameRate);
-  
+    
   try {
     wait(1000);
   } catch (Exception e) {
+  }
   }
 }
 
