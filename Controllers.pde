@@ -96,7 +96,7 @@ void evaluateControllers() {
   //////////////////////
   
   // Config mode
-  if (command('c')) {
+  if (!runningSimulation && command('c')) {
     environment.clearEnvironment();
     loadConfigFile();  
     environment = new Environment();
