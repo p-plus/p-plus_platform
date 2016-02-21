@@ -8,8 +8,12 @@ public class CellChain {
   private ArrayList<Cell> cells;
   
   public CellChain(int index) {
-    this.index = index;
+    this.index = index; //<>//
     cells = new ArrayList<Cell>();
+  }
+  
+  public void addCell(Cell cell) {
+    cells.add(cell);  
   }
   
   private void emptyChain() {

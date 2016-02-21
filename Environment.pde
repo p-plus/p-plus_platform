@@ -79,9 +79,12 @@ public class Environment {
     configRecorded = true;
   }
   
-  public void setCell(int x, int y, int z, String type, String orientation, int rotation){
-    matrix[x][y][z] = new Cell(x, y, z, type, orientation, rotation);  
+  public void setCell(int cellChainIndex, int x, int y, int z, String type, String orientation, int rotation){
+    Cell cell = new Cell(x, y, z, type, orientation, rotation);
+    matrix[x][y][z] = cell;
+    cellChains[cellChainIndex].addCell(cell);
   }
+  
   
   
   /* 

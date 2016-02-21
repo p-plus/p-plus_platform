@@ -61,7 +61,7 @@ public class FileImporter{
         String orientation = cellElements[j].getString("orientation");
         int rotation = cellElements[j].getInt("rotation");   
         println("Cell: "+j+", orientation: "+orientation+", rotation: "+rotation+", type: "+type+", x: "+x+", y: "+y+", z: "+z);
-        environment.setCell(x, y, z, type, orientation, rotation);
+        environment.setCell(i, x, y, z, type, orientation, rotation);
       }
     }
     
