@@ -13,7 +13,7 @@ public class Environment {
   private CellChain[] cellChains;
   
   private TextRoller textRoller;
-  //private Animation animation;
+  private Animation animation;
   
   public Environment() {
     matrix = new Cell[envXMaxUnits][envYMaxUnits][envZMaxUnits];
@@ -38,7 +38,7 @@ public class Environment {
     textRoller.setText(DISPLAY_TEXT);
     
     // Create Animation
-    //animation = new Animation(envXMaxUnits*3, envZMaxUnits*3);
+    animation = new Animation();
   }
    
   public Cell[][][] getMatrix() {
@@ -53,9 +53,9 @@ public class Environment {
     return textRoller;
   }
   
-  /*public Animation getAnimation() {
+  public Animation getAnimation() {
     return animation;
-  }*/
+  }
   
   public void resetWeightConfig() {
     for (int x = 0; x < envXMaxUnits; x++) {

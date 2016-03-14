@@ -45,7 +45,7 @@ public class FileImporter{
     DRAW_OFFSET = modelingSettingsElement.getInt("DRAW_OFFSET", DRAW_OFFSET);
     
     derivedSettings();    
-    environment = new Environment();
+    //environment = new Environment();
         
     XML[] cellChainElements = xml.getChildren("CellChain");
     

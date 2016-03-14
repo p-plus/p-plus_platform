@@ -20,6 +20,7 @@ public class Cell {
   public int orientationIndex;
   public PIXEL entryPixel;
   public PIXEL exitPixel;
+  public FACET facet;
   
   // Helper variables for drawing shapes with better performance - some values are hardcoded for convenience
   private final int rr0 = unitSize/20;
@@ -53,16 +54,22 @@ public class Cell {
     
     if(orientation.equals("N")){
       this.orientation.y = -1;
+      this.facet = FACET.NORTH;
     }else if(orientation.equals("S")){
       this.orientation.y = 1;
+      this.facet = FACET.SOUTH;
     }else if(orientation.equals("E")){
       this.orientation.x = 1;
+      this.facet = FACET.EAST;
     }else if(orientation.equals("W")){
       this.orientation.x = -1;
+      this.facet = FACET.WEST;
     }else if(orientation.equals("U")){
       this.orientation.z = 1;
+      this.facet = FACET.BOTTOM_UP;
     }else if(orientation.equals("D")){
       this.orientation.z = -1;
+      this.facet = FACET.CEILING_DOWN;
     }
     
     if(type.equals("A")){
@@ -656,10 +663,10 @@ public class Cell {
         }
       }
       
-      /*if(animation){
+      if(animation && !runningSimulation){
         //Draw pixel at BOTTOM
         emissive(boxOffColour);
-        color pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, PIXEL.BOTTOM);
+        color pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, facet, PIXEL.BOTTOM);
         fill(pixel);
         emissive(pixel);
         pushMatrix();
@@ -673,7 +680,7 @@ public class Cell {
         
         //Draw pixel at RIGHT
         emissive(boxOffColour);
-        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, PIXEL.RIGHT);
+        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, facet, PIXEL.RIGHT);
         fill(pixel);
         emissive(pixel);
         pushMatrix();
@@ -687,7 +694,7 @@ public class Cell {
         
         //Draw pixel at TOP
         emissive(boxOffColour);
-        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, PIXEL.TOP);
+        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, facet, PIXEL.TOP);
         fill(pixel);
         emissive(pixel);
         pushMatrix();
@@ -701,7 +708,7 @@ public class Cell {
         
         //Draw pixel at LEFT
         emissive(boxOffColour);
-        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, PIXEL.LEFT);
+        pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, facet, PIXEL.LEFT);
         fill(pixel);
         emissive(pixel);
         pushMatrix();
@@ -714,13 +721,13 @@ public class Cell {
         popMatrix();
         
         
-      }*/
+      }
       
       emissive(0, 0, 0);
       shininess(0.0);
 
       // Draw wire
-      if (!pixelColours && !rollingText) {
+      if (!pixelColours && !rollingText && !animation) {
         fill(0, 255, 0);
         pushMatrix();
         if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {

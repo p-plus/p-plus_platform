@@ -1,3 +1,5 @@
+import processing.video.*;
+
 float panUpFactor = 1.5f;//1.0f;
 float rotationFactor = 1.0f;
 float zoomFactor = 0.5f;
@@ -6,15 +8,36 @@ FileExporter fileExporter;
 FileImporter fileImporter;
 Environment environment;
 
+PGraphics pgOff;
+
 void setup() {
   size(1280, 720, P3D);
   loadConfigFile();
   initialiseEnvironment();
   fileExporter = new FileExporter();
   fileImporter = new FileImporter();
+  
+  //Create an OffScreen PGraphic and add it to the Structure's facets
+  pgOff = createGraphics(100,100, P3D);
+  environment.getAnimation().addGraphics(FACET.NORTH, pgOff);  
+  environment.getAnimation().addGraphics(FACET.SOUTH, pgOff);  
+  environment.getAnimation().addGraphics(FACET.EAST, pgOff);  
+  environment.getAnimation().addGraphics(FACET.WEST, pgOff);
+  environment.getAnimation().addGraphics(FACET.BOTTOM_UP, pgOff);
+  environment.getAnimation().addGraphics(FACET.CEILING_DOWN, pgOff);
+  
 }
 
 void draw() { 
+    
+  //Draw some example animations on the PGraphics Element
+  pgOff.beginDraw();
+  pgOff.clear();
+  pgOff.fill(255,0,0);
+  pgOff.noStroke();
+  pgOff.rect(0,0,frameCount%pgbuf.width,frameCount%pgbuf.height);
+  pgOff.endDraw();
+
   
   if(!fileImporter.importingFile){
   lights();
@@ -32,8 +55,9 @@ void draw() {
   environment.drawEnvironment();
   drawAxis(); 
   environment.getTextRoller().rollText();
-  //environment.getAnimation().drawAnimation();
+  environment.getAnimation().resizeAnimation();
     
+  
   try {
     wait(1000);
   } catch (Exception e) {
@@ -94,4 +118,8 @@ void drawAxis() {
   //  box(5500, 5500, 3);
   //  popMatrix();
   //}
+}
+
+void movieEvent(Movie m) {
+  m.read();
 }
