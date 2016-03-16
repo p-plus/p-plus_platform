@@ -4,6 +4,7 @@
  == ACTION COMMANDS
  Key            Command 
  s              Starts a new simulation (i.e. creates a new structure model).
+ S              Starts a loop of simulation and exports the files.
  q              When in simulation mode, stop simulation and clear environment.
  c              Load default settings from "config.properties".
  1              Enters pathway CONFIG mode.
@@ -46,6 +47,7 @@
 ***************************************************/
 
 boolean runningSimulation;
+boolean loopSimulation = false;
 
 boolean configMode = false;
 boolean configRecorded = true;
@@ -86,10 +88,18 @@ void evaluateControllers() {
     runningSimulation = true;
   }
   
+  if (command('S')) {
+    println("\n### RESTARTING SIMULATION");
+    environment.resetEnvironment();
+    loopSimulation = true;
+    runningSimulation = true;
+  }
+  
   if (!configMode && command('q')) {
     println("\n### RESTARTING SIMULATION");
     environment.clearEnvironment();
     runningSimulation = false;
+    loopSimulation = true;
   }
 
   //////////////////////
@@ -242,8 +252,17 @@ void processCommands() {
     } else {
       runningSimulation = false;
       println("\n### SIMULATION FINISHED");
+      if(loopSimulation){
+        println("\n### SIMULATION FINISHED");
+        fileExporter.exportExnvironmentAsFile(environment);
+        fileExporter.exportEnvironmentAsXML(environment);
+        println("\n### RESTARTING SIMULATION");
+        environment.resetEnvironment();
+        runningSimulation = true;  
+      }
     }
   }
+  
 }
 
 //////////////////////

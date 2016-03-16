@@ -35,7 +35,7 @@ void draw() {
   pgOff.clear();
   pgOff.fill(255,0,0);
   pgOff.noStroke();
-  pgOff.rect(0,0,frameCount%pgbuf.width,frameCount%pgbuf.height);
+  pgOff.rect(0,0,frameCount%pgOff.width,frameCount%pgOff.height);
   pgOff.endDraw();
 
   
