@@ -23,7 +23,7 @@ public class EntriesImporter{
             entriesList.add(new Entry(row));
           }
         }
-      }
+     }
      return entriesList;
   }
 

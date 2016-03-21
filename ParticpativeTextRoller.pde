@@ -10,9 +10,10 @@ public class ParticpativeTextRoller extends TextRoller {
     this.entriesList = entriesList;
   }
   
-  public void nextText(){
-    super.setText(entriesList.get(0).message);
-    
+  public void nextText() {
+    if ((entriesList != null) && !entriesList.isEmpty()) {
+      super.setText(entriesList.get(0).message);
+    }
   }
   
   
