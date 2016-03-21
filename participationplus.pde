@@ -16,6 +16,8 @@ void setup() {
   initialiseEnvironment();
   fileExporter = new FileExporter();
   fileImporter = new FileImporter();
+  fileImporter.loadAllFilesFromFolder();
+
   
   //Create an OffScreen PGraphic and add it to the Structure's facets
   pgOff = createGraphics(100,100, P3D);
@@ -26,6 +28,7 @@ void setup() {
   environment.getAnimation().addGraphics(FACET.BOTTOM_UP, pgOff);
   environment.getAnimation().addGraphics(FACET.CEILING_DOWN, pgOff);
   
+
 }
 
 void draw() { 
@@ -54,9 +57,18 @@ void draw() {
   evaluateControllers();
   environment.drawEnvironment();
   drawAxis(); 
-  environment.getTextRoller().rollText();
+  environment.getParticpativeTextRoller().rollText();  
   environment.getAnimation().resizeAnimation();
-    
+  
+  
+  camera(); //resets viewport to 2D equivalent
+  noLights();
+  fill(255);
+  text("X: "+envXMaxSize+", Y:"+envYMaxSize+", Z:"+envZMaxSize, 20, 25);
+  text("Cells: "+maxCells, 20, 45);
+  if(!runningSimulation){
+  text("Name: "+fileName, 20, 65);
+  }
   
   try {
     wait(1000);

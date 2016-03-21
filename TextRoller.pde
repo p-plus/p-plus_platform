@@ -16,13 +16,13 @@ public class TextRoller {
     textString.setText(text);
     textStartPosition = SCREEN_WIDTH;
   }
-  
+    
   public void rollText() {
     if ((millis() - lastMoveTime) > ROLL_INTERVAL) {
       lastMoveTime = millis();
       textStartPosition--;
       if (textStartPosition < (-1)*(textString.getColumns().size())-ROLL_END_OFFSET) {
-       textStartPosition = SCREEN_WIDTH;
+        textStartPosition = SCREEN_WIDTH;
       }
       //textStartPosition++;
       //if (textStartPosition > SCREEN_WIDTH + ROLL_END_OFFSET) {

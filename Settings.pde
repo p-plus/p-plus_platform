@@ -14,13 +14,15 @@ float cellWeight, cellMaxLoad;
 static int PIXELS_PER_CELL;
 static int MAX_LED_STRIP_LENGTH;
 int DRAW_OFFSET;
-String DISPLAY_TEXT = "HELLO";
+String DISPLAY_TEXT = "Test";
 
 float cellLoadOffset;
 int envXMaxUnits, envYMaxUnits, envZMaxUnits, envZMaxUnitsPath;
 int TOTAL_NUMBER_OF_PIXELS;
 static int MAX_CELL_CHAIN_LENGTH;
 int NUMBER_OF_CELL_CHAINS;
+String fileName = "";
+
 
 public void derivedSettings(){
   cellLoadOffset = cellWeight/cellMaxLoad;
