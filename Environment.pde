@@ -3,7 +3,7 @@ public float DEFAULT_WEIGHT = 0.2f;//0.4f;
 public class Environment {
   public Cell[][][] matrix;
   int[][] weightConfig;
-  
+   
   private int cellsGrown;
   private int baseCells;
   private int typeACells;
@@ -14,6 +14,10 @@ public class Environment {
   
   private TextRoller textRoller;
   private Animation animation;
+  private EntriesImporter entriesImporter;
+  private ParticpativeTextRoller particpativeTextRoller;
+  private ArrayList<Entry> entriesList = new ArrayList<Entry>();
+
   
   public Environment() {
     matrix = new Cell[envXMaxUnits][envYMaxUnits][envZMaxUnits];
@@ -39,6 +43,13 @@ public class Environment {
     
     // Create Animation
     animation = new Animation();
+    
+    // Create EntryContent
+    entriesImporter = new EntriesImporter();
+    entriesList = entriesImporter.loadEntriesFile();
+    particpativeTextRoller = new ParticpativeTextRoller(entriesList);
+    particpativeTextRoller.nextText();
+    
   }
    
   public Cell[][][] getMatrix() {
@@ -55,6 +66,13 @@ public class Environment {
   
   public Animation getAnimation() {
     return animation;
+  }
+  
+  public ParticpativeTextRoller getParticpativeTextRoller() {
+    return particpativeTextRoller;
+  }
+  
+  public void initEntryContent(EntriesImporter entriesImporter){
   }
   
   public void resetWeightConfig() {
@@ -110,6 +128,12 @@ public class Environment {
         }
       } 
     }
+    if(drawDisplayInformation){
+
+   
+  
+  
+    }
   }
 
 
@@ -120,6 +144,26 @@ public class Environment {
     cellsGrown = 0;
     baseCells = 0;
     simulationFailed = false;
+    
+    /*matrix = new Cell[envXMaxUnits][envYMaxUnits][envZMaxUnits];
+    weightConfig = new int[envXMaxUnits][envYMaxUnits];
+    
+    for (int x = 0; x < envXMaxUnits; x++) {
+      for (int y = 0; y < envYMaxUnits; y++) {
+        for (int z = 0; z < envZMaxUnits; z++) {
+          matrix[x][y][z] = new Cell(x, y, z);
+        }
+      }
+    }
+    
+    cellChains = new CellChain[NUMBER_OF_CELL_CHAINS];
+    for (int i = 0; i < NUMBER_OF_CELL_CHAINS; i++) {
+      CellChain cellChain = new CellChain(i);
+      cellChains[i] = cellChain;
+    }
+    
+    restartWeights();
+    recordWeightConfig();*/
     
     for (int x = 0; x < envXMaxUnits; x++) {
       for (int y = 0; y < envYMaxUnits; y++) {
@@ -146,7 +190,7 @@ public class Environment {
     baseCells = 0;
     simulationFailed = false;
     
-    for (int x = 0; x < envXMaxUnits; x++) {
+    /*for (int x = 0; x < envXMaxUnits; x++) {
       for (int y = 0; y < envYMaxUnits; y++) {
         for (int z = 0; z < envZMaxUnits; z++) {
           matrix[x][y][z].reset();
@@ -159,6 +203,23 @@ public class Environment {
     
     for (CellChain cellChain : cellChains) {
       cellChain.emptyChain();
+    }*/
+    
+    matrix = new Cell[envXMaxUnits][envYMaxUnits][envZMaxUnits];
+    weightConfig = new int[envXMaxUnits][envYMaxUnits];
+    
+    for (int x = 0; x < envXMaxUnits; x++) {
+      for (int y = 0; y < envYMaxUnits; y++) {
+        for (int z = 0; z < envZMaxUnits; z++) {
+          matrix[x][y][z] = new Cell(x, y, z);
+        }
+      }
+    }
+    
+    cellChains = new CellChain[NUMBER_OF_CELL_CHAINS];
+    for (int i = 0; i < NUMBER_OF_CELL_CHAINS; i++) {
+      CellChain cellChain = new CellChain(i);
+      cellChains[i] = cellChain;
     }
     
   }

@@ -11,6 +11,8 @@
  2              Exits pathway CONFIG mode.
  q              When in pathways COFIG mode, clears previously recorded pathways.
  r              When in pathways COFIG mode, recods (saves) the newly edited pathways.
+ TAB            Load next environment from folder.
+ b              Load previous environment from folder.
  
  == DISPLAY COMMANDS
  Key            Command
@@ -58,6 +60,7 @@ boolean rollingText = false;
 boolean renderLandscape = false;
 boolean defaultShapes = false;
 boolean animation = false;
+boolean drawDisplayInformation = true;
 
 public enum FACET {ALL, NORTH, SOUTH, EAST, WEST, BOTTOM_UP, CEILING_DOWN};
 FACET facetDisplayed = FACET.ALL;
@@ -93,6 +96,14 @@ void evaluateControllers() {
     environment.resetEnvironment();
     loopSimulation = true;
     runningSimulation = true;
+  }
+  
+  if (command(' ')) {
+    fileImporter.nextEnv();    
+  }
+  
+  if (command('b')) {
+    fileImporter.prevEnv();    
   }
   
   if (!configMode && command('q')) {

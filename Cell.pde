@@ -600,11 +600,13 @@ public class Cell {
         drawShape(0);
         drawShape(180);
       }
+
+      environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM);
       
       if (rollingText) {
         //Draw pixel at BOTTOM
         emissive(boxOffColour);
-        if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
+        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
           fill(textColour);
           emissive(textColour);
           pushMatrix();
@@ -619,7 +621,7 @@ public class Cell {
         }
         //Draw pixel at RIGHT
         emissive(boxOffColour);
-        if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
+        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
           fill(textColour);
           emissive(textColour);
           pushMatrix();
@@ -634,7 +636,7 @@ public class Cell {
         
         //Draw pixel at TOP
         emissive(boxOffColour);
-        if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
+        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
           fill(textColour);
           emissive(textColour);
           pushMatrix();
@@ -649,7 +651,7 @@ public class Cell {
         
         //Draw pixel at LEFT
         emissive(boxOffColour);
-        if (environment.getTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
+        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
           fill(textColour);
           emissive(textColour);
           pushMatrix();

@@ -6,6 +6,10 @@ public class FileImporter{
   private XML xml;
   private boolean importingFile;
   
+  private final String FILE_FOLDER = "exportedFiles/";
+  File[] files;
+  int fileCounter;
+
   public FileImporter() {
   }
   
@@ -22,6 +26,53 @@ public class FileImporter{
     delay(500);
     selectInput("Select a folder to process:", "fileSelected", null, this);
     }    
+  }
+  
+  void loadAllFilesFromFolder() {
+    File dir = new File(dataPath("../"+FILE_FOLDER));
+    files = dir.listFiles();
+      
+    for (int i = 0; i < files.length; i++) {
+        if(files[i].toString().contains(".xml")){
+          println(files[i]);
+        }
+      }  
+      
+
+  }
+  
+  void nextEnv() {
+    if(fileCounter<files.length-1){
+      fileCounter++;
+      while(!files[fileCounter].toString().contains(".xml")){
+        if(fileCounter<files.length-1){
+          fileCounter++;
+        }else{
+          fileCounter = 0;  
+        }
+      }
+      fileSelected(files[fileCounter]);  
+    }else{
+      fileCounter = 0; 
+      fileSelected(files[fileCounter]);  
+    }
+  }
+  
+  void prevEnv() {
+    if(fileCounter>0){
+      fileCounter--;
+      while(!files[fileCounter].toString().contains(".xml")){
+        if(fileCounter>0){
+          fileCounter--;
+        }else{
+          fileCounter = files.length-1;  
+        }
+      }
+      fileSelected(files[fileCounter]);  
+    }else{
+      fileCounter = files.length-1;  
+      fileSelected(files[fileCounter]);  
+    }
   }
   
   void initEnvironmentFromXML(XML xml) {
@@ -46,6 +97,7 @@ public class FileImporter{
     
     derivedSettings();    
     //environment = new Environment();
+    environment.clearEnvironment();
         
     XML[] cellChainElements = xml.getChildren("CellChain");
     
@@ -78,6 +130,7 @@ public class FileImporter{
       if(extension.contains("xml")){
         xml = loadXML(selection.getAbsolutePath());
         initEnvironmentFromXML(xml);
+        fileName = filename;
       } else {
         println("Selected file is not of type xml");  
       }
