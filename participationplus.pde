@@ -57,6 +57,7 @@ void draw() {
   evaluateControllers();
   environment.drawEnvironment();
   drawAxis(); 
+  environment.getTextRoller().rollText();  
   environment.getParticpativeTextRoller().rollText();  
   environment.getAnimation().resizeAnimation();
   

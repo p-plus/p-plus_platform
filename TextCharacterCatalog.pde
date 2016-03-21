@@ -39,7 +39,9 @@ public class TextCharacterCatalog {
   }
   
   public TextCharacter get(String c) {
+    if(charactersMap.containsKey(c)){
     return (TextCharacter)charactersMap.get(c);
+    } else return (TextCharacter)charactersMap.get(" ");
   }
 }
 

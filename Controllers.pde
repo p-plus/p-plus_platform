@@ -24,6 +24,7 @@
  k              Displays all orientations with the same colours (light green).
  l              Display light effects ON (click it again to turn it OFF).
  ;              Display rolling text ON (click it again to turn it OFF).
+ #              Display participatory messages ON (click it again to turn it OFF).
  a              Display animations ON (click it again to turn it OFF).
  4              Display only cells facing UP.
  5              Display only cells facing DOWN.
@@ -57,6 +58,7 @@ boolean displayFaces = true;
 boolean facesDifferentColours = true;
 boolean pixelColours = false;
 boolean rollingText = false;
+boolean participatoryText = false;
 boolean renderLandscape = false;
 boolean defaultShapes = false;
 boolean animation = false;
@@ -166,6 +168,11 @@ void evaluateControllers() {
   }
   if (command(';')) {
     rollingText = !rollingText;
+    participatoryText = false;
+  }
+  if (command('#')) {
+    participatoryText = !participatoryText;
+    rollingText = false;
   }
   if (command('=')) {
     renderLandscape = !renderLandscape;

@@ -7,7 +7,7 @@ public class Entry{
   public String message;
   public char screenChoice;
   public color bgcolor;
-  public color textColor;
+  public color textcolor;
             
   public Entry(TableRow row){
     
@@ -17,9 +17,11 @@ public class Entry{
     email = row.getString(3);
     message = row.getString(4);
     screenChoice = row.getString(5).charAt(0);
-    bgcolor = unhex(row.getString(6).replace("#", ""));
-    textColor = unhex(row.getString(7).replace("#", ""));
+    bgcolor = color(unhex("ff"+row.getString(6).replace("#", "")));
+    textcolor = color(unhex("ff"+row.getString(7).replace("#", "")));
     
+    //bgcolor = color(unhex("ffff0000"));
+    //bgcolor = color(255,0,0);
     //println(firstName+" "+twitterName+" "+weiboName+" "+email+" "+message+" "+screenChoice+" "+bgcolor+" "+textColor);
     
   }

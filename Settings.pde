@@ -14,7 +14,8 @@ float cellWeight, cellMaxLoad;
 static int PIXELS_PER_CELL;
 static int MAX_LED_STRIP_LENGTH;
 int DRAW_OFFSET;
-String DISPLAY_TEXT = "Test";
+String DISPLAY_TEXT = "Hello";
+int TEXT_ROLLER_LOOPS = 1;
 
 float cellLoadOffset;
 int envXMaxUnits, envYMaxUnits, envZMaxUnits, envZMaxUnitsPath;

@@ -2,6 +2,7 @@ public class ParticpativeTextRoller extends TextRoller {
   
   private ArrayList<Entry> entriesList = new ArrayList<Entry>();
   int counter = 0;
+  color bgColor,textColor;
   
   public ParticpativeTextRoller(ArrayList<Entry> entriesList){
     // Create text roller
@@ -10,9 +11,16 @@ public class ParticpativeTextRoller extends TextRoller {
     this.entriesList = entriesList;
   }
   
-  public void nextText() {
+  public void nextEntry() {
     if ((entriesList != null) && !entriesList.isEmpty()) {
-      super.setText(entriesList.get(0).message);
+      super.setText(entriesList.get(counter).message);
+      bgColor = entriesList.get(counter).bgcolor;
+      textColor = entriesList.get(counter).textcolor;
+    }
+    if(counter<entriesList.size()){
+      counter++;
+    }else {
+      counter=0;
     }
   }
   
