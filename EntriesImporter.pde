@@ -8,7 +8,7 @@ public class EntriesImporter{
   public ArrayList<Entry> loadEntriesFile() {
     
       ArrayList<Entry> entriesList = new ArrayList<Entry>();
-      File dir = new File(dataPath("../"+FILE_FOLDER));
+      File dir = new File(sketchPath(FILE_FOLDER));
       File[] files = dir.listFiles();
       
       for (int i = 0; i < files.length; i++) {

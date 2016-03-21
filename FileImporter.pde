@@ -29,16 +29,12 @@ public class FileImporter{
   }
   
   void loadAllFilesFromFolder() {
-    File dir = new File(dataPath("../"+FILE_FOLDER));
+    File dir = new File(sketchPath(FILE_FOLDER));
+    if (dir.exists() && dir.isDirectory()) {
     files = dir.listFiles();
-      
-    for (int i = 0; i < files.length; i++) {
-        if(files[i].toString().contains(".xml")){
-          println(files[i]);
-        }
-      }  
-      
-
+    }else{
+      println("Warning: The exportedFiles folder does not exist!");
+    }
   }
   
   void nextEnv() {
