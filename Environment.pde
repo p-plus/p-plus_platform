@@ -48,7 +48,7 @@ public class Environment {
     entriesImporter = new EntriesImporter();
     entriesList = entriesImporter.loadEntriesFile();
     particpativeTextRoller = new ParticpativeTextRoller(entriesList);
-    particpativeTextRoller.nextText();
+    particpativeTextRoller.nextEntry();
     
   }
    
@@ -128,11 +128,8 @@ public class Environment {
         }
       } 
     }
-    if(drawDisplayInformation){
-
-   
-  
-  
+    if(particpativeTextRoller.getLoopCounter()>=TEXT_ROLLER_LOOPS){
+      particpativeTextRoller.nextEntry();
     }
   }
 

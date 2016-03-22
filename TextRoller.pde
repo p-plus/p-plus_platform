@@ -6,6 +6,7 @@ public class TextRoller {
   
   private int textStartPosition;
   private long lastMoveTime;
+  private int loopCounter;
   private TextString textString;
   
   public TextRoller() {
@@ -15,6 +16,7 @@ public class TextRoller {
   public void setText(String text) {
     textString.setText(text);
     textStartPosition = SCREEN_WIDTH;
+    loopCounter = 0;
   }
     
   public void rollText() {
@@ -23,6 +25,7 @@ public class TextRoller {
       textStartPosition--;
       if (textStartPosition < (-1)*(textString.getColumns().size())-ROLL_END_OFFSET) {
         textStartPosition = SCREEN_WIDTH;
+        loopCounter++;
       }
       //textStartPosition++;
       //if (textStartPosition > SCREEN_WIDTH + ROLL_END_OFFSET) {
@@ -55,5 +58,9 @@ public class TextRoller {
     }
     
     return isOn;
+  }
+  
+  public int getLoopCounter(){
+    return loopCounter;  
   }
 }
