@@ -17,7 +17,7 @@ public class ParticpativeTextRoller extends TextRoller {
       bgColor = entriesList.get(counter).bgcolor;
       textColor = entriesList.get(counter).textcolor;
     }
-    if(counter<entriesList.size()){
+    if(counter<=entriesList.size()){
       counter++;
     }else {
       counter=0;
