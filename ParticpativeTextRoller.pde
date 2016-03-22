@@ -12,15 +12,16 @@ public class ParticpativeTextRoller extends TextRoller {
   }
   
   public void nextEntry() {
-    if ((entriesList != null) && !entriesList.isEmpty()) {
-      super.setText(entriesList.get(counter).message);
-      bgColor = entriesList.get(counter).bgcolor;
-      textColor = entriesList.get(counter).textcolor;
-    }
-    if(counter<=entriesList.size()){
+    println(counter+" "+entriesList.size());
+    if(counter<=entriesList.size()-1){
       counter++;
     }else {
       counter=0;
+    }
+    if ((entriesList != null) && !entriesList.isEmpty()) {
+      super.setText(entriesList.get(14).message);
+      bgColor = entriesList.get(counter).bgcolor;
+      textColor = entriesList.get(counter).textcolor;
     }
   }
   
