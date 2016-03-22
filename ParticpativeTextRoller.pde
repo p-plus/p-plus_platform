@@ -1,7 +1,7 @@
 public class ParticpativeTextRoller extends TextRoller {
   
   private ArrayList<Entry> entriesList = new ArrayList<Entry>();
-  int counter = 0;
+  private int counter = 0;
   color bgColor,textColor;
   
   public ParticpativeTextRoller(ArrayList<Entry> entriesList){
@@ -12,14 +12,16 @@ public class ParticpativeTextRoller extends TextRoller {
   }
   
   public void nextEntry() {
-    println(counter+" "+entriesList.size());
-    if(counter<=entriesList.size()-1){
+    if(counter<entriesList.size()-1){
       counter++;
     }else {
       counter=0;
     }
+    
+    println(counter+" "+entriesList.size());
+
     if ((entriesList != null) && !entriesList.isEmpty()) {
-      super.setText(entriesList.get(14).message);
+      super.setText(entriesList.get(counter).message);
       bgColor = entriesList.get(counter).bgcolor;
       textColor = entriesList.get(counter).textcolor;
     }

@@ -100,7 +100,7 @@ void evaluateControllers() {
     runningSimulation = true;
   }
   
-  if (command(TAB)) {
+  if (command(TAB) | command(' ')) {
     fileImporter.nextEnv();    
   }
   
