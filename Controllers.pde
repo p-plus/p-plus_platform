@@ -71,6 +71,8 @@ boolean displayWeights = false;
 boolean restartWeights = false;
 boolean writePathWeights = false;
 
+boolean displayBases = false;
+
 long COMMAND_TIME_THRESHOLD = 50;
 long timeLastCommand;
 
@@ -202,6 +204,11 @@ void evaluateControllers() {
   }
   if (command('9')) {
     facetDisplayed = FACET.NORTH;
+  }
+  
+  // Display/hide base plates
+  if (command('3')) {
+    displayBases = !displayBases;
   }
   
   // Navigation

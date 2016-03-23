@@ -481,6 +481,10 @@ public class Cell {
     color faceYColour = color(200, 200, 30, 255);
     color faceZColour = color(00, 200, 200, 255);
     
+    color baseColour = color(255, 255, 255, 255); // base plates
+    //color baseProjectedColour = color(100, 100, 100, 150); // base plates
+    color baseProjectedColour = color(100, 100, 100, 0); // base plates
+    
     if (runningSimulation) {
       noStroke();
       if (solid) {
@@ -508,7 +512,20 @@ public class Cell {
     
     int projCoord_i = 0;
     int projCoord_j = 0;
-    if (solid && displayFaces) {
+    
+    if (displayBases) {
+      if (solid) {
+        pushMatrix();
+        translate(0, 0, -z*unitSize-unitSize/2);
+        if (z == 0) {
+          fill(baseColour);
+        } else {
+          fill(baseProjectedColour);
+        }
+        box(unitSize, unitSize, 1);
+        popMatrix();
+      }
+    } else if (solid && displayFaces) {
       if (orientation.x == 1) {
         // Do not need to rotate
         projCoord_i = envYMaxUnits-1-y;
