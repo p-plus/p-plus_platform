@@ -18,7 +18,7 @@ public class ParticpativeTextRoller extends TextRoller {
       counter=0;
     }
     
-    println(counter+" "+entriesList.size());
+    //println(counter+" "+entriesList.size());
 
     if ((entriesList != null) && !entriesList.isEmpty()) {
       super.setText(entriesList.get(counter).message);

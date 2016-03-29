@@ -72,6 +72,8 @@ public class FileImporter{
   }
   
   void initEnvironmentFromXML(XML xml) {
+    
+    int z_counter = 0;
 
     //XML environmentElement = xml.getChild("Environment");
     XML settingsElement = xml.getChild("Settings");
@@ -100,19 +102,24 @@ public class FileImporter{
     for(int i=0; i<cellChainElements.length; i++) {
       int id = cellChainElements[i].getInt("id"); 
       XML[] cellElements = cellChainElements[i].getChildren("Cell");
-      println("\nCellChain: "+i);
+      //println("\nCellChain: "+i);
       for(int j=0; j<cellElements.length; j++) {
         int x = cellElements[j].getInt("x");   
         int y = cellElements[j].getInt("y");   
         int z = cellElements[j].getInt("z");
+        if(z==0){
+        z_counter++;
+        }
         String type = cellElements[j].getString("type");   
         String orientation = cellElements[j].getString("orientation");
         int rotation = cellElements[j].getInt("rotation");   
-        println("Cell: "+j+", orientation: "+orientation+", rotation: "+rotation+", type: "+type+", x: "+x+", y: "+y+", z: "+z);
+        //println("Cell: "+j+", orientation: "+orientation+", rotation: "+rotation+", type: "+type+", x: "+x+", y: "+y+", z: "+z);
+        println(x+","+y+","+z);
         environment.setCell(i, x, y, z, type, orientation, rotation);
       }
     }
     
+    println("NUMBER BASE: "+z_counter);
   }
   
   void fileSelected(File selection) {

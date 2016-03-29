@@ -20,7 +20,7 @@ public class TextRoller {
   }
     
   public void rollText() {
-    if ((millis() - lastMoveTime) > ROLL_INTERVAL) {
+    if ((millis() - lastMoveTime) > ROLL_INTERVAL*3) {
       lastMoveTime = millis();
       textStartPosition--;
       if (textStartPosition < (-1)*(textString.getColumns().size())-ROLL_END_OFFSET) {
@@ -58,6 +58,41 @@ public class TextRoller {
     }
     
     return isOn;
+  }
+  
+   public boolean isPixelOn(int i, int j, PIXEL pixel, int delayPosition) {
+    boolean isOn = false;
+    
+    int columnCoordinate = i;
+    int pixelSetCoordinate = j;
+    
+    if (pixelSetCoordinate < TextCharacter.PIXEL_SET_COLUMN_HEIGHT) {
+      int columnIndex = columnCoordinate - textStartPosition+delayPosition;
+      if ((columnIndex >= 0) && (columnIndex < textString.getColumns().size())) {
+        PixelSetColumn pixelColumn = (PixelSetColumn)textString.getColumns().get(columnIndex);
+        PixelSet pixelSet = pixelColumn.getPixelSets()[j];
+        if (PIXEL.BOTTOM == pixel) {
+          isOn = pixelSet.getPixels()[0];
+        } else if (PIXEL.RIGHT == pixel) {
+          isOn = pixelSet.getPixels()[1];
+        } else if (PIXEL.TOP == pixel) {
+          isOn = pixelSet.getPixels()[2];
+        } else {
+          isOn = pixelSet.getPixels()[3];
+        }
+      }
+    }
+    
+    return isOn;
+  }
+  
+  public float getTimeInPercentUntilRoll(){
+    float timeInPercent = 1.0;
+    if ((millis() - lastMoveTime) < ROLL_INTERVAL){
+     timeInPercent = (millis() - lastMoveTime)/((float)ROLL_INTERVAL);
+    }
+    //println(timeInPercent);
+    return timeInPercent;
   }
   
   public int getLoopCounter(){
