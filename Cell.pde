@@ -480,7 +480,10 @@ public class Cell {
     color faceXColour = color(150, 0, 100, 255);
     color faceYColour = color(200, 200, 30, 255);
     color faceZColour = color(00, 200, 200, 255);
-    color baseColour = color(255, 255, 255, 255);
+    
+    color baseColour = color(255, 255, 255, 255); // base plates
+    //color baseProjectedColour = color(100, 100, 100, 150); // base plates
+    color baseProjectedColour = color(100, 100, 100, 0); // base plates
     
     if (runningSimulation) {
       noStroke();
@@ -509,12 +512,20 @@ public class Cell {
     
     int projCoord_i = 0;
     int projCoord_j = 0;
-    if (solid && displayFaces) {
-      if (displayBasePlates && (z == 0))  {
-        fill(baseColour);
+    
+    if (displayBases) {
+      if (solid) {
+        pushMatrix();
+        translate(0, 0, -z*unitSize-unitSize/2);
+        if (z == 0) {
+          fill(baseColour);
+        } else {
+          fill(baseProjectedColour);
+        }
         box(unitSize, unitSize, 1);
+        popMatrix();
       }
-      
+    } else if (solid && displayFaces) {
       if (orientation.x == 1) {
         // Do not need to rotate
         projCoord_i = envYMaxUnits-1-y;
@@ -615,18 +626,8 @@ public class Cell {
         //Draw pixel at BOTTOM
         fill(0,0,0);
         emissive(0,0,0);
-        float timeSinceLastRoll = environment.getParticpativeTextRoller().getTimeInPercentUntilRoll();
-        boolean currentFrame = environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM);
-        boolean previousFrame = environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM,-1);    
-        
-        if (currentFrame || previousFrame) {
-          if(currentFrame && previousFrame) {
-            fill(environment.getParticpativeTextRoller().textColor);            
-          } else if(currentFrame){
-            fill(environment.getParticpativeTextRoller().textColor,timeSinceLastRoll*255);                          
-          } else if(previousFrame) {
-            fill(environment.getParticpativeTextRoller().textColor,(1-timeSinceLastRoll)*255);            
-          }
+        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
+          fill(environment.getParticpativeTextRoller().textColor);
           emissive(environment.getParticpativeTextRoller().textColor);
           pushMatrix();
           if (defaultShapes) {
@@ -640,16 +641,8 @@ public class Cell {
         }
         //Draw pixel at RIGHT
         emissive(boxOffColour);
-        currentFrame = environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT);
-        previousFrame = environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT,-1);    
-        if (currentFrame || previousFrame) {
-          if(currentFrame && previousFrame) {
-            fill(environment.getParticpativeTextRoller().textColor);            
-          } else if(currentFrame){
-            fill(environment.getParticpativeTextRoller().textColor,timeSinceLastRoll*255);                          
-          } else if(previousFrame) {
-            fill(environment.getParticpativeTextRoller().textColor,(1-timeSinceLastRoll)*255);            
-          }
+        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
+          fill(environment.getParticpativeTextRoller().textColor);
           emissive(environment.getParticpativeTextRoller().textColor);
           pushMatrix();
           if (defaultShapes) {
@@ -663,16 +656,8 @@ public class Cell {
         
         //Draw pixel at TOP
         emissive(boxOffColour);
-        currentFrame = environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP);
-        previousFrame = environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP,-1);    
-        if (currentFrame || previousFrame) {
-          if(currentFrame && previousFrame) {
-            fill(environment.getParticpativeTextRoller().textColor);            
-          } else if(currentFrame){
-            fill(environment.getParticpativeTextRoller().textColor,timeSinceLastRoll*255);                          
-          } else if(previousFrame) {
-            fill(environment.getParticpativeTextRoller().textColor,(1-timeSinceLastRoll)*255);            
-          }
+        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
+          fill(environment.getParticpativeTextRoller().textColor);
           emissive(environment.getParticpativeTextRoller().textColor);
           pushMatrix();
           if (defaultShapes) {
@@ -686,16 +671,8 @@ public class Cell {
         
         //Draw pixel at LEFT
         emissive(boxOffColour);
-        currentFrame = environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT);
-        previousFrame = environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT,-1);    
-        if (currentFrame || previousFrame) {
-          if(currentFrame && previousFrame) {
-            fill(environment.getParticpativeTextRoller().textColor);            
-          } else if(currentFrame){
-            fill(environment.getParticpativeTextRoller().textColor,timeSinceLastRoll*255);                          
-          } else if(previousFrame) {
-            fill(environment.getParticpativeTextRoller().textColor,(1-timeSinceLastRoll)*255);            
-          }
+        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
+          fill(environment.getParticpativeTextRoller().textColor);
           emissive(environment.getParticpativeTextRoller().textColor);
           pushMatrix();
           if (defaultShapes) {
