@@ -59,6 +59,7 @@ boolean facesDifferentColours = true;
 boolean pixelColours = false;
 boolean rollingText = false;
 boolean participatoryText = false;
+boolean multipleText = false;
 boolean renderLandscape = false;
 boolean defaultShapes = false;
 boolean animation = false;
@@ -174,6 +175,11 @@ void evaluateControllers() {
   }
   if (command('#')) {
     participatoryText = !participatoryText;
+    rollingText = false;
+  }
+  if (command('m')) {
+    multipleText = !multipleText;
+    participatoryText = false;    
     rollingText = false;
   }
   if (command('=')) {

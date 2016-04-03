@@ -577,7 +577,7 @@ public class Cell {
       }
       
       if (participatoryText) {
-        fill(environment.getParticpativeTextRoller().bgColor);  
+        fill(environment.getParticipativeTextRoller().bgColor);  
       } else if (rollingText) {
         fill(boxOffColour);
         //shininess(5.0);
@@ -620,15 +620,15 @@ public class Cell {
         drawShape(180);
       }
 
-      environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM);
+      environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM);
       
       if (participatoryText) {
         //Draw pixel at BOTTOM
         fill(0,0,0);
         emissive(0,0,0);
-        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
-          fill(environment.getParticpativeTextRoller().textColor);
-          emissive(environment.getParticpativeTextRoller().textColor);
+        if (environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
+          fill(environment.getParticipativeTextRoller().textColor);
+          emissive(environment.getParticipativeTextRoller().textColor);
           pushMatrix();
           if (defaultShapes) {
             translate(2, 0, -unitSize/4);
@@ -641,9 +641,9 @@ public class Cell {
         }
         //Draw pixel at RIGHT
         emissive(boxOffColour);
-        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
-          fill(environment.getParticpativeTextRoller().textColor);
-          emissive(environment.getParticpativeTextRoller().textColor);
+        if (environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
+          fill(environment.getParticipativeTextRoller().textColor);
+          emissive(environment.getParticipativeTextRoller().textColor);
           pushMatrix();
           if (defaultShapes) {
             translate(2, -unitSize/4, 0);
@@ -656,9 +656,9 @@ public class Cell {
         
         //Draw pixel at TOP
         emissive(boxOffColour);
-        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
-          fill(environment.getParticpativeTextRoller().textColor);
-          emissive(environment.getParticpativeTextRoller().textColor);
+        if (environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
+          fill(environment.getParticipativeTextRoller().textColor);
+          emissive(environment.getParticipativeTextRoller().textColor);
           pushMatrix();
           if (defaultShapes) {
             translate(2, 0, unitSize/4);
@@ -671,9 +671,9 @@ public class Cell {
         
         //Draw pixel at LEFT
         emissive(boxOffColour);
-        if (environment.getParticpativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
-          fill(environment.getParticpativeTextRoller().textColor);
-          emissive(environment.getParticpativeTextRoller().textColor);
+        if (environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
+          fill(environment.getParticipativeTextRoller().textColor);
+          emissive(environment.getParticipativeTextRoller().textColor);
           pushMatrix();
           if (defaultShapes) {
             translate(2, unitSize/4, 0);
@@ -748,6 +748,83 @@ public class Cell {
         }
       }
       
+      
+      if (multipleText) {
+        //Draw pixel at BOTTOM
+        fill(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet));
+        emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet));
+        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet)) {
+          println("go");
+          fill(environment.getMultipleTextRoller().getTextColor(facet));
+          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+        }
+          pushMatrix();
+          if (defaultShapes) {
+            translate(2, 0, -unitSize/4);
+            box(unitSize/12, unitSize/4, unitSize/2);
+          } else {
+            drawShape(0);
+          }
+//          scale(0.5);
+          popMatrix();
+        
+        //Draw pixel at RIGHT
+        //emissive(boxOffColour);
+        fill(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet));
+        emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet));
+        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT, facet)) {
+          fill(environment.getMultipleTextRoller().getTextColor(facet));
+          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+        }
+          pushMatrix();
+          if (defaultShapes) {
+            translate(2, -unitSize/4, 0);
+            box(unitSize/12, unitSize/2, unitSize/4);
+          } else {
+            drawShape(270);
+          }
+          popMatrix();
+        
+        
+        //Draw pixel at TOP
+        fill(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet));
+        emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet));        
+        //emissive(boxOffColour);
+        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet)) {
+          fill(environment.getMultipleTextRoller().getTextColor(facet));
+          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+        }
+          pushMatrix();
+          if (defaultShapes) {
+            translate(2, 0, unitSize/4);
+            box(unitSize/12, unitSize/4, unitSize/2);
+          } else {
+            drawShape(180);
+          }
+          popMatrix();
+        
+        
+        //Draw pixel at LEFT
+        fill(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet));
+        emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet));
+        //emissive(boxOffColour);
+        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT, facet)) {
+          fill(environment.getMultipleTextRoller().getTextColor(facet));
+          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+        }
+          pushMatrix();
+          if (defaultShapes) {
+            translate(2, unitSize/4, 0);
+            box(unitSize/12, unitSize/2, unitSize/4);
+          } else {
+            drawShape(90);
+          }
+          popMatrix();
+        }
+      
+
+
+      
       if(animation && !runningSimulation){
         //Draw pixel at BOTTOM
         emissive(boxOffColour);
@@ -812,7 +889,7 @@ public class Cell {
       shininess(0.0);
 
       // Draw wire
-      if (!pixelColours && !rollingText && !animation && !participatoryText) {
+      if (!pixelColours && !rollingText && !animation && !participatoryText && !multipleText) {
         fill(0, 255, 0);
         pushMatrix();
         if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {

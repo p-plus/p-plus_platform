@@ -15,7 +15,9 @@ public class Environment {
   private TextRoller textRoller;
   private Animation animation;
   private EntriesImporter entriesImporter;
-  private ParticpativeTextRoller particpativeTextRoller;
+  private ParticipativeTextRoller particpativeTextRoller;
+  private MultipleTextRoller multipleTextRoller;
+  
   private ArrayList<Entry> entriesList = new ArrayList<Entry>();
 
   
@@ -47,8 +49,11 @@ public class Environment {
     // Create EntryContent
     entriesImporter = new EntriesImporter();
     entriesList = entriesImporter.loadEntriesFile();
-    particpativeTextRoller = new ParticpativeTextRoller(entriesList);
+    particpativeTextRoller = new ParticipativeTextRoller(entriesList);
     particpativeTextRoller.nextEntry();
+    
+    //Multiple TextRoller
+    multipleTextRoller = new MultipleTextRoller(entriesList);
     
   }
    
@@ -68,8 +73,12 @@ public class Environment {
     return animation;
   }
   
-  public ParticpativeTextRoller getParticpativeTextRoller() {
+  public ParticipativeTextRoller getParticipativeTextRoller() {
     return particpativeTextRoller;
+  }
+  
+  public MultipleTextRoller getMultipleTextRoller() {
+    return multipleTextRoller;
   }
   
   public void initEntryContent(EntriesImporter entriesImporter){
