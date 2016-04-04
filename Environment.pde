@@ -142,6 +142,11 @@ public class Environment {
     }
   }
 
+  public void sendDMX(){
+    for (int i = 0; i < NUMBER_OF_CELL_CHAINS; i++) {
+      cellChains[i].sendDMX();
+    }  
+  }
 
   /* 
    * Resets the whole environment, deleting all cells and pathways.

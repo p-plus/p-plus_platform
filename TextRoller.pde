@@ -2,7 +2,7 @@ public class TextRoller {
   
   private final long ROLL_INTERVAL = 250; // in ms
   private final int SCREEN_WIDTH = envXMaxUnits; // for now, let's assume envXMaxUnits == envYMaxUnits
-  private final int ROLL_END_OFFSET = 5; 
+  private final int ROLL_END_OFFSET = 0; 
   
   private int textStartPosition;
   private long lastMoveTime;

@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import artnet4j.*;
+import artnet4j.events.*;
+import artnet4j.packets.*;
 
 /************************************
 /*
@@ -16,6 +19,10 @@ static int MAX_LED_STRIP_LENGTH;
 int DRAW_OFFSET;
 String DISPLAY_TEXT = "Hello";
 int TEXT_ROLLER_LOOPS = 1;
+
+int PORTS_PER_IP_ADRESS = 4;
+String[] ip_adresses = { "192.168.0.98", "192.168.0.99" };
+ArtNet artnet;
 
 float cellLoadOffset;
 int envXMaxUnits, envYMaxUnits, envZMaxUnits, envZMaxUnitsPath;

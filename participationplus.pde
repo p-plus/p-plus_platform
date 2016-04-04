@@ -28,10 +28,22 @@ void setup() {
   environment.getAnimation().addGraphics(FACET.BOTTOM_UP, pgOff);
   environment.getAnimation().addGraphics(FACET.CEILING_DOWN, pgOff);
   
-
+  //Init ArtNetNode
+  artnet = new ArtNet();
+  try {
+    artnet.start();
+  } catch (SocketException e) {
+    throw new AssertionError(e);
+  } catch (ArtNetException e) {
+    throw new AssertionError(e);
+  }
+  println("after");
+  
 }
 
 void draw() { 
+  
+  println(frameRate);
     
   //Draw some example animations on the PGraphics Element
   pgOff.beginDraw();
@@ -56,11 +68,12 @@ void draw() {
   evaluateCamera();
   evaluateControllers();
   environment.drawEnvironment();
+  environment.sendDMX();
   drawAxis(); 
-  environment.getTextRoller().rollText();  
-  environment.getParticipativeTextRoller().rollText();  
+  //environment.getTextRoller().rollText();  
+  //environment.getParticipativeTextRoller().rollText();  
   environment.getMultipleTextRoller().rollText();    
-  environment.getAnimation().resizeAnimation();
+  //environment.getAnimation().resizeAnimation();
   
   
   camera(); //resets viewport to 2D equivalent

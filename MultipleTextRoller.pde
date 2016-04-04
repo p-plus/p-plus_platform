@@ -2,6 +2,13 @@ public class MultipleTextRoller {
   
   private ParticipativeTextRoller[] textRollerList = new ParticipativeTextRoller[5];
   private int mode = 1;
+  private boolean transition_c1, transition_c2;
+  private float transitionCtr_c1, transitionCtr_c2;
+  private float TRANSITION_DURATION = 1000.0;
+  private float TRANSITION_STEPS = 60.0;
+  private int time_c1, time_c2;
+  color c1, c2;
+  
   
   public MultipleTextRoller(ArrayList<Entry> entriesList){
     // Create text roller
@@ -53,110 +60,175 @@ public class MultipleTextRoller {
   public color getTextColor(FACET facet){
     
     if(facet == FACET.NORTH){
-       return textRollerList[0].textColor;
+       return textRollerList[0].getCurrentEntry().textColor;
     }else if(facet == FACET.SOUTH){
-       return textRollerList[1].textColor;      
+       return textRollerList[1].getCurrentEntry().textColor;      
     }else if(facet == FACET.EAST){
-       return textRollerList[2].textColor;      
+       return textRollerList[2].getCurrentEntry().textColor;      
     }else if(facet == FACET.WEST){
-       return textRollerList[3].textColor;      
+       return textRollerList[3].getCurrentEntry().textColor;      
     }else if(facet == FACET.BOTTOM_UP){
       return 0;
     }else if(facet == FACET.CEILING_DOWN){
-       return textRollerList[4].textColor;      
+       return textRollerList[4].getCurrentEntry().textColor;      
     } 
     return 0;
   }
   
   public color getBgColor(int i, int j, PIXEL pixel, FACET facet){
-    
+        
     if(mode==0){
       if(facet == FACET.NORTH){
-        return textRollerList[0].bgColor;
+        return textRollerList[0].getCurrentEntry().bgColor;
       }else if(facet == FACET.SOUTH){
-        return textRollerList[1].bgColor;      
+        return textRollerList[1].getCurrentEntry().bgColor;      
       }else if(facet == FACET.EAST){
-        return textRollerList[2].bgColor;      
+        return textRollerList[2].getCurrentEntry().bgColor;      
       }else if(facet == FACET.WEST){
-        return textRollerList[3].bgColor;      
+        return textRollerList[3].getCurrentEntry().bgColor;      
       }else if(facet == FACET.BOTTOM_UP){
         return 0;
       }else if(facet == FACET.CEILING_DOWN){
-        return textRollerList[4].bgColor;      
+        return textRollerList[4].getCurrentEntry().bgColor;      
       } 
       return 0;  
-    }else if(mode==1)
+    }else if(mode==1){
+      
       if(facet == FACET.NORTH){
-        return textRollerList[0].bgColor;
+        return lerpColor(c1, color(0,0,0),(0.5*(abs(sin(((frameCount)/350.0))))*(j)));
       }else if(facet == FACET.SOUTH){
-        return textRollerList[1].bgColor;      
+        return c2;      
       }else if(facet == FACET.EAST){
         if(pixel == PIXEL.TOP){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));  
+          return lerpColor(c2, c1, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));  
         }else if(pixel == PIXEL.BOTTOM){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));   
+          return lerpColor(c2, c1, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));   
         }else if(pixel == PIXEL.RIGHT){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, ((1.0/envXMaxUnits)*i)+(1.0/(3.0*envXMaxUnits))); 
+          return lerpColor(c2, c1, ((1.0/envXMaxUnits)*i)+(1.0/(3.0*envXMaxUnits))); 
         }else if(pixel == PIXEL.LEFT){
-           return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, ((1.0/envXMaxUnits)*i)); 
+           return lerpColor(c2, c1, ((1.0/envXMaxUnits)*i)); 
         }
       }else if(facet == FACET.WEST){
         if(pixel == PIXEL.TOP){
-          return lerpColor(textRollerList[0].bgColor, textRollerList[1].bgColor, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));  
+          return lerpColor(c1, c2, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));  
         }else if(pixel == PIXEL.BOTTOM){
-          return lerpColor(textRollerList[0].bgColor, textRollerList[1].bgColor, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));   
+          return lerpColor(c1, c2, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));   
         }else if(pixel == PIXEL.RIGHT){
-          return lerpColor(textRollerList[0].bgColor, textRollerList[1].bgColor, ((1.0/envXMaxUnits)*i)+(1.0/(3.0*envXMaxUnits))); 
+          return lerpColor(c1, c2, ((1.0/envXMaxUnits)*i)+(1.0/(3.0*envXMaxUnits))); 
         }else if(pixel == PIXEL.LEFT){
-           return lerpColor(textRollerList[0].bgColor, textRollerList[1].bgColor, ((1.0/envXMaxUnits)*i)); 
+           return lerpColor(c1, c2, ((1.0/envXMaxUnits)*i)); 
         }     
       }else if(facet == FACET.BOTTOM_UP){
         if(pixel == PIXEL.TOP){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));  
+          return lerpColor(c2, c1, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));  
         }else if(pixel == PIXEL.BOTTOM){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));   
+          return lerpColor(c2, c1, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));   
         }else if(pixel == PIXEL.RIGHT){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, ((1.0/envXMaxUnits)*i)+(1.0/(3.0*envXMaxUnits))); 
+          return lerpColor(c2, c1, ((1.0/envXMaxUnits)*i)+(1.0/(3.0*envXMaxUnits))); 
         }else if(pixel == PIXEL.LEFT){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, ((1.0/envXMaxUnits)*i)); 
+          return lerpColor(c2, c1, ((1.0/envXMaxUnits)*i)); 
         }
       }else if(facet == FACET.CEILING_DOWN){
         if(pixel == PIXEL.TOP){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));  
+          return lerpColor(c2, c1, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));  
         }else if(pixel == PIXEL.BOTTOM){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));   
+          return lerpColor(c2, c1, (((1.0/envXMaxUnits)*i)+(1.0/(2.0*envXMaxUnits))));   
         }else if(pixel == PIXEL.RIGHT){
-          return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, ((1.0/envXMaxUnits)*i)+(1.0/(3.0*envXMaxUnits))); 
+          return lerpColor(c2, c1, ((1.0/envXMaxUnits)*i)+(1.0/(3.0*envXMaxUnits))); 
         }else if(pixel == PIXEL.LEFT){
-           return lerpColor(textRollerList[1].bgColor, textRollerList[0].bgColor, ((1.0/envXMaxUnits)*i)); 
+           return lerpColor(c2, c1, ((1.0/envXMaxUnits)*i)); 
         }
         //return textRollerList[4].bgColor;      
       } 
+    }
       return 0;
   }
   
   public color getBgColor(FACET facet){
     
     if(facet == FACET.NORTH){
-       return textRollerList[0].bgColor;
+       return textRollerList[0].getCurrentEntry().bgColor;
     }else if(facet == FACET.SOUTH){
-       return textRollerList[1].bgColor;      
+       return textRollerList[1].getCurrentEntry().bgColor;      
     }else if(facet == FACET.EAST){
-       return textRollerList[2].bgColor;      
+       return textRollerList[2].getCurrentEntry().bgColor;      
     }else if(facet == FACET.WEST){
-       return textRollerList[3].bgColor;      
+       return textRollerList[3].getCurrentEntry().bgColor;      
     }else if(facet == FACET.BOTTOM_UP){
       return 0;
     }else if(facet == FACET.CEILING_DOWN){
-      return textRollerList[4].bgColor;      
+      return textRollerList[4].getCurrentEntry().bgColor;      
     } 
     return 0;
   }
   
   public void rollText(){
     
-    for(int i=0; i<textRollerList.length; i++){
-      textRollerList[i].rollText();  
+    if(mode==0){
+      for(int i=0; i<textRollerList.length; i++){
+        textRollerList[i].rollText();  
+      }
+    }else if(mode==1){
+      textRollerList[0].rollText(); 
+      textRollerList[1].rollText(); 
+      if(textRollerList[0].getLoopCounter() >= TEXT_ROLLER_LOOPS){
+      textRollerList[0].randomEntry(); 
+      transition_c1 = true;
+      }
+      if(textRollerList[1].getLoopCounter() >= TEXT_ROLLER_LOOPS){
+      textRollerList[1].randomEntry();         
+      transition_c2 = true;
+      };
+
+    }
+    
+    /*if(frameCount%500==0){
+      println("Transition");
+      transition = true;
+      textRollerList[0].randomEntry();
+      textRollerList[1].randomEntry();
+    }*/ 
+    
+    //println(lastTransitionStep);
+    
+    c1 = textRollerList[0].getCurrentEntry().bgColor;
+    c2 = textRollerList[1].getCurrentEntry().bgColor;
+      
+    if(transition_c1){
+      //println("transition: "+transitionCtr);
+      color zc1 = c1;
+        
+      c1 = lerpColor(textRollerList[0].getPreviousEntry().bgColor, zc1, transitionCtr_c1);
+        
+      if(transitionCtr_c1<1){
+        if(millis() > time_c1 + (TRANSITION_DURATION/TRANSITION_STEPS)){
+          //println(millis());
+          time_c1 = millis();
+          transitionCtr_c1 += 1.0/TRANSITION_STEPS;
+        }
+      }else{
+        transitionCtr_c1 = 0;
+        transition_c1 = false;
+      }
+    }
+    
+    if(transition_c2){
+      //println("transition: "+transitionCtr);
+      color zc2 = c2;
+        
+      c2 = lerpColor(textRollerList[1].getPreviousEntry().bgColor, zc2, transitionCtr_c2);
+        
+      if(transitionCtr_c2<1){
+        if(millis() > time_c2 + (TRANSITION_DURATION/TRANSITION_STEPS)){
+          //println(millis());
+          time_c2 = millis();
+          transitionCtr_c2 += 1.0/TRANSITION_STEPS;
+        }
+      }else{
+        transitionCtr_c2 = 0;
+        transition_c2 = false;
+      }
+        
     }
     
   }

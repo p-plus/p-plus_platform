@@ -21,6 +21,7 @@ public class Cell {
   public PIXEL entryPixel;
   public PIXEL exitPixel;
   public FACET facet;
+  public color topCol, bottomCol, leftCol, rightCol;
   
   // Helper variables for drawing shapes with better performance - some values are hardcoded for convenience
   private final int rr0 = unitSize/20;
@@ -576,8 +577,10 @@ public class Cell {
         popMatrix();
       }
       
-      if (participatoryText) {
-        fill(environment.getParticipativeTextRoller().bgColor);  
+      if (multipleText) {
+        fill(0,0,0);  
+      }else if (participatoryText) {
+        fill(environment.getParticipativeTextRoller().getCurrentEntry().bgColor);  
       } else if (rollingText) {
         fill(boxOffColour);
         //shininess(5.0);
@@ -627,8 +630,8 @@ public class Cell {
         fill(0,0,0);
         emissive(0,0,0);
         if (environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM)) {
-          fill(environment.getParticipativeTextRoller().textColor);
-          emissive(environment.getParticipativeTextRoller().textColor);
+          fill(environment.getParticipativeTextRoller().getCurrentEntry().textColor);
+          emissive(environment.getParticipativeTextRoller().getCurrentEntry().textColor);
           pushMatrix();
           if (defaultShapes) {
             translate(2, 0, -unitSize/4);
@@ -642,8 +645,8 @@ public class Cell {
         //Draw pixel at RIGHT
         emissive(boxOffColour);
         if (environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT)) {
-          fill(environment.getParticipativeTextRoller().textColor);
-          emissive(environment.getParticipativeTextRoller().textColor);
+          fill(environment.getParticipativeTextRoller().getCurrentEntry().textColor);
+          emissive(environment.getParticipativeTextRoller().getCurrentEntry().textColor);
           pushMatrix();
           if (defaultShapes) {
             translate(2, -unitSize/4, 0);
@@ -657,8 +660,8 @@ public class Cell {
         //Draw pixel at TOP
         emissive(boxOffColour);
         if (environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP)) {
-          fill(environment.getParticipativeTextRoller().textColor);
-          emissive(environment.getParticipativeTextRoller().textColor);
+          fill(environment.getParticipativeTextRoller().getCurrentEntry().textColor);
+          emissive(environment.getParticipativeTextRoller().getCurrentEntry().textColor);
           pushMatrix();
           if (defaultShapes) {
             translate(2, 0, unitSize/4);
@@ -672,8 +675,8 @@ public class Cell {
         //Draw pixel at LEFT
         emissive(boxOffColour);
         if (environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT)) {
-          fill(environment.getParticipativeTextRoller().textColor);
-          emissive(environment.getParticipativeTextRoller().textColor);
+          fill(environment.getParticipativeTextRoller().getCurrentEntry().textColor);
+          emissive(environment.getParticipativeTextRoller().getCurrentEntry().textColor);
           pushMatrix();
           if (defaultShapes) {
             translate(2, unitSize/4, 0);
@@ -751,11 +754,12 @@ public class Cell {
       
       if (multipleText) {
         //Draw pixel at BOTTOM
-        fill(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet));
+        bottomCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet);
+        fill(bottomCol);
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet));
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet)) {
-          println("go");
-          fill(environment.getMultipleTextRoller().getTextColor(facet));
+          bottomCol = environment.getMultipleTextRoller().getTextColor(facet);
+          fill(bottomCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
         }
           pushMatrix();
@@ -770,10 +774,12 @@ public class Cell {
         
         //Draw pixel at RIGHT
         //emissive(boxOffColour);
-        fill(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet));
+        rightCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet);
+        fill(rightCol);
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet));
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT, facet)) {
-          fill(environment.getMultipleTextRoller().getTextColor(facet));
+          rightCol = environment.getMultipleTextRoller().getTextColor(facet);
+          fill(rightCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
         }
           pushMatrix();
@@ -787,11 +793,13 @@ public class Cell {
         
         
         //Draw pixel at TOP
-        fill(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet));
+        topCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet);
+        fill(topCol);
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet));        
         //emissive(boxOffColour);
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet)) {
-          fill(environment.getMultipleTextRoller().getTextColor(facet));
+          topCol = environment.getMultipleTextRoller().getTextColor(facet);
+          fill(topCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
         }
           pushMatrix();
@@ -805,11 +813,13 @@ public class Cell {
         
         
         //Draw pixel at LEFT
-        fill(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet));
+        leftCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet);
+        fill(leftCol);
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet));
         //emissive(boxOffColour);
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT, facet)) {
-          fill(environment.getMultipleTextRoller().getTextColor(facet));
+          leftCol = environment.getMultipleTextRoller().getTextColor(facet);
+          fill(leftCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
         }
           pushMatrix();
