@@ -82,7 +82,24 @@ void draw() {
   text("X: "+envXMaxSize+", Y:"+envYMaxSize+", Z:"+envZMaxSize, 20, 25);
   text("Cells: "+maxCells, 20, 45);
   if(!runningSimulation){
-  text("Name: "+fileName, 20, 65);
+    text("Name: "+fileName, 20, 65);
+    
+    // Display summary of base cells per cell chain
+    if (displayBaseSummaryPerCellChain) {
+      text("Total cells in structure: " + environment.cellsGrown, 3*width/5, 20);
+      StringBuffer txt = new StringBuffer();
+      for (CellChain chain : environment.getCellChain()) {
+        txt.delete(0, txt.length());
+        txt.append("Chain " + chain.index + "(total cells = " + chain.getCells().size() + "): ");
+        for (Cell baseCell : chain.getBaseCells()) { 
+          if ((baseCell.indexOnPath >= chain.getCells().size()/2-CellChain.HALF_POINT_RANGE) && (baseCell.indexOnPath <= chain.getCells().size()/2+CellChain.HALF_POINT_RANGE)) {
+            txt.append("*");
+          }
+          txt.append(baseCell.indexOnPath + " ");
+        }
+        text(txt.toString(), 3*width/5, (chain.index+2)*20);
+      }
+    }
   }
   
   try {

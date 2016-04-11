@@ -5,6 +5,8 @@ public class CellChain {
   private final int MAX_BACKTRACKING_LENGTH = 15;
   private final int MAX_BACKTRACKING_ATTEMPTS = 50;
   
+  public static final int HALF_POINT_RANGE = 6;
+  
   private int index;
   private int backtrackingAttempts;
   private ArrayList<Cell> cells;
@@ -12,15 +14,36 @@ public class CellChain {
   private String ip_adress;
   private int sequenceID;
   
+  private ArrayList<Cell> baseCells;
+  
   public CellChain(int index) {
     this.index = index; //<>//
     cells = new ArrayList<Cell>();
     println("before");
     
     ip_adress = ip_adresses[(int)(index/PORTS_PER_IP_ADRESS)];
+    
+    baseCells = new ArrayList<Cell>();
   }
   
-  public void addCell(Cell cell) {
+  public void computeBaseCells() {
+    baseCells.clear();
+    
+    int index = 0;
+    for (Cell cell : cells) {
+      if (cell.z == 0) {
+        cell.indexOnPath = index;
+        baseCells.add(cell);
+      }
+      index++;
+    }
+  }
+  
+  public ArrayList<Cell> getBaseCells() {
+    return baseCells;
+  }
+  
+  public void addCell (Cell cell) {
     cells.add(cell);  
   }
   
@@ -86,6 +109,24 @@ public class CellChain {
     }
     return (cellsToGo - minStepsToFloor) < 5;
   }
+
+  public boolean isNearHalfPoint() {
+    // LUKE - COMMENTED OUT 11-APR - NOT WORKING PROPERLY YET
+    //int cellsToGo = MAX_LENGTH/2-getSize();
+    //if (cellsToGo > 0) {
+    //int minStepsToFloor = getLastCell().z*2;
+    //if (getLastCell().getExitPixelDirection() == DIRECTION.D) {
+    //  minStepsToFloor++;
+    //}
+    //return (cellsToGo - minStepsToFloor) < 10;
+    //}
+    
+    return false;
+  }
+  
+  public boolean shouldComeToFloor() {
+    return isNearCompleted() || isNearHalfPoint();
+  }
   
   public boolean isTooShort() {
     int cellsToGo = MAX_LENGTH-getSize();
@@ -98,6 +139,21 @@ public class CellChain {
   
   public boolean isGroundConnected() {
     return (getLastCell().z == 0) && (getLastCell().getExitPixelDirection() == DIRECTION.D); 
+  }
+  
+  public boolean hasBaseCellsAtHalfPoint() {
+    int halfPointRangeMin = cells.size()/2 - HALF_POINT_RANGE;
+    int halfPointRangeMax = cells.size()/2 + HALF_POINT_RANGE;
+    
+    boolean baseCellsAtHalfPoint = false;
+   for (Cell baseCell : baseCells) {
+     if ((baseCell.indexOnPath >= halfPointRangeMin) && (baseCell.indexOnPath <= halfPointRangeMax)) {
+       baseCellsAtHalfPoint = true;
+       break;
+     }
+   }
+    
+    return baseCellsAtHalfPoint;
   }
   
   public boolean grow() {
@@ -235,7 +291,7 @@ public class CellChain {
         int attempts = 0;
         boolean adequateOrientationFound = false; 
         while (!adequateOrientationFound && (attempts < MAX_SIMULATION_ATTEMPTS)) {
-          growthCell.orientation = growthCell.pickNeighbourOrientation(xok, yok, zok, isNearCompleted());
+          growthCell.orientation = growthCell.pickNeighbourOrientation(xok, yok, zok, shouldComeToFloor());
           growthCell.adjustOrientation();
           
           Cell cellInFront = null;
@@ -418,17 +474,17 @@ public class CellChain {
           // Calculate growthCell exit pixel
           if ((int)random(0, 2) == 0) {
             growthCell.exitPixel = growthCell.getLeftPixel(growthCell.entryPixel);
-            if (growthCell.isPointingOut(isNearCompleted()) || (isNearCompleted() && growthCell.getExitPixelDirection() == DIRECTION.U)) {
+            if (growthCell.isPointingOut(shouldComeToFloor()) || (shouldComeToFloor() && growthCell.getExitPixelDirection() == DIRECTION.U)) {
               growthCell.exitPixel = growthCell.getRightPixel(growthCell.entryPixel);
             }
           } else {
             growthCell.exitPixel = growthCell.getRightPixel(growthCell.entryPixel);
-            if (growthCell.isPointingOut(isNearCompleted()) || (isNearCompleted() && growthCell.getExitPixelDirection() == DIRECTION.U)) {
+            if (growthCell.isPointingOut(shouldComeToFloor()) || (shouldComeToFloor() && growthCell.getExitPixelDirection() == DIRECTION.U)) {
               growthCell.exitPixel = growthCell.getLeftPixel(growthCell.entryPixel);
             }
           }
           
-          if (!growthCell.isPointingOut(isNearCompleted())) {
+          if (!growthCell.isPointingOut(shouldComeToFloor())) {
             adequateOrientationFound = true;
           } else {
             attempts++;

@@ -74,6 +74,8 @@ boolean writePathWeights = false;
 
 boolean displayBases = false;
 
+boolean displayBaseSummaryPerCellChain = false;
+
 long COMMAND_TIME_THRESHOLD = 50;
 long timeLastCommand;
 
@@ -254,6 +256,16 @@ void evaluateControllers() {
     fileImporter.loadEnvironmentFromXML(); 
     }else{
     println("\nCan not import File while running simulation.");  
+    }
+  }
+  
+  if (!runningSimulation && command('=')) {
+    displayBaseSummaryPerCellChain = !displayBaseSummaryPerCellChain;
+    
+    if (displayBaseSummaryPerCellChain) {
+      for (CellChain chain : environment.getCellChain()) {
+        chain.computeBaseCells();
+      }
     }
   }
 }

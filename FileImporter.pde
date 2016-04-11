@@ -99,11 +99,13 @@ public class FileImporter{
         
     XML[] cellChainElements = xml.getChildren("CellChain");
     
+    int totalCells = 0;
     for(int i=0; i<cellChainElements.length; i++) {
       int id = cellChainElements[i].getInt("id"); 
       XML[] cellElements = cellChainElements[i].getChildren("Cell");
       //println("\nCellChain: "+i);
       for(int j=0; j<cellElements.length; j++) {
+        totalCells++;
         int x = cellElements[j].getInt("x");   
         int y = cellElements[j].getInt("y");   
         int z = cellElements[j].getInt("z");
@@ -118,6 +120,7 @@ public class FileImporter{
         environment.setCell(i, x, y, z, type, orientation, rotation);
       }
     }
+    environment.cellsGrown = totalCells;
     
     println("NUMBER BASE: "+z_counter);
   }

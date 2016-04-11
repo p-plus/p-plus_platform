@@ -1076,7 +1076,7 @@ public class Cell {
       int index = int(random(0, directions.length));
       if ((xok && abs(directions[index].x) == 1)
           || (yok && abs(directions[index].y) == 1)
-          || (zok && abs(directions[index].z) == 1) && (z >= envZMaxUnitsPath-1) && !nearCompleted) { // Ensures minimum height for walking 
+          || ((zok && abs(directions[index].z) == 1) && (z >= envZMaxUnitsPath-1) && !nearCompleted)) { // Ensures minimum height for walking 
             foundIndex = index;
             found = true;
        }

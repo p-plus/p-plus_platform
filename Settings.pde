@@ -22,6 +22,7 @@ int TEXT_ROLLER_LOOPS = 1;
 
 int PORTS_PER_IP_ADRESS = 4;
 String[] ip_adresses = { "192.168.0.98", "192.168.0.99" };
+
 ArtNet artnet;
 
 float cellLoadOffset;

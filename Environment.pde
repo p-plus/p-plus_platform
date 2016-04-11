@@ -416,6 +416,9 @@ public class Environment {
       if (!cellChain.isCompleted()) {
         hasGrown = hasGrown || cellChain.grow();
         break;
+      } else if (!cellChain.hasBaseCellsAtHalfPoint()) {
+        // LUKE - COMMENTED OUT 11-APR - NOT WORKING PROPERLY YET
+//        simulationFailed = true;
       }
     }
     return hasGrown;
