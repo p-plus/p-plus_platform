@@ -289,6 +289,8 @@ public class Environment {
     initialCell.initialiseOrientation();
     initialCell.baseCell = true;
     initialCell.indexOnPath = 1;
+    initialCell.pathId = 
+    initialCell.pathId = 0;
     
     initialCell.entryPixel = PIXEL.BOTTOM;
     initialCell.exitPixel = ((int)random(0, 2) == 0)? PIXEL.LEFT : PIXEL.RIGHT;
