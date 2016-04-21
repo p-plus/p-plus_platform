@@ -874,7 +874,7 @@ public class Cell {
           leftCol = environment.getMultipleTextRoller().getTextColor(facet);
           fill(leftCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
-        }else if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet) && !frontMode) {
+        }else if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT, facet) && !frontMode) {
           topCol = environment.getMultipleTextRoller().getTextColor(facet);
           fill(topCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
