@@ -12,8 +12,10 @@ public class Cell {
   
   public int x, y, z;
   public boolean solid;
+  public boolean front;
   public boolean baseCell;
   public boolean connectingChainInPath;
+  public boolean setupInstallation = true;
   public int indexOnPath;
   public float weight;
   public PVector orientation = new PVector(0, 0, 0);
@@ -482,6 +484,13 @@ public class Cell {
     color faceYColour = color(200, 200, 30, 255);
     color faceZColour = color(00, 200, 200, 255);
     
+    color faceNorth = color(0,255,0);
+    color faceEast = color(255,255,0);
+    color faceSouth = color(255,0,0);
+    color faceWest = color(0,255,255);
+    color faceUp = color(255,0,255);
+    color faceDown = color(0,0,255);
+    
     color baseColour = color(255, 255, 255, 255); // base plates
     //color baseProjectedColour = color(100, 100, 100, 150); // base plates
     color baseProjectedColour = color(100, 100, 100, 0); // base plates
@@ -585,6 +594,28 @@ public class Cell {
         fill(boxOffColour);
         //shininess(5.0);
         //specular(255, 255, 255);
+      } else if(setupInstallation) {
+        if(front){
+        if (orientation.x == 1) {
+          fill(faceEast);
+          fillPixelWithOneColour(faceEast);
+        } else if (orientation.x == -1) {
+          fill(faceWest);
+          fillPixelWithOneColour(faceWest);
+        } else if (orientation.y == -1) {
+          fill(faceNorth);
+          fillPixelWithOneColour(faceNorth);
+        } else if (orientation.y == 1) {
+          fill(faceSouth);
+          fillPixelWithOneColour(faceSouth);
+        } else if (orientation.z == 1) {
+          fill(faceUp);
+          fillPixelWithOneColour(faceUp);
+        } else if (orientation.z == -1) {
+          fill(faceDown);
+          fillPixelWithOneColour(faceDown);
+        }
+        }
       } else if (facesDifferentColours) {
         if (abs(orientation.x) == 1) {
           fill(faceXColour);
@@ -757,10 +788,14 @@ public class Cell {
         bottomCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet);
         fill(bottomCol);
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet));
-        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet)) {
+        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet) && front) {
           bottomCol = environment.getMultipleTextRoller().getTextColor(facet);
           fill(bottomCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
+        }else if(environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet) && !frontMode) {
+          bottomCol = environment.getMultipleTextRoller().getTextColor(facet);
+          fill(bottomCol);
+          emissive(environment.getMultipleTextRoller().getTextColor(facet)); 
         }
           pushMatrix();
           if (defaultShapes) {
@@ -777,7 +812,11 @@ public class Cell {
         rightCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet);
         fill(rightCol);
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet));
-        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT, facet)) {
+        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT, facet) && front) {
+          rightCol = environment.getMultipleTextRoller().getTextColor(facet);
+          fill(rightCol);
+          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+        }else if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT, facet) && !frontMode) {
           rightCol = environment.getMultipleTextRoller().getTextColor(facet);
           fill(rightCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
@@ -797,7 +836,11 @@ public class Cell {
         fill(topCol);
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet));        
         //emissive(boxOffColour);
-        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet)) {
+        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet) && front) {
+          topCol = environment.getMultipleTextRoller().getTextColor(facet);
+          fill(topCol);
+          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+        } else if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet) && !frontMode) {
           topCol = environment.getMultipleTextRoller().getTextColor(facet);
           fill(topCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
@@ -817,9 +860,13 @@ public class Cell {
         fill(leftCol);
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet));
         //emissive(boxOffColour);
-        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT, facet)) {
+        if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT, facet) && front) {
           leftCol = environment.getMultipleTextRoller().getTextColor(facet);
           fill(leftCol);
+          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+        }else if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet) && !frontMode) {
+          topCol = environment.getMultipleTextRoller().getTextColor(facet);
+          fill(topCol);
           emissive(environment.getMultipleTextRoller().getTextColor(facet));
         }
           pushMatrix();
@@ -899,7 +946,7 @@ public class Cell {
       shininess(0.0);
 
       // Draw wire
-      if (!pixelColours && !rollingText && !animation && !participatoryText && !multipleText) {
+      if (!pixelColours && !rollingText && !animation && !participatoryText && !multipleText && !setupInstallation) {
         fill(0, 255, 0);
         pushMatrix();
         if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {
@@ -1356,6 +1403,13 @@ public class Cell {
   
   public boolean isAvailable() {
     return !solid && (weight < 1);
+  }
+  
+  public void fillPixelWithOneColour(color c){
+    topCol = c; 
+    bottomCol = c; 
+    leftCol = c; 
+    rightCol = c;  
   }
   
 }

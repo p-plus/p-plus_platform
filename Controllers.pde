@@ -64,6 +64,7 @@ boolean renderLandscape = false;
 boolean defaultShapes = false;
 boolean animation = false;
 boolean drawDisplayInformation = true;
+boolean frontMode = false;
 
 public enum FACET {ALL, NORTH, SOUTH, EAST, WEST, BOTTOM_UP, CEILING_DOWN};
 FACET facetDisplayed = FACET.ALL;
@@ -189,6 +190,9 @@ void evaluateControllers() {
   }
   if (command('-')) {
     defaultShapes = !defaultShapes;
+  }
+  if (command('p')) {
+    frontMode = !frontMode;
   }
   
   // Facet views

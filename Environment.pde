@@ -112,7 +112,90 @@ public class Environment {
     cellChains[cellChainIndex].addCell(cell);
   }
   
-  
+  public void setFrontCells(){
+    for (int x = 0; x < envXMaxUnits; x++) {
+      for (int y = 0; y < envYMaxUnits; y++) {
+        for (int z = 0; z < envZMaxUnits-1; z++) {
+          if (matrix[x][y][z].solid) {
+            Cell cell = matrix[x][y][z];
+            if(cell.orientation.x == 1){
+              boolean front = false;
+              for(int ix = x+1; ix < envXMaxUnits; ix++){
+                //for(int iz = 0; iz < envZMaxUnits; iz++){
+                  //if(matrix[ix][y][z].orientation.x == 1){
+                    if(matrix[ix][y][z].solid){
+                      front = true;    
+                    }
+                  //}
+                //}
+              }
+              if(!front){
+                matrix[x][y][z].front = true;   
+                println("SetFrontCell");
+              }  
+            }else if(cell.orientation.x == -1){
+              boolean front = false;
+              for(int ix = x-1; ix >= 0; ix--){
+                //for(int iz = 0; iz < envZMaxUnits; iz++){
+                  //if(matrix[ix][y][z].orientation.x == 1){
+                    if(matrix[ix][y][z].solid){
+                      front = true;    
+                    }
+                  //}
+                //}
+              }
+              if(!front){
+                matrix[x][y][z].front = true;   
+                println("SetFrontCell");
+              }
+            }else if(cell.orientation.y == 1){
+              boolean front = false;
+              for(int iy = y+1; iy < envYMaxUnits; iy++){
+                //for(int iz = 0; iz < envZMaxUnits; iz++){
+                  //if(matrix[ix][y][z].orientation.x == 1){
+                    if(matrix[x][iy][z].solid){
+                      front = true;    
+                    }
+                  //}
+                //}
+              }
+              if(!front){
+                matrix[x][y][z].front = true;   
+                println("SetFrontCell");
+              }
+            }else if(cell.orientation.y == -1){
+              boolean front = false;
+              for(int iy = y-1; iy >= 0; iy--){
+                //for(int iz = 0; iz < envZMaxUnits; iz++){
+                  //if(matrix[ix][y][z].orientation.x == 1){
+                    if(matrix[x][iy][z].solid){
+                      front = true;    
+                    }
+                  //}
+                //}
+              }
+              if(!front){
+                matrix[x][y][z].front = true;   
+                println("SetFrontCell");
+              }  
+            }
+          }
+        }
+      }
+    } 
+    
+   for (int x = 0; x < envXMaxUnits; x++) {
+      for (int y = 0; y < envYMaxUnits; y++) {
+        for (int z = 0; z < envZMaxUnits-1; z++) {  
+          if (matrix[x][y][z].front) {
+            println("Front-Cell: "+x+" "+y+" "+z+" ");  
+          }
+        }
+      }
+   }   
+        
+        
+  }
   
   /* 
    * Renders the whole 3D structure to the screen.

@@ -121,6 +121,7 @@ public class FileImporter{
       }
     }
     environment.cellsGrown = totalCells;
+    environment.setFrontCells();
     
     println("NUMBER BASE: "+z_counter);
   }

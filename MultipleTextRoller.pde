@@ -1,10 +1,10 @@
 public class MultipleTextRoller {
   
   private ParticipativeTextRoller[] textRollerList = new ParticipativeTextRoller[5];
-  private int mode = 1;
+  private int mode = 0;
   private boolean transition_c1, transition_c2;
   private float transitionCtr_c1, transitionCtr_c2;
-  private float TRANSITION_DURATION = 1000.0;
+  private float TRANSITION_DURATION = 25.0;
   private float TRANSITION_STEPS = 60.0;
   private int time_c1, time_c2;
   color c1, c2;
