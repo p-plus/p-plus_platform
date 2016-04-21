@@ -221,6 +221,11 @@ void evaluateControllers() {
   // Display/hide base plates
   if (command('3')) {
     displayBases = !displayBases;
+    if (displayBases) {
+      for (CellChain chain : environment.getCellChain()) {
+        chain.computeBaseCells();
+      }
+    }
   }
   
   // Navigation

@@ -17,6 +17,7 @@ public class Cell {
   public boolean connectingChainInPath;
   public boolean setupInstallation = true;
   public int indexOnPath;
+  public int pathId;
   public float weight;
   public PVector orientation = new PVector(0, 0, 0);
   public int orientationIndex;
@@ -528,7 +529,16 @@ public class Cell {
         pushMatrix();
         translate(0, 0, -z*unitSize-unitSize/2);
         if (z == 0) {
-          fill(baseColour);
+          int cellsOnPath = environment.cellChains[pathId].cells.size();
+          if (indexOnPath == 0) {
+            fill(0, 255, 0);
+          } else if (indexOnPath == (cellsOnPath-1)) {
+            fill(0, 0, 255);
+          } else if ((indexOnPath == 19) || (indexOnPath == 20)) {
+            fill(255, 0, 0);
+          } else {
+            fill(baseColour);
+          }
         } else {
           fill(baseProjectedColour);
         }
@@ -1095,6 +1105,7 @@ public class Cell {
   void reset() {
     solid = false;
     indexOnPath = 0;
+    pathId = 0;
     baseCell = false;
     connectingChainInPath = false;
   }

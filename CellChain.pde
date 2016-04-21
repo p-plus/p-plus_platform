@@ -29,13 +29,14 @@ public class CellChain {
   public void computeBaseCells() {
     baseCells.clear();
     
-    int index = 0;
+    int idx = 0;
     for (Cell cell : cells) {
       if (cell.z == 0) {
-        cell.indexOnPath = index;
+        cell.indexOnPath = idx;
+        cell.pathId = index;
         baseCells.add(cell);
       }
-      index++;
+      idx++;
     }
   }
   
