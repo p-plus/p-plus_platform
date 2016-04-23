@@ -71,7 +71,7 @@ void draw() {
   environment.sendDMX();
   drawAxis(); 
   //environment.getTextRoller().rollText();  
-  //environment.getParticipativeTextRoller().rollText();  
+  environment.getParticipativeTextRoller().rollText();  
   environment.getMultipleTextRoller().rollText();    
   //environment.getAnimation().resizeAnimation();
   

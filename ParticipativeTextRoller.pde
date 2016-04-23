@@ -48,6 +48,11 @@ public class ParticipativeTextRoller extends TextRoller {
     //}
   }
   
+  public boolean isPixelOn(int i, int j, PIXEL pixel) {
+    return super.isPixelOn(i, j, pixel);
+
+  }
+  
   public Entry getCurrentEntry(){
     return entriesList.get(currentEntryNumber);
   }

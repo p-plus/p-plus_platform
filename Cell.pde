@@ -24,7 +24,7 @@ public class Cell {
   public PIXEL entryPixel;
   public PIXEL exitPixel;
   public FACET facet;
-  public color topCol, bottomCol, leftCol, rightCol;
+  public color pixelTop, pixelBottom, pixelLeft, pixelRight;
   
   // Helper variables for drawing shapes with better performance - some values are hardcoded for convenience
   private final int rr0 = unitSize/20;
@@ -597,45 +597,37 @@ public class Cell {
       }
       
       if (multipleText) {
-        fill(0,0,0);  
+        setPixel(color(0,0,0));  
       }else if (participatoryText) {
-        fill(environment.getParticipativeTextRoller().getCurrentEntry().bgColor);  
+        setPixel(environment.getParticipativeTextRoller().getCurrentEntry().bgColor);  
       } else if (rollingText) {
-        fill(boxOffColour);
+        setPixel(boxOffColour);
         //shininess(5.0);
         //specular(255, 255, 255);
       } else if(setupInstallation) {
-        if(front){
         if (orientation.x == 1) {
-          fill(faceEast);
-          fillPixelWithOneColour(faceEast);
+          setPixel(faceEast);
         } else if (orientation.x == -1) {
-          fill(faceWest);
-          fillPixelWithOneColour(faceWest);
+          setPixel(faceWest);
         } else if (orientation.y == -1) {
-          fill(faceNorth);
-          fillPixelWithOneColour(faceNorth);
+          setPixel(faceNorth);
         } else if (orientation.y == 1) {
-          fill(faceSouth);
-          fillPixelWithOneColour(faceSouth);
+          setPixel(faceSouth);
         } else if (orientation.z == 1) {
-          fill(faceUp);
-          fillPixelWithOneColour(faceUp);
+          setPixel(faceUp);
         } else if (orientation.z == -1) {
-          fill(faceDown);
-          fillPixelWithOneColour(faceDown);
-        }
+          setPixel(faceDown);
         }
       } else if (facesDifferentColours) {
         if (abs(orientation.x) == 1) {
-          fill(faceXColour);
+          setPixel(faceXColour);
         } else if (abs(orientation.y) == 1) {
-          fill(faceYColour);
+          setPixel(faceYColour);
         } else if (abs(orientation.z) == 1) {
-          fill(faceZColour);
+          setPixel(faceZColour);
         }
       } else {  
-        fill(faceColour);
+        setPixel(faceColour);
       }
       
       if (defaultShapes) {
@@ -643,8 +635,7 @@ public class Cell {
       }
        
       if (pixelColours) {
-        fill(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
-        emissive(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
+        setPixel(color(cos(second()*(z+1))*255, cos(second()*(x+1))*200, cos(second()*(y+1))*255));
       }
       if (defaultShapes) {
         box(unitSize/12, unitSize, unitSize/4);
@@ -654,8 +645,7 @@ public class Cell {
       }
      
       if (pixelColours) {
-        fill(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
-        emissive(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
+        setPixel(color(cos(second()*(y+1))*255, cos(second())*180, sin(second()*(y+1))*200));
       }
       if (defaultShapes) {
         box(unitSize/12, unitSize/4, unitSize);
@@ -663,8 +653,6 @@ public class Cell {
         drawShape(0);
         drawShape(180);
       }
-
-      environment.getParticipativeTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM);
       
       if (participatoryText) {
         //Draw pixel at BOTTOM
@@ -795,17 +783,36 @@ public class Cell {
       
       if (multipleText) {
         //Draw pixel at BOTTOM
-        bottomCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet);
-        fill(bottomCol);
-        emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet));
+        color c = color(0,0,0);
+        setPixel(PIXEL.BOTTOM, environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet));
+        if(environment.getMultipleTextRoller().isTransition()){
+          if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+            c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+          }else{
+            c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+          }
+          setPixel(PIXEL.BOTTOM, c);
+        }
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet) && front) {
-          bottomCol = environment.getMultipleTextRoller().getTextColor(facet);
-          fill(bottomCol);
-          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+          setPixel(PIXEL.BOTTOM, environment.getMultipleTextRoller().getTextColor(facet)); 
+          if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.BOTTOM, c);
+          }
         }else if(environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet) && !frontMode) {
-          bottomCol = environment.getMultipleTextRoller().getTextColor(facet);
-          fill(bottomCol);
-          emissive(environment.getMultipleTextRoller().getTextColor(facet)); 
+          setPixel(PIXEL.BOTTOM, environment.getMultipleTextRoller().getTextColor(facet));
+          if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.BOTTOM, c);
+          }
         }
           pushMatrix();
           if (defaultShapes) {
@@ -819,17 +826,35 @@ public class Cell {
         
         //Draw pixel at RIGHT
         //emissive(boxOffColour);
-        rightCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet);
-        fill(rightCol);
-        emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet));
+        setPixel(PIXEL.RIGHT, environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet));
+        if(environment.getMultipleTextRoller().isTransition()){  
+          if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+            c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+          }else{
+            c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+          }
+          setPixel(PIXEL.RIGHT, c);
+        }
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT, facet) && front) {
-          rightCol = environment.getMultipleTextRoller().getTextColor(facet);
-          fill(rightCol);
-          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+          setPixel(PIXEL.RIGHT, environment.getMultipleTextRoller().getTextColor(facet));
+          if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.RIGHT, c);
+          }
         }else if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT, facet) && !frontMode) {
-          rightCol = environment.getMultipleTextRoller().getTextColor(facet);
-          fill(rightCol);
-          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+          setPixel(PIXEL.RIGHT, environment.getMultipleTextRoller().getTextColor(facet));
+          if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.RIGHT, c);
+          }
         }
           pushMatrix();
           if (defaultShapes) {
@@ -842,18 +867,36 @@ public class Cell {
         
         
         //Draw pixel at TOP
-        topCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet);
-        fill(topCol);
-        emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet));        
+        setPixel(PIXEL.TOP, environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet));
         //emissive(boxOffColour);
+        if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.TOP, c);
+        }
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet) && front) {
-          topCol = environment.getMultipleTextRoller().getTextColor(facet);
-          fill(topCol);
-          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+          setPixel(PIXEL.TOP, environment.getMultipleTextRoller().getTextColor(facet));
+          if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.TOP, c);
+          }
         } else if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet) && !frontMode) {
-          topCol = environment.getMultipleTextRoller().getTextColor(facet);
-          fill(topCol);
-          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+          setPixel(PIXEL.TOP, environment.getMultipleTextRoller().getTextColor(facet));
+          if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.TOP, c);
+          }
         }
           pushMatrix();
           if (defaultShapes) {
@@ -866,18 +909,37 @@ public class Cell {
         
         
         //Draw pixel at LEFT
-        leftCol = environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet);
-        fill(leftCol);
+        setPixel(PIXEL.LEFT, environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet));
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet));
         //emissive(boxOffColour);
+        if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.LEFT, c);
+        }
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT, facet) && front) {
-          leftCol = environment.getMultipleTextRoller().getTextColor(facet);
-          fill(leftCol);
-          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+          setPixel(PIXEL.LEFT, environment.getMultipleTextRoller().getTextColor(facet));
+          if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.LEFT, c);
+          }
         }else if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT, facet) && !frontMode) {
-          topCol = environment.getMultipleTextRoller().getTextColor(facet);
-          fill(topCol);
-          emissive(environment.getMultipleTextRoller().getTextColor(facet));
+          setPixel(PIXEL.LEFT, environment.getMultipleTextRoller().getTextColor(facet));
+          if(environment.getMultipleTextRoller().isTransition()){  
+            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+            }else{
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+            }
+            setPixel(PIXEL.LEFT, c);
+          }
         }
           pushMatrix();
           if (defaultShapes) {
@@ -887,6 +949,9 @@ public class Cell {
             drawShape(90);
           }
           popMatrix();
+          
+          
+          
         }
       
 
@@ -1416,11 +1481,33 @@ public class Cell {
     return !solid && (weight < 1);
   }
   
-  public void fillPixelWithOneColour(color c){
-    topCol = c; 
-    bottomCol = c; 
-    leftCol = c; 
-    rightCol = c;  
+  public void setPixel(color c){
+    pixelTop = c; 
+    pixelBottom = c; 
+    pixelLeft = c; 
+    pixelRight = c; 
+    fill(c);
+    emissive(c);
+  }
+  
+  private void setPixel(PIXEL p, color c){
+    if(p == PIXEL.TOP){
+      pixelTop = c;
+      fill(c);
+      emissive(c); 
+    }else if(p == PIXEL.BOTTOM){
+      pixelBottom = c;
+      fill(c);
+      emissive(c); 
+    }else if(p == PIXEL.LEFT){
+      pixelLeft = c;
+      fill(c);
+      emissive(c); 
+    }else if(p == PIXEL.RIGHT){
+      pixelRight = c;
+      fill(c);
+      emissive(c); 
+    }
   }
   
 }

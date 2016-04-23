@@ -1,6 +1,6 @@
 public class TextRoller {
   
-  private final long ROLL_INTERVAL = 250; // in ms
+  private final long ROLL_INTERVAL = 500; // in ms
   private final int SCREEN_WIDTH = envXMaxUnits; // for now, let's assume envXMaxUnits == envYMaxUnits
   private final int ROLL_END_OFFSET = 0; 
   
@@ -20,7 +20,7 @@ public class TextRoller {
   }
     
   public void rollText() {
-    if ((millis() - lastMoveTime) > ROLL_INTERVAL*3) {
+    if ((millis() - lastMoveTime) > ROLL_INTERVAL) {
       lastMoveTime = millis();
       textStartPosition--;
       if (textStartPosition < (-1)*(textString.getColumns().size())-ROLL_END_OFFSET) {
@@ -98,4 +98,5 @@ public class TextRoller {
   public int getLoopCounter(){
     return loopCounter;  
   }
+  
 }

@@ -524,21 +524,21 @@ public class CellChain {
     
     int dataCounter = 0;
     for(int i=0; i<cells.size(); i++){
-      buffer[dataCounter + 11] = (byte) (cells.get(i).bottomCol & 0xff);
-      buffer[dataCounter + 10] = (byte) (cells.get(i).bottomCol >> 8 & 0xff);
-      buffer[dataCounter + 9] = (byte) (cells.get(i).bottomCol >> 16 & 0xff);
+      buffer[dataCounter + 11] = (byte) (cells.get(i).pixelBottom & 0xff);
+      buffer[dataCounter + 10] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+      buffer[dataCounter + 9] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
       
-      buffer[dataCounter + 8] = (byte) (cells.get(i).rightCol & 0xff);
-      buffer[dataCounter + 7] = (byte) (cells.get(i).rightCol >> 8 & 0xff);
-      buffer[dataCounter + 6] = (byte) (cells.get(i).rightCol >> 16 & 0xff);
+      buffer[dataCounter + 8] = (byte) (cells.get(i).pixelRight & 0xff);
+      buffer[dataCounter + 7] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+      buffer[dataCounter + 6] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
+
+      buffer[dataCounter + 5] = (byte) (cells.get(i).pixelTop & 0xff);
+      buffer[dataCounter + 4] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+      buffer[dataCounter + 3] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
       
-      buffer[dataCounter + 5] = (byte) (cells.get(i).topCol & 0xff);
-      buffer[dataCounter + 4] = (byte) (cells.get(i).topCol >> 8 & 0xff);
-      buffer[dataCounter + 3] = (byte) (cells.get(i).topCol >> 16 & 0xff);
-      
-      buffer[dataCounter + 2] = (byte) (cells.get(i).leftCol & 0xff);
-      buffer[dataCounter + 1] = (byte) (cells.get(i).leftCol >> 8 & 0xff);
-      buffer[dataCounter] = (byte) (cells.get(i).leftCol >> 16 & 0xff);
+      buffer[dataCounter + 2] = (byte) (cells.get(i).pixelLeft & 0xff);
+      buffer[dataCounter + 1] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+      buffer[dataCounter] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
 
       dataCounter += 12;
       //println("Index: "+index+" Cell-Nr: "+i+" Cell-Color: "+cells.get(i).bottomCol+" "+cells.get(i).rightCol+" "+cells.get(i).topCol+" "+cells.get(i).leftCol);    
