@@ -42,6 +42,7 @@ public class Cell {
   private final float sin360 = sin( radians(360) );
   private final float cos360 = cos( radians(360) );
   
+  private int transitionMode = 1;
   
   public Cell(int x, int y, int z) {
     this.x = x;
@@ -786,10 +787,21 @@ public class Cell {
         color c = color(0,0,0);
         setPixel(PIXEL.BOTTOM, environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.BOTTOM, facet));
         if(environment.getMultipleTextRoller().isTransition()){
-          if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-            c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
-          }else{
-            c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+          switch(transitionMode){
+            case 0:
+              if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+                c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              }else{
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+              }
+              break;
+            case 1:
+              //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+                c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              //}else{
+              //  c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().getPreviousBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+              //}
+              break;
           }
           setPixel(PIXEL.BOTTOM, c);
         }
@@ -797,9 +809,9 @@ public class Cell {
           setPixel(PIXEL.BOTTOM, environment.getMultipleTextRoller().getTextColor(facet)); 
           if(environment.getMultipleTextRoller().isTransition()){  
             if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
             }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
             }
             setPixel(PIXEL.BOTTOM, c);
           }
@@ -807,9 +819,9 @@ public class Cell {
           setPixel(PIXEL.BOTTOM, environment.getMultipleTextRoller().getTextColor(facet));
           if(environment.getMultipleTextRoller().isTransition()){  
             if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
             }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
             }
             setPixel(PIXEL.BOTTOM, c);
           }
@@ -828,20 +840,27 @@ public class Cell {
         //emissive(boxOffColour);
         setPixel(PIXEL.RIGHT, environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.RIGHT, facet));
         if(environment.getMultipleTextRoller().isTransition()){  
-          if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-            c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
-          }else{
-            c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
-          }
+          switch(transitionMode){
+            case 0:
+              if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+                c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              }else{
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+              }
+              break;
+            case 1:
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              break;
+          } 
           setPixel(PIXEL.RIGHT, c);
         }
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.RIGHT, facet) && front) {
           setPixel(PIXEL.RIGHT, environment.getMultipleTextRoller().getTextColor(facet));
           if(environment.getMultipleTextRoller().isTransition()){  
             if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
             }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
             }
             setPixel(PIXEL.RIGHT, c);
           }
@@ -849,9 +868,9 @@ public class Cell {
           setPixel(PIXEL.RIGHT, environment.getMultipleTextRoller().getTextColor(facet));
           if(environment.getMultipleTextRoller().isTransition()){  
             if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
             }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
             }
             setPixel(PIXEL.RIGHT, c);
           }
@@ -870,20 +889,27 @@ public class Cell {
         setPixel(PIXEL.TOP, environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.TOP, facet));
         //emissive(boxOffColour);
         if(environment.getMultipleTextRoller().isTransition()){  
-            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
-            }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
-            }
-            setPixel(PIXEL.TOP, c);
+            switch(transitionMode){
+            case 0:
+              if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+                c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              }else{
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+              }
+              break;
+            case 1:
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              break;
+          }
+          setPixel(PIXEL.TOP, c);
         }
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.TOP, facet) && front) {
           setPixel(PIXEL.TOP, environment.getMultipleTextRoller().getTextColor(facet));
           if(environment.getMultipleTextRoller().isTransition()){  
             if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
             }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
             }
             setPixel(PIXEL.TOP, c);
           }
@@ -891,9 +917,9 @@ public class Cell {
           setPixel(PIXEL.TOP, environment.getMultipleTextRoller().getTextColor(facet));
           if(environment.getMultipleTextRoller().isTransition()){  
             if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
             }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
             }
             setPixel(PIXEL.TOP, c);
           }
@@ -913,20 +939,27 @@ public class Cell {
         emissive(environment.getMultipleTextRoller().getBgColor(projCoord_i, projCoord_j, PIXEL.LEFT, facet));
         //emissive(boxOffColour);
         if(environment.getMultipleTextRoller().isTransition()){  
-            if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
-            }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
-            }
-            setPixel(PIXEL.LEFT, c);
+            switch(transitionMode){
+            case 0:
+              if(environment.getMultipleTextRoller().transitionProgress()<0.5){
+                c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              }else{
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+              }
+              break;
+            case 1:
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              break;
+          }
+          setPixel(PIXEL.LEFT, c);
         }
         if (environment.getMultipleTextRoller().isPixelOn(projCoord_i, projCoord_j, PIXEL.LEFT, facet) && front) {
           setPixel(PIXEL.LEFT, environment.getMultipleTextRoller().getTextColor(facet));
           if(environment.getMultipleTextRoller().isTransition()){  
             if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
             }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
             }
             setPixel(PIXEL.LEFT, c);
           }
@@ -934,9 +967,9 @@ public class Cell {
           setPixel(PIXEL.LEFT, environment.getMultipleTextRoller().getTextColor(facet));
           if(environment.getMultipleTextRoller().isTransition()){  
             if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2);
+              c = lerpColor(environment.getMultipleTextRoller().getPreviousTextColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
             }else{
-              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2);            
+              c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getTextColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
             }
             setPixel(PIXEL.LEFT, c);
           }

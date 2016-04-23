@@ -42,9 +42,7 @@ void setup() {
 }
 
 void draw() { 
-  
-  //println(frameRate);
-    
+      
   //Draw some example animations on the PGraphics Element
   pgOff.beginDraw();
   pgOff.clear();
