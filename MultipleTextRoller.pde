@@ -11,7 +11,7 @@ public class MultipleTextRoller {
   color c1, c2, c3, c4;
   private long lastSwitchTime;
   private int DURATION = 10000;
-  private float BACKGROUND_BRIGHTNESS = 0.3;
+  private float BACKGROUND_BRIGHTNESS = 0.0;
   
   
   public MultipleTextRoller(ArrayList<Entry> entriesList){
@@ -337,6 +337,16 @@ public class MultipleTextRoller {
       
       
     }
+  }
+  
+  public void switchEntry(){
+    lastSwitchTime = millis(); 
+    transition = true;
+    transitionCtr = millis();
+    textRollerList[0].randomEntry(); 
+    textRollerList[1].randomEntry(); 
+    textRollerList[2].randomEntry(); 
+    textRollerList[3].randomEntry();
   }
   
   public boolean isTransition(){

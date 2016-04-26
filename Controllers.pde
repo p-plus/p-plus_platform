@@ -66,6 +66,9 @@ boolean animation = false;
 boolean drawDisplayInformation = true;
 boolean frontMode = false;
 
+int transitionMode = 0;
+
+
 public enum FACET {ALL, NORTH, SOUTH, EAST, WEST, BOTTOM_UP, CEILING_DOWN};
 FACET facetDisplayed = FACET.ALL;
 
@@ -131,11 +134,13 @@ void evaluateControllers() {
     environment.clearEnvironment();
     //environment = new Environment();
   }
+  if(!multipleText){
   if (command('1')) {
     configMode = true;
   }
   if (command('2')) {
     configMode = false;
+  }
   }
   if (configMode && command('q')) {
     restartWeights = true;
@@ -195,7 +200,30 @@ void evaluateControllers() {
     frontMode = !frontMode;
   }
   
+  if(command('0') && multipleText){
+    transitionMode = 0;  
+    environment.getMultipleTextRoller().switchEntry();
+  }else if(command('1') && multipleText){
+    transitionMode = 1;  
+    environment.getMultipleTextRoller().switchEntry();
+  }else if(command('2') && multipleText){
+    transitionMode = 2;  
+    environment.getMultipleTextRoller().switchEntry();
+  }else if(command('3') && multipleText){
+    transitionMode = 3; 
+    environment.getMultipleTextRoller().switchEntry();
+  }else if(command('4') && multipleText){
+    transitionMode = 4; 
+    environment.getMultipleTextRoller().switchEntry();
+  }else if(command('5') && multipleText){
+    transitionMode = 5; 
+    environment.getMultipleTextRoller().switchEntry();
+  }
+  
+  
+  
   // Facet views
+  if(!multipleText){
   if (command('0')) {
     facetDisplayed = FACET.ALL;
   }
@@ -217,8 +245,10 @@ void evaluateControllers() {
   if (command('9')) {
     facetDisplayed = FACET.NORTH;
   }
+  }
   
   // Display/hide base plates
+  if(!multipleText){
   if (command('3')) {
     displayBases = !displayBases;
     if (displayBases) {
@@ -226,6 +256,7 @@ void evaluateControllers() {
         chain.computeBaseCells();
       }
     }
+  }
   }
   
   // Navigation
