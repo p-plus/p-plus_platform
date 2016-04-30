@@ -8,7 +8,6 @@ public class TextCharacterCatalog {
   private void init() {
     charactersMap = new HashMap<String, TextCharacter>();
     
-    // TODO
     charactersMap.put("A", new A_Character());
     charactersMap.put("B", new B_Character());
     charactersMap.put("C", new C_Character());
@@ -36,6 +35,36 @@ public class TextCharacterCatalog {
     charactersMap.put("Y", new Y_Character());
     charactersMap.put("Z", new Z_Character());
     charactersMap.put(" ", new SPACE_Character());
+    charactersMap.put("!", new Exclamation_Character());
+    charactersMap.put(",", new Comma_Character());
+    charactersMap.put(".", new Period_Character());
+    charactersMap.put("@", new At_Character());
+    charactersMap.put("?", new QuestionMark_Character());
+    charactersMap.put("$", new Dollar_Character());
+    charactersMap.put("%", new Percent_Character());
+    charactersMap.put("&", new Ampersand_Character());
+    charactersMap.put(";", new Semicolon_Character());
+    charactersMap.put(":", new Colon_Character());
+    charactersMap.put("[", new OpeningBracket_Character());
+    charactersMap.put("{", new OpeningBracket_Character());
+    charactersMap.put("<", new OpeningBracket_Character());
+    charactersMap.put("]", new ClosingBracket_Character());
+    charactersMap.put("}", new ClosingBracket_Character());
+    charactersMap.put(">", new ClosingBracket_Character());
+    charactersMap.put("-", new Dash_Character());
+    charactersMap.put("=", new Equals_Character());
+    charactersMap.put("\"", new DoubleQuotes_Character());
+    charactersMap.put("\'", new SingleQuotes_Character());
+    charactersMap.put("1", new One_Character());
+    charactersMap.put("2", new Two_Character());
+    charactersMap.put("3", new Three_Character());
+    charactersMap.put("4", new Four_Character());
+    charactersMap.put("5", new Five_Character());
+    charactersMap.put("6", new Six_Character());
+    charactersMap.put("7", new Seven_Character());
+    charactersMap.put("8", new Eight_Character());
+    charactersMap.put("9", new Nine_Character());
+    charactersMap.put("0", new Zero_Character());
   }
   
   public TextCharacter get(String c) {
@@ -989,7 +1018,6 @@ public class Z_Character extends TextCharacter {
   
 }
 
-
 /////////////////////////////////////////////////////
 //                         SPACE
 /////////////////////////////////////////////////////
@@ -1002,6 +1030,734 @@ public class SPACE_Character extends TextCharacter {
  
   protected void initPixels() {
     // Do nothing
+  }
+  
+}
+
+
+/////////////////////////////////////////////////////
+//                         !
+/////////////////////////////////////////////////////
+public class Exclamation_Character extends TextCharacter {
+  
+  public Exclamation_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         ,
+/////////////////////////////////////////////////////
+public class Comma_Character extends TextCharacter {
+  
+  public Comma_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[0].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         .
+/////////////////////////////////////////////////////
+public class Period_Character extends TextCharacter {
+  
+  public Period_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         @
+/////////////////////////////////////////////////////
+public class At_Character extends TextCharacter {
+  
+  public At_Character() {
+    initColumns(3);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[1] = true;
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[1] = true;
+    column_1.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 2
+    PixelSetColumn column_2 = getColumns()[2];
+    column_2.getPixelSets()[0].getPixels()[2] = true;
+    column_2.getPixelSets()[0].getPixels()[3] = true;
+    column_2.getPixelSets()[1].getPixels()[0] = true;
+    column_2.getPixelSets()[1].getPixels()[2] = true;
+    column_2.getPixelSets()[1].getPixels()[3] = true;
+    column_2.getPixelSets()[2].getPixels()[0] = true;
+    column_2.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         ?
+/////////////////////////////////////////////////////
+public class QuestionMark_Character extends TextCharacter {
+  
+  public QuestionMark_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         $
+/////////////////////////////////////////////////////
+public class Dollar_Character extends TextCharacter {
+  
+  public Dollar_Character() {
+    initColumns(3);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[0] = true;
+    column_1.getPixelSets()[0].getPixels()[1] = true;
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[1] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[1] = true;
+    column_1.getPixelSets()[2].getPixels()[2] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+    
+    // COLUMN 2
+    PixelSetColumn column_2 = getColumns()[2];
+    column_2.getPixelSets()[0].getPixels()[2] = true;
+    column_2.getPixelSets()[0].getPixels()[3] = true;
+    column_2.getPixelSets()[1].getPixels()[0] = true;
+    column_2.getPixelSets()[1].getPixels()[3] = true;
+    column_2.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         %
+/////////////////////////////////////////////////////
+public class Percent_Character extends TextCharacter {
+  
+  public Percent_Character() {
+    initColumns(3);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[0] = true;
+    column_1.getPixelSets()[0].getPixels()[1] = true;
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[1] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[2] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+    
+    // COLUMN 2
+    PixelSetColumn column_2 = getColumns()[2];
+    column_2.getPixelSets()[0].getPixels()[2] = true;
+    column_2.getPixelSets()[0].getPixels()[3] = true;
+    column_2.getPixelSets()[1].getPixels()[0] = true;
+    column_2.getPixelSets()[1].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         &
+/////////////////////////////////////////////////////
+public class Ampersand_Character extends TextCharacter {
+  
+  public Ampersand_Character() {
+    initColumns(3);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[1] = true;
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[1] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    
+    // COLUMN 2
+    PixelSetColumn column_2 = getColumns()[2];
+    column_2.getPixelSets()[0].getPixels()[2] = true;
+    column_2.getPixelSets()[0].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         ;
+/////////////////////////////////////////////////////
+public class Semicolon_Character extends TextCharacter {
+  
+  public Semicolon_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[0].getPixels()[3] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         :
+/////////////////////////////////////////////////////
+public class Colon_Character extends TextCharacter {
+  
+  public Colon_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         [, {, <
+/////////////////////////////////////////////////////
+public class OpeningBracket_Character extends TextCharacter {
+  
+  public OpeningBracket_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         ], }, >
+/////////////////////////////////////////////////////
+public class ClosingBracket_Character extends TextCharacter {
+  
+  public ClosingBracket_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[0].getPixels()[3] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         -
+/////////////////////////////////////////////////////
+public class Dash_Character extends TextCharacter {
+  
+  public Dash_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         =
+/////////////////////////////////////////////////////
+public class Equals_Character extends TextCharacter {
+  
+  public Equals_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         "
+/////////////////////////////////////////////////////
+public class DoubleQuotes_Character extends TextCharacter {
+  
+  public DoubleQuotes_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         '
+/////////////////////////////////////////////////////
+public class SingleQuotes_Character extends TextCharacter {
+  
+  public SingleQuotes_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         1
+/////////////////////////////////////////////////////
+public class One_Character extends TextCharacter {
+  
+  public One_Character() {
+    initColumns(1);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[0].getPixels()[3] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         2
+/////////////////////////////////////////////////////
+public class Two_Character extends TextCharacter {
+  
+  public Two_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+
+/////////////////////////////////////////////////////
+//                         3
+/////////////////////////////////////////////////////
+public class Three_Character extends TextCharacter {
+  
+  public Three_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         4
+/////////////////////////////////////////////////////
+public class Four_Character extends TextCharacter {
+  
+  public Four_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         5
+/////////////////////////////////////////////////////
+public class Five_Character extends TextCharacter {
+  
+  public Five_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         6
+/////////////////////////////////////////////////////
+public class Six_Character extends TextCharacter {
+  
+  public Six_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         7
+/////////////////////////////////////////////////////
+public class Seven_Character extends TextCharacter {
+  
+  public Seven_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         8
+/////////////////////////////////////////////////////
+public class Eight_Character extends TextCharacter {
+  
+  public Eight_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         9
+/////////////////////////////////////////////////////
+public class Nine_Character extends TextCharacter {
+  
+  public Nine_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[1] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[1].getPixels()[3] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
+  }
+  
+}
+
+/////////////////////////////////////////////////////
+//                         0
+/////////////////////////////////////////////////////
+public class Zero_Character extends TextCharacter {
+  
+  public Zero_Character() {
+    initColumns(2);
+    initPixels();
+  }
+ 
+  protected void initPixels() {
+    // COLUMN 0
+    PixelSetColumn column_0 = getColumns()[0];
+    column_0.getPixelSets()[0].getPixels()[1] = true;
+    column_0.getPixelSets()[0].getPixels()[2] = true;
+    column_0.getPixelSets()[1].getPixels()[0] = true;
+    column_0.getPixelSets()[1].getPixels()[2] = true;
+    column_0.getPixelSets()[2].getPixels()[0] = true;
+    column_0.getPixelSets()[2].getPixels()[1] = true;
+    
+    // COLUMN 1
+    PixelSetColumn column_1 = getColumns()[1];
+    column_1.getPixelSets()[0].getPixels()[2] = true;
+    column_1.getPixelSets()[0].getPixels()[3] = true;
+    column_1.getPixelSets()[1].getPixels()[0] = true;
+    column_1.getPixelSets()[1].getPixels()[2] = true;
+    column_1.getPixelSets()[2].getPixels()[0] = true;
+    column_1.getPixelSets()[2].getPixels()[3] = true;
   }
   
 }
