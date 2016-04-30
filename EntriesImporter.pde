@@ -24,6 +24,13 @@ public class EntriesImporter{
           }
         }
      }
+    
+     Collections.sort(entriesList);
+     
+     for(int i=0; i<entriesList.size(); i++){
+       println("Sorted ArrayList: " + entriesList.get(i).firstName);  
+     }
+     
      return entriesList;
   }
 

@@ -1,6 +1,6 @@
-FirstName,TwitterName,WeiboName,Email,Message,ScreenChoice,BGColor,TextColor
-Noelle,,,lajuxy@yahoo.com,Hello,S,#4D5B56,#FF0000
-Noelle,,,lajuxy@yahoo.com,Hello whats,S,#154242,#CD00FF
-Noelle,,,lajuxy@yahoo.com,Hello whats up,S,#194215,#FFFFFF
-Noelle,,,lajuxy@yahoo.com,Hello whats up whats up,S,#152242,#FFEE4D
-Noelle,,,lajuxy@yahoo.com,Hello whats up whats up hello,S,#2D1542,#00FFA3
+FirstName,TwitterName,WeiboName,Email,Message,ScreenChoice,BGColor,TextColor,TimeStamp
+user1,,,lajuxy@yahoo.com,??Hello,S,#4D5B56,#FF0000,1462032000
+user2,,,lajuxy@yahoo.com,??Hello whats,S,#154242,#CD00FF,1462032480
+user3,,,lajuxy@yahoo.com,!!Hello whats up,S,#194215,#FFFFFF,1462032240
+user4,,,lajuxy@yahoo.com,.Hello whats up whats up,S,#152242,#FFEE4D,1462032360
+user5,,,lajuxy@yahoo.com,%Hello whats up whats up hello,S,#2D1542,#00FFA3,1462032120
