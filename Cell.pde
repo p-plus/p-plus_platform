@@ -821,6 +821,11 @@ public class Cell {
                 c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
               }
               break;
+            case 6:
+              color c6 = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+              c = c6;//lerpColor(c6, environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+              break;  
+            
           }
           setPixel(PIXEL.BOTTOM, c);
         }
@@ -896,6 +901,10 @@ public class Cell {
                 c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
               }
               break;
+            case 6:
+              color c6 = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              c = c6;//lerpColor(c6, environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              break;
           } 
           setPixel(PIXEL.RIGHT, c);
         }
@@ -969,6 +978,10 @@ public class Cell {
               }else{
                 c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
               }
+              break;
+           case 6:
+              color c6 = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
+              c = c6;//lerpColor(c6, environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
               break;
           }
           setPixel(PIXEL.TOP, c);
@@ -1044,6 +1057,10 @@ public class Cell {
               }else{
                 c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
               }
+              break;
+           case 6:
+              color c6 = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
+              c = c6;//lerpColor(c6, environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
               break;
           }
           setPixel(PIXEL.LEFT, c);

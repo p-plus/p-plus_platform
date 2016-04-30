@@ -218,6 +218,9 @@ void evaluateControllers() {
   }else if(command('5') && multipleText){
     transitionMode = 5; 
     environment.getMultipleTextRoller().switchEntry();
+  }else if(command('6') && multipleText){
+    transitionMode = 6; 
+    environment.getMultipleTextRoller().switchEntry();
   }
   
   

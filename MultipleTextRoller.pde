@@ -11,7 +11,7 @@ public class MultipleTextRoller {
   color c1, c2, c3, c4;
   private long lastSwitchTime;
   private int DURATION = 10000;
-  private float BACKGROUND_BRIGHTNESS = 0.0;
+  private float BACKGROUND_BRIGHTNESS = 0.5;
   
   
   public MultipleTextRoller(ArrayList<Entry> entriesList){
