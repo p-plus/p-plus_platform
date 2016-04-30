@@ -25,6 +25,7 @@
  l              Display light effects ON (click it again to turn it OFF).
  ;              Display rolling text ON (click it again to turn it OFF).
  #              Display participatory messages ON (click it again to turn it OFF).
+ mF              Display multiple text ON (click it again to turn it OFF).
  a              Display animations ON (click it again to turn it OFF).
  4              Display only cells facing UP.
  5              Display only cells facing DOWN.
