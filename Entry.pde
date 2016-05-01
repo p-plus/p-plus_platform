@@ -8,7 +8,7 @@ public class Entry implements Comparable<Entry>{
   public String weiboName;
   public String email;
   public String message;
-  public char screenChoice;
+  public FACET screenChoice;
   public color bgColor;
   public color textColor;
   public int timeStamp;
@@ -19,8 +19,19 @@ public class Entry implements Comparable<Entry>{
     twitterName = row.getString(1);
     weiboName = row.getString(2);
     email = row.getString(3);
-    message = row.getString(4);
-    screenChoice = row.getString(5).charAt(0);
+    message = row.getString(4);    
+    if(row.getString(5).charAt(0) == 'N'){
+      screenChoice = FACET.NORTH;    
+    }else if(row.getString(5).charAt(0) == 'E'){
+      screenChoice = FACET.EAST;    
+    }else if(row.getString(5).charAt(0) == 'S'){
+      screenChoice = FACET.SOUTH;    
+    }else if(row.getString(5).charAt(0) == 'W'){
+      screenChoice = FACET.WEST;    
+    }else{
+      screenChoice = FACET.NORTH;
+    }
+    
     bgColor = color(unhex("ff"+row.getString(6).replace("#", "")));
     textColor = color(unhex("ff"+row.getString(7).replace("#", "")));
     timeStamp = Integer.parseInt(row.getString(8));
@@ -39,5 +50,5 @@ public class Entry implements Comparable<Entry>{
     //ascending order
     return this.timeStamp - compareTimestamp;
   }
-  
+    
 }

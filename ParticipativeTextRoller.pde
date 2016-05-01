@@ -1,37 +1,79 @@
-public class ParticipativeTextRoller extends TextRoller {
+public class ParticipativeTextRoller extends TextRoller implements Cloneable {
   
   private ArrayList<Entry> entriesList = new ArrayList<Entry>();
-  private int currentEntryNumber = 0;
-  private int previousEntryNumber = 0;
+  public int currentEntryNumber = 0;
+  //public int previousEntryNumber = 0;
+  public int nextEntryNumber = 0;
+  public FACET facet;
+
   //color bgColor,textColor;
   
   public ParticipativeTextRoller(ArrayList<Entry> entriesList){
     // Create text roller
     super();
     this.entriesList = entriesList;
-    randomEntry();
+       
+    //randomEntry();
+  }
+  
+  public ParticipativeTextRoller(FACET facet){
+    // Create text roller
+    super();
+    EntriesImporter imp = new EntriesImporter();
+    this.entriesList = imp.loadEntriesFile();
+    this.facet = facet;
+    
+    //println("EntriesList before: "+entriesList.size());
+    
+    Iterator<Entry> iter = entriesList.iterator();
+
+    while(iter.hasNext()) {
+     Entry entry = iter.next();
+     
+     if(entry.screenChoice != facet){
+      iter.remove(); 
+     }
+      
+    }
+    
+    if ((entriesList != null) && !entriesList.isEmpty()) {
+      super.setText(entriesList.get(currentEntryNumber).message);
+    }
+    
+    
+    
+    //println("EntriesList after: "+entriesList.size());
+    
+       
+    //randomEntry();
+  }
+  
+  public void prepareNextEntry(){
+    //if(nextEntryNumber<entriesList.size()+1){
+      nextEntryNumber++;
+    //}  
   }
   
   public void nextEntry() {
-    previousEntryNumber = currentEntryNumber;
+    
+    //previousEntryNumber = currentEntryNumber;
     if(currentEntryNumber<entriesList.size()-1){
       currentEntryNumber++;
     }else {
       currentEntryNumber=0;
     }
+    nextEntryNumber = currentEntryNumber;
 
     if ((entriesList != null) && !entriesList.isEmpty()) {
       super.setText(entriesList.get(currentEntryNumber).message);
-      //bgColor = entriesList.get(currentEntryNumber).bgcolor;
-      //textColor = entriesList.get(currentEntryNumber).textcolor;
     }
   }
   
   public void randomEntry() {
-    previousEntryNumber = currentEntryNumber;
+    /*previousEntryNumber = currentEntryNumber;
     do{
       currentEntryNumber = (int)random(0, entriesList.size()-1);
-    }while(currentEntryNumber==previousEntryNumber);
+    }while(currentEntryNumber==previousEntryNumber);*/
 
     if ((entriesList != null) && !entriesList.isEmpty()) {
       super.setText(entriesList.get(currentEntryNumber).message);
@@ -57,8 +99,21 @@ public class ParticipativeTextRoller extends TextRoller {
     return entriesList.get(currentEntryNumber);
   }
   
-  public Entry getPreviousEntry(){
-    return entriesList.get(previousEntryNumber);
+  public Entry getNextEntry(){
+    if(nextEntryNumber<entriesList.size()){
+      return entriesList.get(nextEntryNumber);
+    }else{
+      return entriesList.get(0);
+    }
+  }
+  
+  public String getMessage(){
+    return super.t;
+  }
+  
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
+      return super.clone();
   }
   
 }

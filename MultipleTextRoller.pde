@@ -1,7 +1,8 @@
 public class MultipleTextRoller {
   
-  private ParticipativeTextRoller[] textRollerList = new ParticipativeTextRoller[5];
-  private int mode = 2;
+  private ParticipativeTextRoller[] textRollerList = new ParticipativeTextRoller[4];
+
+  private int mode = 3;
   private boolean transition, transition_c1, transition_c2;
   private float transitionCtr, transitionCtr_c1, transitionCtr_c2;
   private float TRANSITION = 5000;
@@ -11,15 +12,19 @@ public class MultipleTextRoller {
   color c1, c2, c3, c4;
   private long lastSwitchTime;
   private int DURATION = 10000;
-  private float BACKGROUND_BRIGHTNESS = 0.5;
+  private float BACKGROUND_BRIGHTNESS = 0.8;
+  boolean simulationMode = true;
   
   
   public MultipleTextRoller(ArrayList<Entry> entriesList){
     // Create text roller
+
+    textRollerList[0] = new ParticipativeTextRoller(FACET.NORTH);
+    textRollerList[1] = new ParticipativeTextRoller(FACET.EAST);
+    textRollerList[2] = new ParticipativeTextRoller(FACET.SOUTH);
+    textRollerList[3] = new ParticipativeTextRoller(FACET.WEST);
     
-    for(int i=0; i<5; i++){
-      textRollerList[i] = new ParticipativeTextRoller(entriesList);
-    }
+    
 
   }
   
@@ -57,7 +62,7 @@ public class MultipleTextRoller {
       }else if(facet == FACET.CEILING_DOWN){
          return false;      
       }      
-    }else if(mode == 2){
+    }else if(mode == 2 || mode == 3){
       if(facet == FACET.NORTH){
          return textRollerList[0].isPixelOn(i, j, pixel);
       }else if(facet == FACET.SOUTH){
@@ -74,7 +79,6 @@ public class MultipleTextRoller {
     }
     return false;
   }
-  
  
   
   public color getTextColor(FACET facet){
@@ -100,17 +104,17 @@ public class MultipleTextRoller {
   public color getPreviousTextColor(FACET facet){
     
     if(facet == FACET.NORTH){
-       return textRollerList[0].getPreviousEntry().textColor;
+       return textRollerList[0].getCurrentEntry().textColor;
     }else if(facet == FACET.SOUTH){
-       return textRollerList[1].getPreviousEntry().textColor;      
+       return textRollerList[1].getCurrentEntry().textColor;      
     }else if(facet == FACET.EAST){
-       return textRollerList[2].getPreviousEntry().textColor;      
+       return textRollerList[2].getCurrentEntry().textColor;      
     }else if(facet == FACET.WEST){
-       return textRollerList[3].getPreviousEntry().textColor;      
+       return textRollerList[3].getCurrentEntry().textColor;      
     }else if(facet == FACET.BOTTOM_UP){
       return 0;
     }else if(facet == FACET.CEILING_DOWN){
-       return textRollerList[4].getPreviousEntry().textColor;      
+       return 0;      
     } 
     return 0;
   }
@@ -183,7 +187,7 @@ public class MultipleTextRoller {
         }
         //return textRollerList[4].bgColor;      
       } 
-    }else if(mode==2){
+    }else if(mode==2 || mode==3){
       if(facet == FACET.NORTH){
         return lerpColor(textRollerList[0].getCurrentEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);
       }else if(facet == FACET.SOUTH){
@@ -222,16 +226,16 @@ public class MultipleTextRoller {
   
   
   
-  public color getPreviousBgColor(FACET facet){
+  public color getNextBgColor(FACET facet){
     
     if(facet == FACET.NORTH){
-       return lerpColor(textRollerList[0].getPreviousEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);
+       return lerpColor(textRollerList[0].getNextEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);
     }else if(facet == FACET.SOUTH){
-       return lerpColor(textRollerList[1].getPreviousEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);      
+       return lerpColor(textRollerList[1].getNextEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);      
     }else if(facet == FACET.EAST){
-       return lerpColor(textRollerList[2].getPreviousEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);      
+       return lerpColor(textRollerList[2].getNextEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);      
     }else if(facet == FACET.WEST){
-       return lerpColor(textRollerList[3].getPreviousEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);      
+       return lerpColor(textRollerList[3].getNextEntry().bgColor, color(0,0,0), BACKGROUND_BRIGHTNESS);      
     }else if(facet == FACET.BOTTOM_UP){
       return 0;
     }else if(facet == FACET.CEILING_DOWN){
@@ -244,6 +248,10 @@ public class MultipleTextRoller {
   
   
   public void rollText(){
+    
+    /*for(int i=0; i<4; i++){
+      println("CurrentTextRoller: "+textRollerList[i].currentEntryNumber);
+    }*/
     
     if(mode==0){
       for(int i=0; i<textRollerList.length; i++){
@@ -268,7 +276,7 @@ public class MultipleTextRoller {
         //println("transition: "+transitionCtr);
         color zc1 = c1;
         
-        c1 = lerpColor(textRollerList[0].getPreviousEntry().bgColor, zc1, transitionCtr_c1);
+        c1 = lerpColor(textRollerList[0].getCurrentEntry().bgColor, zc1, transitionCtr_c1);
         
         if(transitionCtr_c1<1){
           if(millis() > time_c1 + (TRANSITION_DURATION/TRANSITION_STEPS)){
@@ -286,7 +294,7 @@ public class MultipleTextRoller {
         //println("transition: "+transitionCtr);
         color zc2 = c2;
         
-        c2 = lerpColor(textRollerList[1].getPreviousEntry().bgColor, zc2, transitionCtr_c2);
+        c2 = lerpColor(textRollerList[1].getCurrentEntry().bgColor, zc2, transitionCtr_c2);
         
         if(transitionCtr_c2<1){
           if(millis() > time_c2 + (TRANSITION_DURATION/TRANSITION_STEPS)){
@@ -334,9 +342,78 @@ public class MultipleTextRoller {
         }
         
       }
+    }else if(mode==3){
+     
+      Date d = new Date();
+      long current=d.getTime()/1000;
       
+      if(simulationMode){
+        current = current - (timeStampStart-1462031990);
+      }
       
+      //println(current);
+      
+      boolean next = false;
+      
+      for(int i=0; i<4; i++){        
+        if(current >= textRollerList[i].getNextEntry().timeStamp){
+          next = true;
+          textRollerList[i].prepareNextEntry();
+          //textRollerList[i].nextEntryNumber++;
+        }
+      }
+      
+      if(next){ 
+        println("Next");
+        for(int i=0; i<4; i++){
+          //try{
+            //textRollerList[i] = (ParticipativeTextRoller) textRollerList[i].clone();
+            //println("before "+textRollerList[i].currentEntryNumber+" "+textRollerList[i].currentEntryNumber+" "+textRollerList[i].textStartPosition+" "+textRollerList[i].textStartPosition);
+          //}catch(CloneNotSupportedException e){
+            //println("Clone Not Supported");
+          //}
+          //textRollerList[i].nextEntry();
+          //textRollerList[i].nextEntry(); 
+
+          //println("after "+textRollerList[i].currentEntryNumber+" "+textRollerList[i].currentEntryNumber+" "+textRollerList[i].textStartPosition+" "+textRollerList[i].textStartPosition);
+          //println(textRollerList[i].getMessage());
+          //println(textRollerList[i].getMessage());
+
+        }
+        next = false;
+        transition = true;
+        lastSwitchTime = millis(); 
+        transition = true;
+        transitionCtr = millis();
+      }
+      
+      for(int i=0; i<4; i++){
+        textRollerList[i].rollText(); 
+        //textRollerList[i].rollText(); 
+      }
+      
+      if(transition){
+        
+        for(int i=0; i<4; i++){
+          textRollerList[i].rollText(); 
+        }
+      
+        if(millis()-transitionCtr > TRANSITION){      
+          transition = false; 
+        
+          println("nextEntry");
+          
+          for(int i=0; i<4; i++){
+            textRollerList[i].nextEntry(); 
+          }
+      
+        }
+      
+        
+      }  
     }
+             //println(textRollerList[0].getMessage());
+          //println(textRollerList[0].getMessage());
   }
   
   public void switchEntry(){

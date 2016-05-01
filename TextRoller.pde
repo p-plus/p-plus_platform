@@ -4,16 +4,18 @@ public class TextRoller {
   private final int SCREEN_WIDTH = envXMaxUnits; // for now, let's assume envXMaxUnits == envYMaxUnits
   private final int ROLL_END_OFFSET = 0; 
   
-  private int textStartPosition;
+  public int textStartPosition;
   private long lastMoveTime;
   private int loopCounter;
   private TextString textString;
+  public String t;
   
   public TextRoller() {
     textString = new TextString();
   }
   
   public void setText(String text) {
+    t = text;
     textString.setText(text);
     textStartPosition = SCREEN_WIDTH;
     loopCounter = 0;

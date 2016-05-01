@@ -32,6 +32,7 @@ static int MAX_CELL_CHAIN_LENGTH;
 int NUMBER_OF_CELL_CHAINS;
 String fileName = "";
 
+long timeStampStart = 0;
 
 public void derivedSettings(){
   cellLoadOffset = cellWeight/cellMaxLoad;

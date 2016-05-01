@@ -18,6 +18,8 @@ void setup() {
   fileImporter = new FileImporter();
   fileImporter.loadAllFilesFromFolder();
 
+  Date d = new Date();
+  timeStampStart = d.getTime()/1000;
   
   //Create an OffScreen PGraphic and add it to the Structure's facets
   pgOff = createGraphics(100,100, P3D);
@@ -42,7 +44,9 @@ void setup() {
 }
 
 void draw() { 
-      
+  
+  //println(frameRate);
+  
   //Draw some example animations on the PGraphics Element
   pgOff.beginDraw();
   pgOff.clear();
@@ -65,12 +69,12 @@ void draw() {
   
   evaluateCamera();
   evaluateControllers();
+  environment.getMultipleTextRoller().rollText();    
   environment.drawEnvironment();
   environment.sendDMX();
   drawAxis(); 
   //environment.getTextRoller().rollText();  
-  environment.getParticipativeTextRoller().rollText();  
-  environment.getMultipleTextRoller().rollText();    
+  //environment.getParticipativeTextRoller().rollText();  
   //environment.getAnimation().resizeAnimation();
   
   

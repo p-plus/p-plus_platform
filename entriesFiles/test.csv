@@ -1,6 +1,17 @@
 FirstName,TwitterName,WeiboName,Email,Message,ScreenChoice,BGColor,TextColor,TimeStamp
-user1,,,lajuxy@yahoo.com,??Hello,S,#4D5B56,#FF0000,1462032000
-user2,,,lajuxy@yahoo.com,??Hello whats,S,#154242,#CD00FF,1462032480
-user3,,,lajuxy@yahoo.com,!!Hello whats up,S,#194215,#FFFFFF,1462032240
-user4,,,lajuxy@yahoo.com,.Hello whats up whats up,S,#152242,#FFEE4D,1462032360
-user5,,,lajuxy@yahoo.com,%Hello whats up whats up hello,S,#2D1542,#00FFA3,1462032120
+user1,,,lajuxy@yahoo.com,1NORTH1,N,#FF0000,#FFFFFF,1462032000
+user2,,,lajuxy@yahoo.com,1EAST1,E,#00FF00,#FFFFFF,1462032000
+user3,,,lajuxy@yahoo.com,1SOUTH1,S,#0000FF,#FFFFFF,1462032000
+user4,,,lajuxy@yahoo.com,1WEST1,W,#FFFFFF,#FFFFFF,1462032000
+user5,,,lajuxy@yahoo.com,2NORTH2,N,#FFFFFF,#FFFFFF,1462032015
+user6,,,lajuxy@yahoo.com,2EAST2,E,#FF0000,#FFFFFF,1462032015
+user7,,,lajuxy@yahoo.com,2SOUTH2,S,#00FF00,#FFFFFF,1462032015
+user8,,,lajuxy@yahoo.com,2WEST2,W,#0000FF,#FFFFFF,1462032015
+user9,,,lajuxy@yahoo.com,3NORTH3,N,#0000FF,#FFFFFF,1462032030
+user10,,,lajuxy@yahoo.com,3EAST3,E,#FFFFFF,#FFFFFF,1462032030
+user11,,,lajuxy@yahoo.com,3SOUTH3,S,#FF0000,#FFFFFF,1462032030
+user12,,,lajuxy@yahoo.com,3WEST3,W,#00FF00,#FFFFFF,1462032030
+user13,,,lajuxy@yahoo.com,4NORTH4,N,#00FF00,#FFFFFF,1462032045
+user14,,,lajuxy@yahoo.com,4EAST4,E,#0000FF,#FFFFFF,1462032045
+user15,,,lajuxy@yahoo.com,4SOUTH4,S,#FFFFFF,#FFFFFF,1462032045
+user16,,,lajuxy@yahoo.com,4WEST4,W,#FF0000,#FFFFFF,1462032045

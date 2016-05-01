@@ -67,7 +67,7 @@ boolean animation = false;
 boolean drawDisplayInformation = true;
 boolean frontMode = false;
 
-int transitionMode = 0;
+int transitionMode = 2;
 
 
 public enum FACET {ALL, NORTH, SOUTH, EAST, WEST, BOTTOM_UP, CEILING_DOWN};
