@@ -82,18 +82,18 @@ public class ParticipativeTextRoller extends TextRoller implements Cloneable {
     }while(nextEntryNumber == currentEntryNumber);
   }
   
-  public void randomEntry() {
-    /*previousEntryNumber = currentEntryNumber;
+  /*public void randomEntry() {
+    previousEntryNumber = currentEntryNumber;
     do{
       currentEntryNumber = (int)random(0, entriesList.size()-1);
-    }while(currentEntryNumber==previousEntryNumber);*/
+    }while(currentEntryNumber==previousEntryNumber);
 
     if ((entriesList != null) && !entriesList.isEmpty()) {
       super.setText(entriesList.get(currentEntryNumber).message);
       //bgColor = entriesList.get(currentEntryNumber).bgcolor;
       //textColor = entriesList.get(currentEntryNumber).textcolor;
     }
-  }
+  }*/
   
   public void rollText(){
     super.rollText();

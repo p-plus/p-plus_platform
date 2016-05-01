@@ -53,7 +53,7 @@ public class Environment {
     particpativeTextRoller.nextEntry();
     
     //Multiple TextRoller
-    multipleTextRoller = new MultipleTextRoller(entriesList);
+    multipleTextRoller = new MultipleTextRoller();
     
   }
    

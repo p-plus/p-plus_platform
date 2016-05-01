@@ -222,6 +222,9 @@ void evaluateControllers() {
   }else if(command('6') && multipleText){
     transitionMode = 6; 
     environment.getMultipleTextRoller().switchEntry();
+  }else if(command('7') && multipleText){
+    transitionMode = 7; 
+    environment.getMultipleTextRoller().switchEntry();
   }
   
   

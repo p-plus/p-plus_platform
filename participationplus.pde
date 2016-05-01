@@ -45,7 +45,7 @@ void setup() {
 
 void draw() { 
   
-  //println(frameRate);
+  println(frameRate);
   
   //Draw some example animations on the PGraphics Element
   pgOff.beginDraw();
