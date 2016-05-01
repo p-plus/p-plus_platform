@@ -123,6 +123,16 @@ public class FileImporter{
     environment.cellsGrown = totalCells;
     environment.setFrontCells();
     
+    for (int x = 0; x < envXMaxUnits; x++) {
+      for (int y = 0; y < envYMaxUnits; y++) {
+        for (int z = 0; z < envZMaxUnits; z++) {
+          if(environment.matrix[x][y][z].solid){
+            environment.matrix[x][y][z].calculateNeighbours();
+          }
+        }
+      }
+    }    
+    
     println("NUMBER BASE: "+z_counter);
   }
   

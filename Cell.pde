@@ -24,7 +24,10 @@ public class Cell {
   public PIXEL entryPixel;
   public PIXEL exitPixel;
   public FACET facet;
+  public FACET f2;
   public color pixelTop, pixelBottom, pixelLeft, pixelRight;
+  
+  public int neighbours[] = new int[4];
   
   // Helper variables for drawing shapes with better performance - some values are hardcoded for convenience
   private final int rr0 = unitSize/20;
@@ -107,6 +110,7 @@ public class Cell {
     
     this.solid = true;
     
+    //calculateNeighbours();
     //initialiseOrientation();
   }
   
@@ -123,6 +127,56 @@ public class Cell {
     }
     
     return pix;
+  }
+  
+  public void calculateNeighbours(){
+  
+       
+    for(int ix=x-1; ix<x+2; ix++){
+      for(int iy=y-1; iy<y+2; iy++){
+        for(int iz=z-1; iz<z+2; iz++){
+          if(ix<0 || ix>=envXMaxUnits || iy<0 || iy>=envYMaxUnits+1 || iz<0 || iz>=envZMaxUnits){
+            
+          }else{
+            Cell cell = environment.matrix[ix][iy][iz];
+            if(cell.solid){
+               if(cell.facet == FACET.NORTH){
+                 neighbours[0]++;  
+               }else if(cell.facet == FACET.EAST){
+                 neighbours[1]++;  
+               }else if(cell.facet == FACET.SOUTH){
+                 neighbours[2]++;  
+               }else if(cell.facet == FACET.WEST){
+                 neighbours[3]++;  
+               }
+            }
+          }
+        }
+      }
+    }
+    
+    int copyn[] = neighbours.clone();
+    Arrays.sort(neighbours);
+    
+    final int index = getArrayIndex(copyn, neighbours[neighbours.length-1]);
+    
+    switch(index){
+      case 0:
+        f2 = FACET.NORTH;
+        break;
+      case 1:
+        f2 = FACET.EAST;
+        break;
+      case 2:
+        f2 = FACET.SOUTH;
+        break;
+      case 3:
+        f2 = FACET.WEST;
+        break;
+        
+    }
+    println("neighbours: "+neighbours[0]+" "+neighbours[1]+" "+neighbours[2]+" "+neighbours[3]);
+
   }
   
   public PIXEL getRightPixel(PIXEL p) {
@@ -591,56 +645,56 @@ public class Cell {
         //Draw pixel at BOTTOM
         color c = color(0,0,0);
         color c_text = color(0,0,0);
-        setPixel(PIXEL.BOTTOM, environment.getMultipleTextRoller().getBgColor(facet));
+        setPixel(PIXEL.BOTTOM, environment.getMultipleTextRoller().getBgColor(facet, f2));
         if(environment.getMultipleTextRoller().isTransition()){
           switch(transitionMode){
             case 0:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
               }
               break;
             case 1:
-              c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().getNextBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), environment.getMultipleTextRoller().getNextBgColor(facet, f2), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               break;
             case 2:
-              c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
-              c = lerpColor(c1, environment.getMultipleTextRoller().getNextBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+              c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+              c = lerpColor(c1, environment.getMultipleTextRoller().getNextBgColor(facet, f2), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
               break; 
             case 3:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
               }
               break;
             case 4:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
               }
               break;
             case 5:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(x+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(x+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
               }
               break;
             case 6:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*4*(envZMaxUnits-projCoord_j));
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*4*(envZMaxUnits-projCoord_j));
               }
               break;    
             case 7:
               //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+                c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
              // }else{
-                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress())*4*(envZMaxUnits-projCoord_j));
+                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*4*(envZMaxUnits-projCoord_j));
               //}
               c = lerpColor(c1,c2,environment.getMultipleTextRoller().transitionProgress());
               break;
@@ -681,57 +735,57 @@ public class Cell {
         
         //Draw pixel at RIGHT
         //emissive(boxOffColour);
-        setPixel(PIXEL.RIGHT, environment.getMultipleTextRoller().getBgColor(facet));
+        setPixel(PIXEL.RIGHT, environment.getMultipleTextRoller().getBgColor(facet, f2));
         if(environment.getMultipleTextRoller().isTransition()){  
           switch(transitionMode){
             case 0:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
               }
               break;
             case 1:
-              c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().getNextBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), environment.getMultipleTextRoller().getNextBgColor(facet, f2), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               break;
             case 2:
-              c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
-              c = lerpColor(c1, environment.getMultipleTextRoller().getNextBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+              c = lerpColor(c1, environment.getMultipleTextRoller().getNextBgColor(facet, f2), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               break; 
               
             case 3:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+2));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+2));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
               }
               break;
             case 4:
-                color c4 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress());
+                color c4 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress());
                 //c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
               //if(environment.getMultipleTextRoller().transitionProgress()>0.05){
-                c = lerpColor(c4, environment.getMultipleTextRoller().getNextBgColor(facet), 0.5+(environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
+                c = lerpColor(c4, environment.getMultipleTextRoller().getNextBgColor(facet, f2), 0.5+(environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
               //}
               break;
             case 5:
                if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(x+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(x+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
               }
               break;
             case 6:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*3*(envZMaxUnits-projCoord_j));
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*3*(envZMaxUnits-projCoord_j));
               }
               break;
             case 7:
               //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+                c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
              // }else{
-                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress())*3*(envZMaxUnits-projCoord_j));
+                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*3*(envZMaxUnits-projCoord_j));
               //}
               c = lerpColor(c1,c2,environment.getMultipleTextRoller().transitionProgress());
               break;
@@ -773,57 +827,57 @@ public class Cell {
         
         
         //Draw pixel at TOP
-        setPixel(PIXEL.TOP, environment.getMultipleTextRoller().getBgColor(facet));
+        setPixel(PIXEL.TOP, environment.getMultipleTextRoller().getBgColor(facet, f2));
         //emissive(boxOffColour);
         if(environment.getMultipleTextRoller().isTransition()){  
             switch(transitionMode){
             case 0:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
               }
               break;
             case 1:
-              c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().getNextBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), environment.getMultipleTextRoller().getNextBgColor(facet, f2), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               break;
             case 2:
-              c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
-              c = lerpColor(c1, environment.getMultipleTextRoller().getNextBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
+              c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+              c = lerpColor(c1, environment.getMultipleTextRoller().getNextBgColor(facet, f2), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
               break; 
             case 3:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+2));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+2));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
               }
               break;
             case 4:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
               }
               break;
             case 5:
                if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(x+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(x+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
               }
               break;
            case 6:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(envZMaxUnits-projCoord_j));
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(envZMaxUnits-projCoord_j));
               }
               break;
            case 7:
               //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
+                c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
              // }else{
-                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress())*2*(envZMaxUnits-projCoord_j));
+                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*2*(envZMaxUnits-projCoord_j));
               //}
               c = lerpColor(c1,c2,environment.getMultipleTextRoller().transitionProgress());
               break;
@@ -863,58 +917,58 @@ public class Cell {
         
         
         //Draw pixel at LEFT
-        setPixel(PIXEL.LEFT, environment.getMultipleTextRoller().getBgColor(facet));
-        emissive(environment.getMultipleTextRoller().getBgColor(facet));
+        setPixel(PIXEL.LEFT, environment.getMultipleTextRoller().getBgColor(facet, f2));
+        //emissive(environment.getMultipleTextRoller().getBgColor(facet));
         //emissive(boxOffColour);
         if(environment.getMultipleTextRoller().isTransition()){  
             switch(transitionMode){
             case 0:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(projCoord_j+1));            
               }
               break;
             case 1:
-              c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), environment.getMultipleTextRoller().getNextBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
+              c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), environment.getMultipleTextRoller().getNextBgColor(facet, f2), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
               break;
             case 2:
-              c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
-              c = lerpColor(c1, environment.getMultipleTextRoller().getNextBgColor(facet), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
+              c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
+              c = lerpColor(c1, environment.getMultipleTextRoller().getNextBgColor(facet, f2), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
               break; 
             case 3:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
               }
               break;
             case 4:
-                color c4 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress());
+                color c4 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress());
                 //c = lerpColor(environment.getMultipleTextRoller().getPreviousBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*0.5*(projCoord_i+projCoord_j+1));
               //if(environment.getMultipleTextRoller().transitionProgress()>0.05){
-                c = lerpColor(c4, environment.getMultipleTextRoller().getNextBgColor(facet), 0.5+(environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
+                c = lerpColor(c4, environment.getMultipleTextRoller().getNextBgColor(facet, f2), 0.5+(environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(projCoord_i+projCoord_j+1));            
               //}
               break;
            case 5:
                if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(x+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(x+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*2*(x+1));            
               }
               break;
            case 6:
               if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
+                c = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
               }else{
-                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(envZMaxUnits-projCoord_j));
+                c = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress()-0.5)*1*(envZMaxUnits-projCoord_j));
               }
               break;
            case 7:
               //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
-                c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
+                c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
              // }else{
-                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet), (environment.getMultipleTextRoller().transitionProgress())*1*(envZMaxUnits-projCoord_j));
+                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*1*(envZMaxUnits-projCoord_j));
               //}
               c = lerpColor(c1,c2,environment.getMultipleTextRoller().transitionProgress());
               break;
@@ -1511,4 +1565,16 @@ public class Cell {
     }
   }
   
+  public int getArrayIndex(int[] arr,int value) {
+
+        int k=0;
+        for(int i=0;i<arr.length;i++){
+
+            if(arr[i]==value){
+                k=i;
+                break;
+            }
+        }
+    return k;
+  }
 }

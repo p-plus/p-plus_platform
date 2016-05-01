@@ -30,6 +30,8 @@ void setup() {
   environment.getAnimation().addGraphics(FACET.BOTTOM_UP, pgOff);
   environment.getAnimation().addGraphics(FACET.CEILING_DOWN, pgOff);
   
+  environment.getMultipleTextRoller().setMode(TEXTROLLER_MODE.TIMESTAMP);
+  
   //Init ArtNetNode
   artnet = new ArtNet();
   try {
@@ -45,7 +47,7 @@ void setup() {
 
 void draw() { 
   
-  println(frameRate);
+  //println(frameRate);
   
   //Draw some example animations on the PGraphics Element
   pgOff.beginDraw();
