@@ -14,6 +14,7 @@ public class MultipleTextRoller {
   private int DURATION = 10000;
   private float BACKGROUND_BRIGHTNESS = 0.8;
   boolean simulationMode = true;
+  boolean timeStampMode = true;
   
   
   public MultipleTextRoller(ArrayList<Entry> entriesList){
@@ -355,12 +356,30 @@ public class MultipleTextRoller {
       
       boolean next = false;
       
-      for(int i=0; i<4; i++){        
-        if(current >= textRollerList[i].getNextEntry().timeStamp){
-          next = true;
-          textRollerList[i].prepareNextEntry();
-          //textRollerList[i].nextEntryNumber++;
+      for(int i=0; i<4; i++){   
+        if(current >= textRollerList[i].getLastEntry().timeStamp){
+          timeStampMode = false;  
         }
+        if(timeStampMode){
+          if(current >= textRollerList[i].getNextEntry().timeStamp){
+            next = true;
+            textRollerList[i].prepareNextEntry();
+            //textRollerList[i].nextEntryNumber++;
+          }
+        }
+      }
+      
+      if(!timeStampMode){
+          //println("time-stamp mode false");
+          if(millis()-lastSwitchTime >= DURATION){
+            lastSwitchTime = millis(); 
+            next = true;
+            transitionCtr = millis();
+            textRollerList[0].prepareRandomEntry(); 
+            textRollerList[1].prepareRandomEntry(); 
+            textRollerList[2].prepareRandomEntry(); 
+            textRollerList[3].prepareRandomEntry();
+          }  
       }
       
       if(next){ 

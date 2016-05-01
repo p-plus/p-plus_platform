@@ -49,24 +49,34 @@ public class ParticipativeTextRoller extends TextRoller implements Cloneable {
   }
   
   public void prepareNextEntry(){
-    //if(nextEntryNumber<entriesList.size()+1){
+    if(nextEntryNumber<entriesList.size()+1){
       nextEntryNumber++;
-    //}  
+    }else{
+      nextEntryNumber=0;
+    }
+
   }
   
   public void nextEntry() {
     
     //previousEntryNumber = currentEntryNumber;
-    if(currentEntryNumber<entriesList.size()-1){
-      currentEntryNumber++;
-    }else {
-      currentEntryNumber=0;
-    }
-    nextEntryNumber = currentEntryNumber;
+    //if(currentEntryNumber<entriesList.size()+1){
+    //  currentEntryNumber++;
+    //}else {
+    //  currentEntryNumber=0;
+    //}
+    //nextEntryNumber = currentEntryNumber;
+    currentEntryNumber = nextEntryNumber;
 
     if ((entriesList != null) && !entriesList.isEmpty()) {
       super.setText(entriesList.get(currentEntryNumber).message);
     }
+  }
+  
+  public void prepareRandomEntry(){
+    do{
+      nextEntryNumber = (int)random(0, entriesList.size()-1);
+    }while(nextEntryNumber == currentEntryNumber);
   }
   
   public void randomEntry() {
@@ -105,6 +115,10 @@ public class ParticipativeTextRoller extends TextRoller implements Cloneable {
     }else{
       return entriesList.get(0);
     }
+  }
+  
+  public Entry getLastEntry(){
+   return entriesList.get(entriesList.size()-1); 
   }
   
   public String getMessage(){
