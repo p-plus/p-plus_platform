@@ -16,7 +16,7 @@ public class ParticipativeTextRoller extends TextRoller implements Cloneable {
     //randomEntry();
   }
   
-  public ParticipativeTextRoller(FACET facet){
+  public ParticipativeTextRoller(FACET facet, int startNumber){
     // Create text roller
     super();
     EntriesImporter imp = new EntriesImporter();
@@ -35,6 +35,9 @@ public class ParticipativeTextRoller extends TextRoller implements Cloneable {
      }
       
     }
+    
+    currentEntryNumber = startNumber;
+    nextEntryNumber = startNumber;
     
     if ((entriesList != null) && !entriesList.isEmpty()) {
       super.setText(entriesList.get(currentEntryNumber).message);

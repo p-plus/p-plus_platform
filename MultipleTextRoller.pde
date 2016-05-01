@@ -20,10 +20,10 @@ public class MultipleTextRoller {
   public MultipleTextRoller(ArrayList<Entry> entriesList){
     // Create text roller
 
-    textRollerList[0] = new ParticipativeTextRoller(FACET.NORTH);
-    textRollerList[1] = new ParticipativeTextRoller(FACET.EAST);
-    textRollerList[2] = new ParticipativeTextRoller(FACET.SOUTH);
-    textRollerList[3] = new ParticipativeTextRoller(FACET.WEST);
+    textRollerList[0] = new ParticipativeTextRoller(FACET.NORTH, 0);
+    textRollerList[1] = new ParticipativeTextRoller(FACET.EAST, 0);
+    textRollerList[2] = new ParticipativeTextRoller(FACET.SOUTH, 0);
+    textRollerList[3] = new ParticipativeTextRoller(FACET.WEST, 0);
     
     
 
@@ -349,7 +349,7 @@ public class MultipleTextRoller {
       long current=d.getTime()/1000;
       
       if(simulationMode){
-        current = current - (timeStampStart-1462031990);
+        current = current - (timeStampStart-1462032016);
       }
       
       //println(current);
@@ -362,10 +362,15 @@ public class MultipleTextRoller {
         }
         if(timeStampMode){
           if(current >= textRollerList[i].getNextEntry().timeStamp){
-            next = true;
-            textRollerList[i].prepareNextEntry();
-            //textRollerList[i].nextEntryNumber++;
+            do{
+              next = true;
+              textRollerList[i].prepareNextEntry();
+            }while(current >= textRollerList[i].getNextEntry().timeStamp);
           }
+          //do{
+          // next = true; 
+          // textRollerList[i].prepareNextEntry(); 
+          //}while(current >= textRollerList[i].getNextEntry().timeStamp);
         }
       }
       
