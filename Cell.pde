@@ -135,7 +135,7 @@ public class Cell {
     for(int ix=x-1; ix<x+2; ix++){
       for(int iy=y-1; iy<y+2; iy++){
         for(int iz=z-1; iz<z+2; iz++){
-          if(ix<0 || ix>=envXMaxUnits || iy<0 || iy>=envYMaxUnits+1 || iz<0 || iz>=envZMaxUnits){
+          if(ix<0 || ix>=envXMaxUnits || iy<0 || iy>=envYMaxUnits || iz<0 || iz>=envZMaxUnits){
             
           }else{
             Cell cell = environment.matrix[ix][iy][iz];
@@ -694,8 +694,11 @@ public class Cell {
               //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
                 c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*1*(projCoord_j+1));
              // }else{
-                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*4*(envZMaxUnits-projCoord_j));
-              //}
+                if(facet == FACET.CEILING_DOWN | facet == FACET.BOTTOM_UP){
+                  c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*1*(envXMaxUnits-projCoord_j));
+                }else{
+                  c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*4*(envZMaxUnits-projCoord_j));
+                }              //}
               c = lerpColor(c1,c2,environment.getMultipleTextRoller().transitionProgress());
               break;
             
@@ -785,8 +788,11 @@ public class Cell {
               //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
                 c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*2*(projCoord_j+1));
              // }else{
-                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*3*(envZMaxUnits-projCoord_j));
-              //}
+                if(facet == FACET.CEILING_DOWN | facet == FACET.BOTTOM_UP){
+                  c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*3*(envXMaxUnits-projCoord_j));
+                }else{
+                  c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*3*(envZMaxUnits-projCoord_j));
+                }              //}
               c = lerpColor(c1,c2,environment.getMultipleTextRoller().transitionProgress());
               break;
            
@@ -877,7 +883,11 @@ public class Cell {
               //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
                 c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*3*(projCoord_j+1));
              // }else{
-                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*2*(envZMaxUnits-projCoord_j));
+                if(facet == FACET.CEILING_DOWN | facet == FACET.BOTTOM_UP){
+                  c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*2*(envXMaxUnits-projCoord_j));
+                }else{
+                  c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*2*(envZMaxUnits-projCoord_j));
+                }
               //}
               c = lerpColor(c1,c2,environment.getMultipleTextRoller().transitionProgress());
               break;
@@ -968,8 +978,11 @@ public class Cell {
               //if(environment.getMultipleTextRoller().transitionProgress()<0.5){
                 c1 = lerpColor(environment.getMultipleTextRoller().getBgColor(facet, f2), color(0,0,0), environment.getMultipleTextRoller().transitionProgress()*4*(projCoord_j+1));
              // }else{
-                c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*1*(envZMaxUnits-projCoord_j));
-              //}
+                if(facet == FACET.CEILING_DOWN | facet == FACET.BOTTOM_UP){
+                  c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*1*(envXMaxUnits-projCoord_j));
+                }else{
+                  c2 = lerpColor(color(0,0,0), environment.getMultipleTextRoller().getNextBgColor(facet, f2), (environment.getMultipleTextRoller().transitionProgress())*1*(envZMaxUnits-projCoord_j));
+                }              //}
               c = lerpColor(c1,c2,environment.getMultipleTextRoller().transitionProgress());
               break;
             }

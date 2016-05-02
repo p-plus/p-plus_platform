@@ -21,18 +21,19 @@ public class ParticipativeTextRoller extends TextRoller implements Cloneable {
     super();
     EntriesImporter imp = new EntriesImporter();
     this.entriesList = imp.loadEntriesFile();
-    this.facet = facet;
+    this.entriesList = (ArrayList<Entry>) entriesList.clone();
+    this.facet = facet; 
     
     //println("EntriesList before: "+entriesList.size());
     
     Iterator<Entry> iter = entriesList.iterator();
 
     while(iter.hasNext()) {
-     Entry entry = iter.next();
+      Entry entry = iter.next();
      
-     if(entry.screenChoice != facet){
-      iter.remove(); 
-     }
+      if(entry.screenChoice != facet){
+        iter.remove(); 
+      }
       
     }
     

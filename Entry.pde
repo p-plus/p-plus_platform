@@ -19,7 +19,8 @@ public class Entry implements Comparable<Entry>{
     twitterName = row.getString(1);
     weiboName = row.getString(2);
     email = row.getString(3);
-    message = row.getString(4);    
+    message = row.getString(4).replace("|",",");
+    
     if(row.getString(5).charAt(0) == 'N'){
       screenChoice = FACET.NORTH;    
     }else if(row.getString(5).charAt(0) == 'E'){

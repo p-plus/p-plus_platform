@@ -4,14 +4,14 @@ public class MultipleTextRoller {
   
   private ParticipativeTextRoller[] textRollerList = new ParticipativeTextRoller[4];
 
-  private TEXTROLLER_MODE mode = TEXTROLLER_MODE.RANDOM;
+  private TEXTROLLER_MODE mode = TEXTROLLER_MODE.TIMESTAMP;
   private boolean transition;
   private float transitionCtr;
   private float TRANSITION = 5000;
   color c1, c2, c3, c4;
   private long lastSwitchTime;
-  private int DURATION = 20000;
-  private float BACKGROUND_BRIGHTNESS = 0.8;
+  private int DURATION = 10000;
+  private float BACKGROUND_BRIGHTNESS = 0.2;
   boolean simulationMode = true;
   boolean timeStampMode = true;
   boolean next;

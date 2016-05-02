@@ -65,7 +65,7 @@ boolean renderLandscape = false;
 boolean defaultShapes = false;
 boolean animation = false;
 boolean drawDisplayInformation = true;
-boolean frontMode = false;
+boolean frontMode = true;
 
 int transitionMode = 2;
 
