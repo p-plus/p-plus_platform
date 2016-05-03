@@ -10,6 +10,8 @@ Environment environment;
 
 PGraphics pgOff;
 
+
+
 void setup() {
   size(1280, 720, P3D);
   loadConfigFile();
@@ -22,7 +24,11 @@ void setup() {
   timeStampStart = d.getTime()/1000;
   
   //Create an OffScreen PGraphic and add it to the Structure's facets
-  pgOff = createGraphics(100,100, P3D);
+  pgOff = createGraphics(envXMaxUnits*3*2,envZMaxUnits*3*2, P3D);
+  pgOff.beginDraw();
+  pgOff.colorMode(HSB,360,100,100);
+  pgOff.endDraw();
+  
   environment.getAnimation().addGraphics(FACET.NORTH, pgOff);  
   environment.getAnimation().addGraphics(FACET.SOUTH, pgOff);  
   environment.getAnimation().addGraphics(FACET.EAST, pgOff);  
@@ -47,16 +53,7 @@ void setup() {
 
 void draw() { 
   
-  //println(frameRate);
-  
-  //Draw some example animations on the PGraphics Element
-  pgOff.beginDraw();
-  pgOff.clear();
-  pgOff.fill(255,0,0);
-  pgOff.noStroke();
-  pgOff.rect(0,0,frameCount%pgOff.width,frameCount%pgOff.height);
-  pgOff.endDraw();
-
+  println(frameRate);
   
   if(!fileImporter.importingFile){
   lights();
@@ -71,10 +68,17 @@ void draw() {
   
   evaluateCamera();
   evaluateControllers();
-  environment.getMultipleTextRoller().rollText();    
+  environment.getMultipleTextRoller().rollText(); 
+
+  if(animation){
+    environment.getAnimation().resizeAnimation();
+    drawFirework();
+  }
+  
   environment.drawEnvironment();
   environment.sendDMX();
   drawAxis(); 
+  
   //environment.getTextRoller().rollText();  
   //environment.getParticipativeTextRoller().rollText();  
   //environment.getAnimation().resizeAnimation();

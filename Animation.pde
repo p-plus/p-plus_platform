@@ -61,96 +61,96 @@ public class Animation {
       case NORTH:
         if(pixel == PIXEL.BOTTOM){
           //println("getpixel: "+i*3+1+" "+3*j);
-          c = imgNorth.get(i*3+1,3*j);
+          c = imgNorth.get(i*3+1,((envZMaxUnits-1)*3)-3*j);
           //c = pg.pixels[(i*3+1)*pg.width+3*j];
         }else if(pixel == PIXEL.RIGHT){
-          c = imgNorth.get(i*3+2,3*j+1);
+          c = imgNorth.get(i*3+2,((envZMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[(i*3+2)*pg.width+3*j+1];
         }else if(pixel == PIXEL.TOP){
-          c = imgNorth.get(i*3+1,3*j+2);
+          c = imgNorth.get(i*3+1,((envZMaxUnits-1)*3)-3*j+2);
           //c = pg.pixels[(i*3+1)*pg.width+3*j+2];
         }else if(pixel == PIXEL.LEFT){
-          c = imgNorth.get(i*3,3*j+1);
+          c = imgNorth.get(i*3,((envZMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[i*3*pg.width+3*j+1];
         }
         break;
       case SOUTH:
         if(pixel == PIXEL.BOTTOM){
           //println("getpixel: "+i*3+1+" "+3*j);
-          c = imgSouth.get(i*3+1,3*j);
+          c = imgSouth.get(i*3+1,((envZMaxUnits-1)*3)-3*j);
           //c = pg.pixels[(i*3+1)*pg.width+3*j];
         }else if(pixel == PIXEL.RIGHT){
-          c = imgSouth.get(i*3+2,3*j+1);
+          c = imgSouth.get(i*3+2,((envZMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[(i*3+2)*pg.width+3*j+1];
         }else if(pixel == PIXEL.TOP){
-          c = imgSouth.get(i*3+1,3*j+2);
+          c = imgSouth.get(i*3+1,((envZMaxUnits-1)*3)-3*j+2);
           //c = pg.pixels[(i*3+1)*pg.width+3*j+2];
         }else if(pixel == PIXEL.LEFT){
-          c = imgSouth.get(i*3,3*j+1);
+          c = imgSouth.get(i*3,((envZMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[i*3*pg.width+3*j+1];
         }
         break;        
       case EAST:
         if(pixel == PIXEL.BOTTOM){
           //println("getpixel: "+i*3+1+" "+3*j);
-          c = imgEast.get(i*3+1,3*j);
+          c = imgEast.get(i*3+1,((envZMaxUnits-1)*3)-3*j);
           //c = pg.pixels[(i*3+1)*pg.width+3*j];
         }else if(pixel == PIXEL.RIGHT){
-          c = imgEast.get(i*3+2,3*j+1);
+          c = imgEast.get(i*3+2,((envZMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[(i*3+2)*pg.width+3*j+1];
         }else if(pixel == PIXEL.TOP){
-          c = imgEast.get(i*3+1,3*j+2);
+          c = imgEast.get(i*3+1,((envZMaxUnits-1)*3)-3*j+2);
           //c = pg.pixels[(i*3+1)*pg.width+3*j+2];
         }else if(pixel == PIXEL.LEFT){
-          c = imgEast.get(i*3,3*j+1);
+          c = imgEast.get(i*3,((envZMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[i*3*pg.width+3*j+1];
         }
         break;
       case WEST:
         if(pixel == PIXEL.BOTTOM){
           //println("getpixel: "+i*3+1+" "+3*j);
-          c = imgWest.get(i*3+1,3*j);
+          c = imgWest.get(i*3+1,((envZMaxUnits-1)*3)-3*j);
           //c = pg.pixels[(i*3+1)*pg.width+3*j];
         }else if(pixel == PIXEL.RIGHT){
-          c = imgWest.get(i*3+2,3*j+1);
+          c = imgWest.get(i*3+2,((envZMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[(i*3+2)*pg.width+3*j+1];
         }else if(pixel == PIXEL.TOP){
-          c = imgWest.get(i*3+1,3*j+2);
+          c = imgWest.get(i*3+1,((envZMaxUnits-1)*3)-3*j+2);
           //c = pg.pixels[(i*3+1)*pg.width+3*j+2];
         }else if(pixel == PIXEL.LEFT){
-          c = imgWest.get(i*3,3*j+1);
+          c = imgWest.get(i*3,((envZMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[i*3*pg.width+3*j+1];
         }
         break;
         case BOTTOM_UP:
         if(pixel == PIXEL.BOTTOM){
           //println("getpixel: "+i*3+1+" "+3*j);
-          c = imgBottomUp.get(i*3+1,3*j);
+          c = imgBottomUp.get(i*3+1,((envYMaxUnits-1)*3)-3*j);
           //c = pg.pixels[(i*3+1)*pg.width+3*j];
         }else if(pixel == PIXEL.RIGHT){
-          c = imgBottomUp.get(i*3+2,3*j+1);
+          c = imgBottomUp.get(i*3+2,((envYMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[(i*3+2)*pg.width+3*j+1];
         }else if(pixel == PIXEL.TOP){
-          c = imgBottomUp.get(i*3+1,3*j+2);
+          c = imgBottomUp.get(i*3+1,((envYMaxUnits-1)*3)-3*j+2);
           //c = pg.pixels[(i*3+1)*pg.width+3*j+2];
         }else if(pixel == PIXEL.LEFT){
-          c = imgBottomUp.get(i*3,3*j+1);
+          c = imgBottomUp.get(i*3,((envYMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[i*3*pg.width+3*j+1];
         }
         break;
         case CEILING_DOWN:
         if(pixel == PIXEL.BOTTOM){
           //println("getpixel: "+i*3+1+" "+3*j);
-          c = imgCeilingDown.get(i*3+1,3*j);
+          c = imgCeilingDown.get(i*3+1,((envYMaxUnits-1)*3)-3*j);
           //c = pg.pixels[(i*3+1)*pg.width+3*j];
         }else if(pixel == PIXEL.RIGHT){
-          c = imgCeilingDown.get(i*3+2,3*j+1);
+          c = imgCeilingDown.get(i*3+2,((envYMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[(i*3+2)*pg.width+3*j+1];
         }else if(pixel == PIXEL.TOP){
-          c = imgCeilingDown.get(i*3+1,3*j+2);
+          c = imgCeilingDown.get(i*3+1,((envYMaxUnits-1)*3)-3*j+2);
           //c = pg.pixels[(i*3+1)*pg.width+3*j+2];
         }else if(pixel == PIXEL.LEFT){
-          c = imgCeilingDown.get(i*3,3*j+1);
+          c = imgCeilingDown.get(i*3,((envYMaxUnits-1)*3)-3*j+1);
           //c = pg.pixels[i*3*pg.width+3*j+1];
         }
         //pgList.get(0).endDraw();

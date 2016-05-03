@@ -453,7 +453,7 @@ public class Cell {
         popMatrix();
       }
       
-      if (multipleText) {
+      if (multipleText || animation) {
         setPixel(color(0,0,0));  
       }else if (participatoryText) {
         setPixel(environment.getParticipativeTextRoller().getCurrentEntry().bgColor);  
@@ -1027,10 +1027,10 @@ public class Cell {
       
       if(animation && !runningSimulation){
         //Draw pixel at BOTTOM
-        emissive(boxOffColour);
+        //emissive(boxOffColour);
         color pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, facet, PIXEL.BOTTOM);
-        fill(pixel);
-        emissive(pixel);
+        setPixel(pixel);
+        //emissive(pixel);
         pushMatrix();
         if (defaultShapes) {
           translate(2, 0, -unitSize/4);
@@ -1041,10 +1041,10 @@ public class Cell {
         popMatrix();
         
         //Draw pixel at RIGHT
-        emissive(boxOffColour);
+        //emissive(boxOffColour);
         pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, facet, PIXEL.RIGHT);
-        fill(pixel);
-        emissive(pixel);
+        setPixel(pixel);
+        //emissive(pixel);
         pushMatrix();
         if (defaultShapes) {
           translate(2, -unitSize/4, 0);
@@ -1055,10 +1055,10 @@ public class Cell {
         popMatrix();
         
         //Draw pixel at TOP
-        emissive(boxOffColour);
+        //emissive(boxOffColour);
         pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, facet, PIXEL.TOP);
-        fill(pixel);
-        emissive(pixel);
+        setPixel(pixel);
+        //emissive(pixel);
         pushMatrix();
         if (defaultShapes) {
           translate(2, 0, unitSize/4);
@@ -1069,10 +1069,10 @@ public class Cell {
         popMatrix();   
         
         //Draw pixel at LEFT
-        emissive(boxOffColour);
+        //emissive(boxOffColour);
         pixel = environment.getAnimation().getPixel(projCoord_i, projCoord_j, facet, PIXEL.LEFT);
-        fill(pixel);
-        emissive(pixel);
+        setPixel(pixel);
+        //emissive(pixel);
         pushMatrix();
         if (defaultShapes) {
           translate(2, unitSize/4, 0);
