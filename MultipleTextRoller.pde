@@ -10,7 +10,7 @@ public class MultipleTextRoller {
   private float TRANSITION = 5000;
   color c1, c2, c3, c4;
   private long lastSwitchTime;
-  private int DURATION = 10000;
+  private int DURATION = 60100;
   private float BACKGROUND_BRIGHTNESS = 0.2;
   boolean simulationMode = true;
   boolean timeStampMode = true;
@@ -223,8 +223,10 @@ public class MultipleTextRoller {
       next = false;
       
       for(int i=0; i<4; i++){   
-        if(current >= textRollerList[i].getLastEntry().timeStamp){
+        if(current >= textRollerList[i].getLastEntry().timeStamp || current+10 < textRollerList[i].getFirstEntry().timeStamp){
           timeStampMode = false;  
+        }else{
+          timeStampMode = true;
         }
         if(timeStampMode){
           if(current >= textRollerList[i].getNextEntry().timeStamp){
@@ -238,7 +240,7 @@ public class MultipleTextRoller {
       
       if(!timeStampMode){
           //println("time-stamp mode false");
-          if(millis()-lastSwitchTime >= DURATION){
+          if((millis()-lastSwitchTime) >= DURATION){
             lastSwitchTime = millis(); 
             next = true;
             transitionCtr = millis();
@@ -266,9 +268,12 @@ public class MultipleTextRoller {
         if(millis()-transitionCtr > TRANSITION){      
           transition = false; 
           //println("nextEntry");
+          Entry allCurrentEntries[] = new Entry[4];
           for(int i=0; i<4; i++){
-            textRollerList[i].nextEntry(); 
+            textRollerList[i].nextEntry();
+            allCurrentEntries[i] = textRollerList[i].getCurrentEntry();
           }
+          sendTweet(allCurrentEntries);
         }
       }  
     }

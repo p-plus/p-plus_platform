@@ -52,7 +52,7 @@ public void drawFirework(){
       pgOff.fill(hue, saturation, brightness, // RGB
          fire.lifetime-50); //Alpha
         
-      pgOff.ellipse(fire.x,fire.y,4,4); // draw the fire
+      pgOff.ellipse(fire.x,fire.y,3,3); // draw the fire
       fire.lifetime -= 0.5; // decrease lifetime
     }else{
     }
@@ -82,4 +82,6 @@ void mousePressed()
      hanabi.add(new Fire((int)(envXMaxUnits*3),(int)-(0.2*envZMaxUnits*3*2),R*sin(r),R*cos(r),c));
 
    }
+   
+   counterBol = true;
 }

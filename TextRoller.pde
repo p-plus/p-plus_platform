@@ -1,7 +1,7 @@
 public class TextRoller {
   
   private final long ROLL_INTERVAL = 500; // in ms
-  private final int SCREEN_WIDTH = envXMaxUnits; // for now, let's assume envXMaxUnits == envYMaxUnits
+  public int SCREEN_WIDTH = envXMaxUnits; // for now, let's assume envXMaxUnits == envYMaxUnits
   private final int ROLL_END_OFFSET = 0; 
   
   public int textStartPosition;
@@ -27,6 +27,7 @@ public class TextRoller {
       textStartPosition--;
       if (textStartPosition < (-1)*(textString.getColumns().size())-ROLL_END_OFFSET) {
         textStartPosition = SCREEN_WIDTH;
+        println(SCREEN_WIDTH);
         loopCounter++;
       }
       //textStartPosition++;

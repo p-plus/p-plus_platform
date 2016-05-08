@@ -3,6 +3,7 @@ public class Animation {
   ArrayList<PGraphics> pgList;
   PImage pgNorth, pgSouth, pgEast, pgWest, pgBottomUp, pgCeilingDown;
   PImage imgNorth, imgSouth, imgEast, imgWest, imgBottomUp, imgCeilingDown;
+  
 
   public void addGraphics(FACET f, PGraphics pg){
   

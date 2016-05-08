@@ -19,11 +19,22 @@ public class ParticipativeTextRoller extends TextRoller implements Cloneable {
   public ParticipativeTextRoller(FACET facet, int startNumber){
     // Create text roller
     super();
+    if(facet == FACET.NORTH){
+        super.SCREEN_WIDTH = envXMaxUnits;
+    }else if(facet == FACET.SOUTH){
+        super.SCREEN_WIDTH = envXMaxUnits;
+    }else if(facet == FACET.EAST){
+        super.SCREEN_WIDTH = envYMaxUnits;
+    }else if(facet == FACET.WEST){
+        super.SCREEN_WIDTH = envYMaxUnits;
+    }
     EntriesImporter imp = new EntriesImporter();
     this.entriesList = imp.loadEntriesFile();
     this.entriesList = (ArrayList<Entry>) entriesList.clone();
     this.facet = facet; 
     
+        println("new");
+
     //println("EntriesList before: "+entriesList.size());
     
     Iterator<Entry> iter = entriesList.iterator();
@@ -123,6 +134,10 @@ public class ParticipativeTextRoller extends TextRoller implements Cloneable {
   
   public Entry getLastEntry(){
    return entriesList.get(entriesList.size()-1); 
+  }
+  
+  public Entry getFirstEntry(){
+   return entriesList.get(0); 
   }
   
   public String getMessage(){

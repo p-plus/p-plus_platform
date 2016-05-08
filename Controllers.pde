@@ -66,6 +66,7 @@ boolean defaultShapes = false;
 boolean animation = false;
 boolean drawDisplayInformation = true;
 boolean frontMode = true;
+boolean twitterMode = false;
 
 int transitionMode = 2;
 

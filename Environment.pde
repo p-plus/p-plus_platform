@@ -283,7 +283,8 @@ public class Environment {
     cellsGrown = 0;
     baseCells = 0;
     simulationFailed = false;
-    
+    multipleTextRoller = new MultipleTextRoller();
+
     /*for (int x = 0; x < envXMaxUnits; x++) {
       for (int y = 0; y < envYMaxUnits; y++) {
         for (int z = 0; z < envZMaxUnits; z++) {

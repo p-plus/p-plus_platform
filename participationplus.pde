@@ -24,7 +24,7 @@ void setup() {
   timeStampStart = d.getTime()/1000;
   
   //Create an OffScreen PGraphic and add it to the Structure's facets
-  pgOff = createGraphics(envXMaxUnits*3*2,envZMaxUnits*3*2, P3D);
+  pgOff = createGraphics(envXMaxUnits*3,envZMaxUnits*3, P3D);
   pgOff.beginDraw();
   pgOff.colorMode(HSB,360,100,100);
   pgOff.endDraw();
@@ -35,7 +35,8 @@ void setup() {
   environment.getAnimation().addGraphics(FACET.WEST, pgOff);
   environment.getAnimation().addGraphics(FACET.BOTTOM_UP, pgOff);
   environment.getAnimation().addGraphics(FACET.CEILING_DOWN, pgOff);
-  
+  environment.getAnimation().resizeAnimation();
+
   environment.getMultipleTextRoller().setMode(TEXTROLLER_MODE.TIMESTAMP);
   
   //Init ArtNetNode
@@ -49,11 +50,14 @@ void setup() {
   }
   println("after");
   
+  setupWater();
+  setupTwitter();
+  
 }
 
 void draw() { 
   
-  println(frameRate);
+  //println(frameRate);
   
   if(!fileImporter.importingFile){
   lights();
@@ -71,14 +75,16 @@ void draw() {
   environment.getMultipleTextRoller().rollText(); 
 
   if(animation){
-    environment.getAnimation().resizeAnimation();
     drawFirework();
+    //drawWater();
+    environment.getAnimation().resizeAnimation();
   }
   
   environment.drawEnvironment();
   environment.sendDMX();
   drawAxis(); 
   
+  //image(pgOff, 0, 0);
   //environment.getTextRoller().rollText();  
   //environment.getParticipativeTextRoller().rollText();  
   //environment.getAnimation().resizeAnimation();
