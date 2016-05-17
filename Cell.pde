@@ -25,6 +25,7 @@ public class Cell {
   public PIXEL exitPixel;
   public FACET facet;
   public FACET f2;
+  public TYPE cellType;
   public color pixelTop, pixelBottom, pixelLeft, pixelRight;
   
   public int neighbours[] = new int[4];
@@ -79,6 +80,7 @@ public class Cell {
     }
     
     if(type.equals("A")){
+      cellType = TYPE.A;
       if(rotation==0){
         entryPixel = PIXEL.BOTTOM;
         exitPixel = PIXEL.LEFT;
@@ -93,6 +95,7 @@ public class Cell {
         exitPixel = PIXEL.TOP;        
       }
     }else if(type.equals("B")){
+      cellType = TYPE.B;
       if(rotation==0){
         entryPixel = PIXEL.BOTTOM;
         exitPixel = PIXEL.RIGHT;
@@ -1089,7 +1092,8 @@ public class Cell {
       shininess(0.0);
 
       // Draw wire
-      if (!pixelColours && !rollingText && !animation && !participatoryText && !multipleText && !setupInstallation) {
+      //if (!pixelColours && !rollingText && !animation && !participatoryText && !multipleText && !setupInstallation) {
+      if(1==1){  
         fill(0, 255, 0);
         pushMatrix();
         if ((entryPixel == PIXEL.BOTTOM) || (exitPixel == PIXEL.BOTTOM)) {
@@ -1559,23 +1563,23 @@ public class Cell {
   }
   
   private void setPixel(PIXEL p, color c){
-    if(p == PIXEL.TOP){
-      pixelTop = c;
-      fill(c);
-      emissive(c); 
-    }else if(p == PIXEL.BOTTOM){
-      pixelBottom = c;
-      fill(c);
-      emissive(c); 
-    }else if(p == PIXEL.LEFT){
-      pixelLeft = c;
-      fill(c);
-      emissive(c); 
-    }else if(p == PIXEL.RIGHT){
-      pixelRight = c;
-      fill(c);
-      emissive(c); 
-    }
+      if(p == PIXEL.TOP){
+        pixelTop = c;
+        fill(c);
+        emissive(c); 
+      }else if(p == PIXEL.BOTTOM){
+        pixelBottom = c;
+        fill(c);
+        emissive(c); 
+      }else if(p == PIXEL.LEFT){
+        pixelLeft = c;
+        fill(c);
+        emissive(c); 
+      }else if(p == PIXEL.RIGHT){
+        pixelRight = c;
+        fill(c);
+        emissive(c); 
+      }
   }
   
   public int getArrayIndex(int[] arr,int value) {

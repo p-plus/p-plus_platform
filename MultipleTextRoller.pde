@@ -11,7 +11,7 @@ public class MultipleTextRoller {
   color c1, c2, c3, c4;
   private long lastSwitchTime;
   private int DURATION = 60100;
-  private float BACKGROUND_BRIGHTNESS = 0.2;
+  private float BACKGROUND_BRIGHTNESS = 0.0;
   boolean simulationMode = true;
   boolean timeStampMode = true;
   boolean next;

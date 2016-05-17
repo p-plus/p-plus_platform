@@ -524,22 +524,157 @@ public class CellChain {
     
     int dataCounter = 0;
     for(int i=0; i<cells.size(); i++){
-      buffer[dataCounter + 11] = (byte) (cells.get(i).pixelBottom & 0xff);
-      buffer[dataCounter + 10] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
-      buffer[dataCounter + 9] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
       
-      buffer[dataCounter + 8] = (byte) (cells.get(i).pixelRight & 0xff);
-      buffer[dataCounter + 7] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
-      buffer[dataCounter + 6] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
-
-      buffer[dataCounter + 5] = (byte) (cells.get(i).pixelTop & 0xff);
-      buffer[dataCounter + 4] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
-      buffer[dataCounter + 3] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      if(cells.get(i).cellType == TYPE.A){
+        if(cells.get(i).entryPixel == PIXEL.BOTTOM){
+          
+          buffer[dataCounter + 2] = (byte) (cells.get(i).pixelBottom & 0xff);
+          buffer[dataCounter + 1] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+          buffer[dataCounter] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
       
-      buffer[dataCounter + 2] = (byte) (cells.get(i).pixelLeft & 0xff);
-      buffer[dataCounter + 1] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
-      buffer[dataCounter] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          buffer[dataCounter + 5] = (byte) (cells.get(i).pixelRight & 0xff);
+          buffer[dataCounter + 4] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+          buffer[dataCounter + 3] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
 
+          buffer[dataCounter + 8] = (byte) (cells.get(i).pixelTop & 0xff);
+          buffer[dataCounter + 7] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+          buffer[dataCounter + 6] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      
+          buffer[dataCounter + 11] = (byte) (cells.get(i).pixelLeft & 0xff);
+          buffer[dataCounter + 10] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+          buffer[dataCounter + 9] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          
+        } else if(cells.get(i).entryPixel == PIXEL.RIGHT){
+          
+          buffer[dataCounter + 11] = (byte) (cells.get(i).pixelBottom & 0xff);
+          buffer[dataCounter + 10] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+          buffer[dataCounter + 9] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
+      
+          buffer[dataCounter + 2] = (byte) (cells.get(i).pixelRight & 0xff);
+          buffer[dataCounter + 1] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+          buffer[dataCounter] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
+
+          buffer[dataCounter + 5] = (byte) (cells.get(i).pixelTop & 0xff);
+          buffer[dataCounter + 4] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+          buffer[dataCounter + 3] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      
+          buffer[dataCounter + 8] = (byte) (cells.get(i).pixelLeft & 0xff);
+          buffer[dataCounter + 7] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+          buffer[dataCounter + 6] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          
+        } else if(cells.get(i).entryPixel == PIXEL.TOP){
+          
+          buffer[dataCounter + 8] = (byte) (cells.get(i).pixelBottom & 0xff);
+          buffer[dataCounter + 7] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+          buffer[dataCounter + 6] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
+      
+          buffer[dataCounter + 11] = (byte) (cells.get(i).pixelRight & 0xff);
+          buffer[dataCounter + 10] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+          buffer[dataCounter + 9] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
+
+          buffer[dataCounter + 2] = (byte) (cells.get(i).pixelTop & 0xff);
+          buffer[dataCounter + 1] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+          buffer[dataCounter] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      
+          buffer[dataCounter + 5] = (byte) (cells.get(i).pixelLeft & 0xff);
+          buffer[dataCounter + 4] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+          buffer[dataCounter + 3] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          
+        } else if(cells.get(i).entryPixel == PIXEL.LEFT){
+          
+          buffer[dataCounter + 5] = (byte) (cells.get(i).pixelBottom & 0xff);
+          buffer[dataCounter + 4] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+          buffer[dataCounter + 3] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
+      
+          buffer[dataCounter + 8] = (byte) (cells.get(i).pixelRight & 0xff);
+          buffer[dataCounter + 7] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+          buffer[dataCounter + 6] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
+
+          buffer[dataCounter + 11] = (byte) (cells.get(i).pixelTop & 0xff);
+          buffer[dataCounter + 10] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+          buffer[dataCounter + 9] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      
+          buffer[dataCounter + 2] = (byte) (cells.get(i).pixelLeft & 0xff);
+          buffer[dataCounter + 1] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+          buffer[dataCounter] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          
+        }
+        
+      } else if(cells.get(i).cellType == TYPE.B) {
+        if(cells.get(i).entryPixel == PIXEL.BOTTOM){
+          
+          buffer[dataCounter + 2] = (byte) (cells.get(i).pixelBottom & 0xff);
+          buffer[dataCounter + 1] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+          buffer[dataCounter] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
+      
+          buffer[dataCounter + 11] = (byte) (cells.get(i).pixelRight & 0xff);
+          buffer[dataCounter + 10] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+          buffer[dataCounter + 9] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
+
+          buffer[dataCounter + 8] = (byte) (cells.get(i).pixelTop & 0xff);
+          buffer[dataCounter + 7] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+          buffer[dataCounter + 6] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      
+          buffer[dataCounter + 5] = (byte) (cells.get(i).pixelLeft & 0xff);
+          buffer[dataCounter + 4] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+          buffer[dataCounter + 3] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          
+        } else if(cells.get(i).entryPixel == PIXEL.RIGHT){
+          
+          buffer[dataCounter + 5] = (byte) (cells.get(i).pixelBottom & 0xff);
+          buffer[dataCounter + 4] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+          buffer[dataCounter + 3] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
+      
+          buffer[dataCounter + 2] = (byte) (cells.get(i).pixelRight & 0xff);
+          buffer[dataCounter + 1] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+          buffer[dataCounter] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
+
+          buffer[dataCounter + 11] = (byte) (cells.get(i).pixelTop & 0xff);
+          buffer[dataCounter + 10] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+          buffer[dataCounter + 9] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      
+          buffer[dataCounter + 8] = (byte) (cells.get(i).pixelLeft & 0xff);
+          buffer[dataCounter + 7] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+          buffer[dataCounter + 6] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          
+        } else if(cells.get(i).entryPixel == PIXEL.TOP){
+          
+          buffer[dataCounter + 8] = (byte) (cells.get(i).pixelBottom & 0xff);
+          buffer[dataCounter + 7] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+          buffer[dataCounter + 6] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
+      
+          buffer[dataCounter + 5] = (byte) (cells.get(i).pixelRight & 0xff);
+          buffer[dataCounter + 4] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+          buffer[dataCounter + 3] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
+
+          buffer[dataCounter + 2] = (byte) (cells.get(i).pixelTop & 0xff);
+          buffer[dataCounter + 1] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+          buffer[dataCounter] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      
+          buffer[dataCounter + 11] = (byte) (cells.get(i).pixelLeft & 0xff);
+          buffer[dataCounter + 10] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+          buffer[dataCounter + 9] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          
+        } else if(cells.get(i).entryPixel == PIXEL.LEFT){
+          
+          buffer[dataCounter + 11] = (byte) (cells.get(i).pixelBottom & 0xff);
+          buffer[dataCounter + 10] = (byte) (cells.get(i).pixelBottom >> 8 & 0xff);
+          buffer[dataCounter + 9] = (byte) (cells.get(i).pixelBottom >> 16 & 0xff);
+      
+          buffer[dataCounter + 8] = (byte) (cells.get(i).pixelRight & 0xff);
+          buffer[dataCounter + 7] = (byte) (cells.get(i).pixelRight >> 8 & 0xff);
+          buffer[dataCounter + 6] = (byte) (cells.get(i).pixelRight >> 16 & 0xff);
+
+          buffer[dataCounter + 5] = (byte) (cells.get(i).pixelTop & 0xff);
+          buffer[dataCounter + 4] = (byte) (cells.get(i).pixelTop >> 8 & 0xff);
+          buffer[dataCounter + 3] = (byte) (cells.get(i).pixelTop >> 16 & 0xff);
+      
+          buffer[dataCounter + 2] = (byte) (cells.get(i).pixelLeft & 0xff);
+          buffer[dataCounter + 1] = (byte) (cells.get(i).pixelLeft >> 8 & 0xff);
+          buffer[dataCounter] = (byte) (cells.get(i).pixelLeft >> 16 & 0xff);
+          
+        }         
+      }
       dataCounter += 12;
       //println("Index: "+index+" Cell-Nr: "+i+" Cell-Color: "+cells.get(i).bottomCol+" "+cells.get(i).rightCol+" "+cells.get(i).topCol+" "+cells.get(i).leftCol);    
     }
@@ -547,6 +682,8 @@ public class CellChain {
     for(int i=0; i<510 - cells.size()*12; i++){
       buffer[dataCounter + 2] = (byte) 0;
     }
+    
+    //println(buffer);
     
     dmx.setDMX(buffer, buffer.length);
     artnet.unicastPacket(dmx, ip_adress);

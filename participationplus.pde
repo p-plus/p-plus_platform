@@ -57,7 +57,9 @@ void setup() {
 
 void draw() { 
   
-  //println(frameRate);
+  println(frameRate);
+  
+  frameRate(1);
   
   if(!fileImporter.importingFile){
   lights();
